@@ -35,7 +35,7 @@ class AdaLineSGD(object):
 
     def __init__( self, lRate=0.01, numIter=10, shuffle=True, random_state=None ):
         """ AdaLineSGDクラスのコンストラクタ. AdaLineSGD オブジェクトを生成 """
-        self.eta = lRate
+        self.lRate = lRate
         self.numIter = numIter
         self.w_initialized = False
         self.shuffle = shuffle
@@ -132,8 +132,8 @@ class AdaLineSGD(object):
         error = ( yi - output )
 
         # 重みベクトルを更新する
-        self.weights_[1:] += self.eta * xi.dot(error)
-        self.weights_[0] += self.eta * error
+        self.weights_[1:] += self.lRate * xi.dot(error)
+        self.weights_[0] += self.lRate * error
 
         # コスト関数 J の値を計算
         cost = (1/2) * (error**2)
@@ -150,4 +150,4 @@ class AdaLineSGD(object):
     
     def predict( self, X_train ):
         """ 1Step 後のクラスラベルを返す"""
-        return numpy.where( self.calcActivation(X_train), +1, -1 )
+        return numpy.where( self.calcActivation(X_train) >= 0.0, 1, -1 )
