@@ -108,7 +108,29 @@ class AdaLineSGD(object):
             [Output]
                 self : 自身のオブジェクト        
         """
+        if ( self.w_initialized == False ):
+            self.initializedWeights( X_train.shape[1] )
+        
+        # 教師データ y の要素数が 2 個以上の場合は、for ループで重みを更新
+        if ( y_train.ravel().shape[0] > 1 ):
+            # シャッフル:ON の場合は, トレーニングデータをシャッフル
+            if ( self.shuffle == True ):
+                index = self.GetIndexShuffle( X_train, y_train )
+                X_train = X_train[index]
+                y_train = y_train[index]
+            
+            #
+            costs = []
+            for (xi,yi) in zip(X_train,y_train):
+                costs.append( self.updateWeights(xi,yi) )
 
+            # 全サンプルの平均コストを計算
+            avgCost = sum(costs) / len(y_train)
+            self.cost_.append( avgCost )
+
+        # 教師データ y の要素数が 1 個の場合（ y_train[0] のみ有効値）は、そのサンプルのみで重みを更新
+        else:
+            self.cost_.append( self.updateWeights(X_train, y_train) )
 
         return self
 

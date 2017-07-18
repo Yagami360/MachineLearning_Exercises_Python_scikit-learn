@@ -85,6 +85,90 @@ def main():
     plt.savefig("./AdalineSGD_1.png", dpi=300)
     plt.show()
 
+    #----------------------------------------------------
+    #   Lerning Process init
+    #----------------------------------------------------
+    ada2 = AdaLineSGD.AdaLineSGD( lRate = 0.01, numIter = 5, random_state = 1 )
+    ada2.fit( X_train = dat_X_std, y_train = dat_y )
+        
+    #----------------------------------------------------
+    #   Draw Figure 2-1
+    #----------------------------------------------------
+    # plot fitting
+    plt.subplot(2,2,1) # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.grid(linestyle='-')
+    plt.plot(
+        range(1, len(ada2.cost_) + 1), 
+        ada2.cost_, 
+        marker = 'o'
+    )
+    plt.xlabel("Epochs")
+    plt.ylabel("Avarage cost (online)")
+    plt.title( "AdalineSGD before online learning" )
+    plt.tight_layout()  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+
+    # plot result
+    plt.subplot(2,2,2) # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.xlabel("sepal length [Normalized]")
+    plt.ylabel("petal length [Normalized]")        # label
+    plt.title("AdalineSGD before online learning" )
+    plt.tight_layout()  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    Plot2D.Plot2D.drawDiscriminantRegions( dat_X = dat_X_std, dat_y = dat_y, classifier = ada2 )
+
+    #----------------------------------------------------
+    #   Online Learning Process
+    #----------------------------------------------------
+    # ストリーミングデータ (5~10) でオンライン学習
+    #for smIndex in dat_y[5:15] :
+    #    ada2.online_fit( X_train = dat_X_std[smIndex, :], y_train = dat_y[smIndex] )
+
+    ada2.online_fit( X_train = dat_X_std[5, :], y_train = dat_y[5] )
+    ada2.online_fit( X_train = dat_X_std[6, :], y_train = dat_y[6] )
+    ada2.online_fit( X_train = dat_X_std[7, :], y_train = dat_y[7] )
+    ada2.online_fit( X_train = dat_X_std[8, :], y_train = dat_y[8] )
+    ada2.online_fit( X_train = dat_X_std[9, :], y_train = dat_y[9] )
+    
+    ada2.online_fit( X_train = dat_X_std[10, :], y_train = dat_y[10] )
+    ada2.online_fit( X_train = dat_X_std[11, :], y_train = dat_y[11] )
+    ada2.online_fit( X_train = dat_X_std[12, :], y_train = dat_y[12] )
+    ada2.online_fit( X_train = dat_X_std[13, :], y_train = dat_y[13] )
+    ada2.online_fit( X_train = dat_X_std[14, :], y_train = dat_y[14] )
+
+    ada2.online_fit( X_train = dat_X_std[15, :], y_train = dat_y[15] )
+    ada2.online_fit( X_train = dat_X_std[16, :], y_train = dat_y[16] )
+    ada2.online_fit( X_train = dat_X_std[17, :], y_train = dat_y[17] )
+    ada2.online_fit( X_train = dat_X_std[18, :], y_train = dat_y[18] )
+    ada2.online_fit( X_train = dat_X_std[19, :], y_train = dat_y[19] )
+
+    ada2.online_fit( X_train = dat_X_std[10:30, :], y_train = dat_y[10:30] )
+
+    #----------------------------------------------------
+    #   Draw Figure 2-2
+    #----------------------------------------------------
+    plt.subplot(2,2,3) # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.grid(linestyle='-')
+    plt.plot(
+        range(1, len(ada2.cost_) + 1), 
+        ada2.cost_, 
+        marker = 'o'
+    )
+    plt.xlabel("Epochs")
+    plt.ylabel("Avarage cost(add online learning)")
+    plt.title( "AdalineSGD after online learning" )
+    plt.tight_layout()  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+
+    # plot result
+    plt.subplot(2,2,4) # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.xlabel("sepal length [Normalized]")
+    plt.ylabel("petal length [Normalized]")        # label
+    plt.title("AdalineSGD after online learning" )
+    plt.tight_layout()  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    Plot2D.Plot2D.drawDiscriminantRegions( dat_X = dat_X_std, dat_y = dat_y, classifier = ada2 )
+
+
+    # save & show
+    plt.savefig("./AdalineSGD_2.png", dpi=300)
+    plt.show()
 
 if __name__ == '__main__':
      main()
