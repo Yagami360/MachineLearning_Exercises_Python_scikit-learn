@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#C:\Program Files\Python36\Scripts
 
 import numpy
 import matplotlib.pyplot as plt
@@ -7,18 +6,18 @@ import pandas
 import Perceptron
 import Plot2D
 
-if __name__ == '__main__':
-    print("__main__")
+def main():
     #----------------------------------------------------
     #   read & set iris data
     #----------------------------------------------------
+    print("reading iris data from pandas-lib")
     # pandasライブラリを使用して Iris データを読み込み (dataframe obj)
     df_Iris = pandas.read_csv(
         'https://archive.ics.uci.edu/ml/'
         'machine-learning-databases/iris/iris.data', 
         header = None
     )
-    
+    print("finish reading iris data from pandas-lib")
     #df_Iris.tail()
 
     dat_y = df_Iris.iloc[ 0:100,4 ].values              #
@@ -80,3 +79,6 @@ if __name__ == '__main__':
     #-----------------------------------------------
     plt.savefig( "./Perceptron_1.png", dpi=300 )
     plt.show()
+
+if __name__ == '__main__':
+    main()
