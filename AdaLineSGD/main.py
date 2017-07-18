@@ -16,7 +16,7 @@ def main():
         'machine-learning-databases/iris/iris.data', 
         header = None)
     print("finish reading iris data from pandas-lib")
-    #df_Iris.tail()
+    df_Iris.tail()
 
     dat_y = df_Iris.iloc[0:100,4].values                #
     dat_y = numpy.where(dat_y == "Iris-setosa", -1, 1)  # Iris-setosa = -1, Iris-virginica = 1 にラベル変換
@@ -44,15 +44,19 @@ def main():
     plt.grid(linestyle='-')
 
     # 品種 setosa のplot(赤の○)
-    plt.scatter(dat_X_std[0:50,0], dat_X_std[0:50,1],
+    plt.scatter(
+        dat_X_std[0:50,0], dat_X_std[0:50,1],
         color = "red",
         marker = "o",
-        label = "setosa")
+        label = "setosa"
+    )
     # 品種 virginica のplot(青のx)
-    plt.scatter(dat_X_std[50:100,0], dat_X_std[50:100,1],
+    plt.scatter(
+        dat_X_std[50:100,0], dat_X_std[50:100,1],
         color = "blue",
         marker = "x",
-        label = "virginica")
+        label = "virginica"
+    )
 
     plt.title("Learning data [Normalized]")        #
     plt.xlabel("sepal length [Normalized]")
@@ -103,7 +107,7 @@ def main():
         marker = 'o'
     )
     plt.xlabel("Epochs")
-    plt.ylabel("Avarage cost (online)")
+    plt.ylabel("Avarage cost")
     plt.title( "AdalineSGD before online learning" )
     plt.tight_layout()  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
@@ -119,29 +123,37 @@ def main():
     #   Online Learning Process
     #----------------------------------------------------
     # ストリーミングデータ (5~10) でオンライン学習
-    #for smIndex in dat_y[5:15] :
-    #    ada2.online_fit( X_train = dat_X_std[smIndex, :], y_train = dat_y[smIndex] )
+    for smIndex in range(5,100):
+        print(smIndex)
+        ada2.online_fit( X_train = dat_X_std[0:smIndex, :], y_train = dat_y[0:smIndex] )
 
-    ada2.online_fit( X_train = dat_X_std[5, :], y_train = dat_y[5] )
-    ada2.online_fit( X_train = dat_X_std[6, :], y_train = dat_y[6] )
-    ada2.online_fit( X_train = dat_X_std[7, :], y_train = dat_y[7] )
-    ada2.online_fit( X_train = dat_X_std[8, :], y_train = dat_y[8] )
-    ada2.online_fit( X_train = dat_X_std[9, :], y_train = dat_y[9] )
+    """    
+    ada2.online_fit( X_train = dat_X_std[0:5, :], y_train = dat_y[0:5] )
+    ada2.online_fit( X_train = dat_X_std[0:6, :], y_train = dat_y[0:6] )
+    ada2.online_fit( X_train = dat_X_std[0:7, :], y_train = dat_y[0:7] )
+    ada2.online_fit( X_train = dat_X_std[0:8, :], y_train = dat_y[0:8] )
+    ada2.online_fit( X_train = dat_X_std[0:9, :], y_train = dat_y[0:9] )
     
-    ada2.online_fit( X_train = dat_X_std[10, :], y_train = dat_y[10] )
-    ada2.online_fit( X_train = dat_X_std[11, :], y_train = dat_y[11] )
-    ada2.online_fit( X_train = dat_X_std[12, :], y_train = dat_y[12] )
-    ada2.online_fit( X_train = dat_X_std[13, :], y_train = dat_y[13] )
-    ada2.online_fit( X_train = dat_X_std[14, :], y_train = dat_y[14] )
+    ada2.online_fit( X_train = dat_X_std[0:10, :], y_train = dat_y[0:10] )
+    ada2.online_fit( X_train = dat_X_std[0:11, :], y_train = dat_y[0:11] )
+    ada2.online_fit( X_train = dat_X_std[0:12, :], y_train = dat_y[0:12] )
+    ada2.online_fit( X_train = dat_X_std[0:13, :], y_train = dat_y[0:13] )
+    ada2.online_fit( X_train = dat_X_std[0:14, :], y_train = dat_y[0:14] )
 
-    ada2.online_fit( X_train = dat_X_std[15, :], y_train = dat_y[15] )
-    ada2.online_fit( X_train = dat_X_std[16, :], y_train = dat_y[16] )
-    ada2.online_fit( X_train = dat_X_std[17, :], y_train = dat_y[17] )
-    ada2.online_fit( X_train = dat_X_std[18, :], y_train = dat_y[18] )
-    ada2.online_fit( X_train = dat_X_std[19, :], y_train = dat_y[19] )
+    ada2.online_fit( X_train = dat_X_std[0:15, :], y_train = dat_y[0:15] )
+    ada2.online_fit( X_train = dat_X_std[0:16, :], y_train = dat_y[0:16] )
+    ada2.online_fit( X_train = dat_X_std[0:17, :], y_train = dat_y[0:17] )
+    ada2.online_fit( X_train = dat_X_std[0:18, :], y_train = dat_y[0:18] )
+    ada2.online_fit( X_train = dat_X_std[0:19, :], y_train = dat_y[0:19] )
 
-    ada2.online_fit( X_train = dat_X_std[10:30, :], y_train = dat_y[10:30] )
+    ada2.online_fit( X_train = dat_X_std[0:20, :], y_train = dat_y[0:20] )
+    ada2.online_fit( X_train = dat_X_std[0:21, :], y_train = dat_y[0:21] )
+    ada2.online_fit( X_train = dat_X_std[0:22, :], y_train = dat_y[0:22] )
+    ada2.online_fit( X_train = dat_X_std[0:23, :], y_train = dat_y[0:23] )
+    ada2.online_fit( X_train = dat_X_std[0:24, :], y_train = dat_y[0:24] )
 
+    ada2.online_fit( X_train = dat_X_std[0:30, :], y_train = dat_y[0:30] )
+    """
     #----------------------------------------------------
     #   Draw Figure 2-2
     #----------------------------------------------------
@@ -150,10 +162,11 @@ def main():
     plt.plot(
         range(1, len(ada2.cost_) + 1), 
         ada2.cost_, 
-        marker = 'o'
+        marker = 'o',
+        markersize = 0.05
     )
     plt.xlabel("Epochs")
-    plt.ylabel("Avarage cost(add online learning)")
+    plt.ylabel("Avarage cost (add online learning)")
     plt.title( "AdalineSGD after online learning" )
     plt.tight_layout()  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
@@ -163,6 +176,11 @@ def main():
     plt.ylabel("petal length [Normalized]")        # label
     plt.title("AdalineSGD after online learning" )
     plt.tight_layout()  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    
+    #ada2.weights_[0] = ada1.weights_[0]
+    #ada2.weights_[1] = ada1.weights_[1]
+    #ada2.weights_[2] = ada1.weights_[2]
+
     Plot2D.Plot2D.drawDiscriminantRegions( dat_X = dat_X_std, dat_y = dat_y, classifier = ada2 )
 
 

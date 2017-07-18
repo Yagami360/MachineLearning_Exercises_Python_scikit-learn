@@ -35,7 +35,7 @@ class Plot2D(object):
         xx2 = meshgrids[1]
 
         # ? 値の全ての組み合わせを１次元配列に変換 numpy.array( [xx1.ravel(), xx2.ravel()] ) し、
-        # ? classifierに設定されている predict（予想）を実行
+        # classifierに設定されている predict（予想）を実行
         Z = classifier.predict( 
                 numpy.array( [xx1.ravel(), xx2.ravel()] ).T
             )
@@ -50,7 +50,7 @@ class Plot2D(object):
         plt.ylim( xx2.min(), xx2.max() )
 
         # 識別クラス毎に、入力データ dat_X, dat_y の散布図 plot
-        for (idx, cl) in enumerate( numpy.unique(dat_y) ): # enumerate():idxと共に cl も loop
+        for (idx, cl) in enumerate( numpy.unique(dat_y) ): # enumerate():idx と共に clもloop
             plt.scatter(
                 x = dat_X[dat_y == cl, 0], 
                 y = dat_X[dat_y == cl, 1],

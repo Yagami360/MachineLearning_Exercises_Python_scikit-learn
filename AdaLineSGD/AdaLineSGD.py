@@ -3,7 +3,7 @@ from numpy.random import seed
 
 class AdaLineSGD(object):
     """
-    Adaptive liner neuron of classifier by stomatical gradient decent (online learning)
+    Adaptive liner neuron of classifier via stomatical gradient decent (online learning)
     （ADALine分類器 × 確率的勾配降下法による学習 ＜オンライン学習＞）
     
     #-------------------------------------------------------------------------------------
@@ -130,8 +130,12 @@ class AdaLineSGD(object):
 
         # 教師データ y の要素数が 1 個の場合（ y_train[0] のみ有効値）は、そのサンプルのみで重みを更新
         else:
-            self.cost_.append( self.updateWeights(X_train, y_train) )
+            cost = self.updateWeights( X_train, y_train )
+            self.cost_.append( cost )
 
+            #print(X_train)
+            #print(cost)
+            #print(self.cost_)
         return self
 
     def initializedWeights( self, shapes ):
@@ -171,5 +175,5 @@ class AdaLineSGD(object):
         return self.calcNetInput( X_train )
     
     def predict( self, X_train ):
-        """ 1Step 後のクラスラベルを返す"""
+        """ 1-Step 後のクラスラベルを返す"""
         return numpy.where( self.calcActivation(X_train) >= 0.0, 1, -1 )
