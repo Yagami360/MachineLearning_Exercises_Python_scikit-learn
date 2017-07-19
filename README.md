@@ -1,7 +1,7 @@
 # MachineLearning_Samples_Python
 機械学習のサンプルコード集（Python使用）。機械学習とPythonのお練習（初歩）
 
-## .Perceptron
+## ./Perceptron
 
 <機械学習＆Pythonの練習Memo>
 
