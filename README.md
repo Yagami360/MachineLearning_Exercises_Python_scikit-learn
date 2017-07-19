@@ -37,3 +37,6 @@
 ![twitter_python_scikit-learn_1_1_170719](https://user-images.githubusercontent.com/25688193/28357359-1cca73fe-6ca6-11e7-97e3-f3d971c96501.png)
 
 データの分割に使用した、交差確認法（クロスバリデーション）について
+
+![twitter_ 5-3_160922](https://user-images.githubusercontent.com/25688193/28366250-daca3504-6cc6-11e7-83eb-64bb9e5de270.png)
+
