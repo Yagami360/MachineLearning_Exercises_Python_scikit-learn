@@ -38,5 +38,5 @@
 
 データの分割に使用した、交差確認法（クロスバリデーション）について
 
-![twitter_ 5-3_160922](https://user-images.githubusercontent.com/25688193/28366250-daca3504-6cc6-11e7-83eb-64bb9e5de270.png)
+![twitter_ 5-2_160919](https://user-images.githubusercontent.com/25688193/28366331-2ee5c04a-6cc7-11e7-9085-210c9b0de274.png)
 
