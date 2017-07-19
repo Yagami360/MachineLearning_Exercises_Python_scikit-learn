@@ -1,7 +1,7 @@
 # MachineLearning_Samples_Python
 機械学習のサンプルコード集（Python使用）。機械学習とPythonのお練習（初歩）
 
-./Perceptron
+## .Perceptron
 
 <機械学習＆Pythonの練習Memo>
 
@@ -10,7 +10,7 @@
 ![twitter_ _1_2_170718](https://user-images.githubusercontent.com/25688193/28357345-0fc51218-6ca6-11e7-859e-5e1d71bca1c2.png)
 
 
-./AdaLineGD
+## ./AdaLineGD
 
 <機械学習＆Pythonの練習Memo>
 
@@ -19,7 +19,7 @@
 ![twitter_adaline_1-2_170718](https://user-images.githubusercontent.com/25688193/28357349-152a9656-6ca6-11e7-9611-90643928b4a6.png)
 
 
-./AdaLineSGD
+## ./AdaLineSGD
 
 <機械学習＆Pythonの練習Memo> 
 
@@ -28,7 +28,7 @@
 ![twitter_adaline_2-2_170719](https://user-images.githubusercontent.com/25688193/28357356-19940cb8-6ca6-11e7-80ba-50e0c968f6dc.png)
 
 
-./Perceptron_scikit-learn
+## ./Perceptron_scikit-learn
 
 <機械学習＆Pythonの練習Memo> 
 
