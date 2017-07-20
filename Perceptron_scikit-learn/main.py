@@ -71,10 +71,10 @@ def main():
     X_combined_std = numpy.vstack( (X_train_std, X_test_std) )  # list:(X_train_std, X_test_std) で指定
     y_combined     = numpy.hstack( (y_train, y_test) )
 
-    # 学習データを正規化
-    #dat_X_std = numpy.copy(dat_X)                                           # ディープコピー（参照コピーではない）
-    #dat_X_std[:,0] = ( dat_X[:,0] - dat_X[:,0].mean() ) / dat_X[:,0].std()  # 0列目全てにアクセス[:,0]
-    #dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
+    # 学習データを正規化（後で plot データ等で使用する）
+    dat_X_std = numpy.copy(dat_X)                                           # ディープコピー（参照コピーではない）
+    dat_X_std[:,0] = ( dat_X[:,0] - dat_X[:,0].mean() ) / dat_X[:,0].std()  # 0列目全てにアクセス[:,0]
+    dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
 
     #====================================================
     #   Learning & Testing Process
@@ -102,7 +102,7 @@ def main():
 
     # 品種 setosa のplot(赤の□)
     plt.scatter(
-        X_combined_std[0:50,0], X_combined_std[0:50,1],
+        dat_X_std[0:50,0], dat_X_std[0:50,1],
         color = "red",
         edgecolor = 'black',
         marker = "s",
@@ -110,7 +110,7 @@ def main():
     )
     # 品種 virginica のplot(青のx)
     plt.scatter(
-        X_combined_std[51:100,0], X_combined_std[51:100,1],
+        dat_X_std[51:100,0], dat_X_std[51:100,1],
         color = "blue",
         edgecolor = 'black',
         marker = "x",
@@ -118,7 +118,7 @@ def main():
     )
     # 品種 versicolor のplot(緑の+)
     plt.scatter(
-        X_combined_std[101:150,0], X_combined_std[101:150,1],
+        dat_X_std[101:150,0], dat_X_std[101:150,1],
         color = "green",
         edgecolor = 'black',
         marker = "+",
