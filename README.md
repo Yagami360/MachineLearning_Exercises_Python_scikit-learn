@@ -34,7 +34,7 @@
 
 アヤメデータのパーセプトロンによる３クラス（３品種）識別。データの分割はクロス・バディゲーション法。（scikit-learn ライブラリを使用）パーセプトロン如きでは、やはりうまく識別出来ない。
 
-![twitter_python_scikit-learn_1_1_170719](https://user-images.githubusercontent.com/25688193/28357359-1cca73fe-6ca6-11e7-97e3-f3d971c96501.png)
+![perceptron_scikit-learn_1](https://user-images.githubusercontent.com/25688193/28395622-4e4e77ce-6d30-11e7-94c2-72868dd58cac.png)
 
 データの分割に使用した、交差確認法（クロスバリデーション）について
 
