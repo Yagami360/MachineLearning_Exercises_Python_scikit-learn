@@ -10,7 +10,6 @@ from sklearn import datasets                            #
 from sklearn.model_selection import train_test_split    # scikit-learn の train_test_split関数の new-version
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
 from sklearn.metrics import accuracy_score              # 
-from sklearn.linear_model import Perceptron             # scikit-learn の linear_model モジュールの Perceptron クラス
 
 # 自作クラス
 import Plot2D
@@ -19,13 +18,13 @@ import LogisticRegression
 def main():
     print("Enter main()")
     
-
     #====================================================
     #   Pre Process（前処理）
     #====================================================
     #----------------------------------------------------
     #   read & set  data
     #----------------------------------------------------
+    print("reading data")
     # scikit-learn ライブラリから iris データを読み込む
     iris = datasets.load_iris()
     # 3,4 列目の特徴量を抽出し、dat_X に保管
@@ -33,7 +32,7 @@ def main():
     # クラスラベル（教師データ）を取得
     dat_y = iris.target
     print( 'Class labels:', numpy.unique(dat_y) )    # ※多くの機械学習ライブラリクラスラベルは文字列から整数にして管理されている（最適な性能を発揮するため）
-
+    print("finishing reading data")
     #---------------------------------------------------------------------
     # トレーニングされたモデルの性能評価を未知のデータで評価するために、
     # データセットをトレーニングデータセットとテストデータセットに分割する
@@ -80,7 +79,7 @@ def main():
     dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
 
     #====================================================
-    #   Learning Process
+    #   Learning Process (& 説明用の図のpolt)
     #====================================================
     logReg = LogisticRegression.LogisticRegression()
     
@@ -98,7 +97,9 @@ def main():
     #====================================================
     #   汎化性能の評価
     #====================================================
+    #-------------------------------
     # 識別結果＆識別領域の表示
+    #-------------------------------
     Plot2D.Plot2D.drawDiscriminantRegions( 
         dat_X = X_combined_std, dat_y = y_combined,
         classifier = logReg.logReg_ ,
@@ -111,6 +112,57 @@ def main():
     plt.tight_layout()  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
     plt.savefig("./LogisticRegression_scikit-learn_3.png", dpi=300)
+    #plt.show()
+
+    #-------------------------------
+    # 識別率を計算＆出力
+    #-------------------------------
+    y_predict = logReg.logReg_.predict( X_test_std )
+    # 誤分類のサンプル数を出力
+    print( 'Misclassified samples: %d' % (y_test != y_predict).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
+
+    # 分類の正解率を出力
+    print( 'Accuracy: %.2f' % accuracy_score(y_test, y_predict) )
+
+    #--------------------------------------------------------------------------------------------------------
+    # predict_proba() 関数を使用して、指定したサンプルのクラスの所属関係を予想
+    # 戻り値は、サンプルが Iris-Setosa, Iris-Versicolor, Iris-Virginica に所属する確率をこの順で表している.
+    #--------------------------------------------------------------------------------------------------------
+    pre = logReg.logReg_.predict_proba( X_test_std[0, :].reshape(1, -1) )   # 0番目のテストデータをreshap で定数配列化して渡す 
+    print("predict:", pre)
+    print("predict[0]:", pre[0])
+    print("predict[0,0]:", pre[0,0])
+    print("predict[0,1]:", pre[0,1])
+    print("predict[0,2]:", pre[0,2])
+
+    # 各々のサンプルの所属クラスの図示 ["Setosa","Versicolor","Virginica"]
+    dat_hist = numpy.array( 
+        [ 
+            [0, pre[0,0]], 
+            [1, pre[0,1]],
+            [2, pre[0,2]] 
+        ] 
+    )
+    #dat_hist[0]  = [ 0, pre[0,0] ]
+    #dat_hist[1]  = [ 1, pre[0,1] ]
+    #dat_hist[2]  = [ 2, pre[0,2] ]
+
+    plt.clf()                           # 現在の図をクリア
+    print("dat_hist:", dat_hist)
+
+    # 所属クラスの確率をヒストグラム表示
+    #plt.subplot(2,2,1)  # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.hist( 
+        x = dat_hist,    # ヒストグラムを作成するための生データの配列。(Must)
+        bins = 3         # ビン (表示する棒) の数。階級数。(デフォルト値: 10)
+    )             
+    
+    plt.title("Probability of class (use predict_proba mesod)")
+    plt.xlabel("Varieties (Belonging class) [Setosa,Versicolor,Virginica] ")    # label x-axis
+    plt.ylabel("probability")            # label y-axis
+    plt.legend(loc = "upper left")      # 凡例    
+    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    plt.savefig("./LogisticRegression_scikit-learn_4.png", dpi=300)
     plt.show()
 
     print("Finish main()")
