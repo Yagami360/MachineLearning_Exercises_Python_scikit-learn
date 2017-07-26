@@ -46,3 +46,7 @@
 ![twitter_ 18-17_170726](https://user-images.githubusercontent.com/25688193/28604784-47ddf5f4-7208-11e7-8136-3ac637f584f2.png)
 
 ![twitter_ 18-18_170726](https://user-images.githubusercontent.com/25688193/28615080-dcc565d8-7232-11e7-9e72-d7a9b8166136.png)
+
+<機械学習＆Pythonの練習Memo>
+scikit-learn ライブラリの sklearn.linear_model モジュールの LogisticRegression クラスのpredict_proba() 関数を使用して、指定したサンプルのクラスの所属確率を予想
+
