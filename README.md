@@ -45,4 +45,4 @@
 
 ![twitter_ 18-17_170726](https://user-images.githubusercontent.com/25688193/28604784-47ddf5f4-7208-11e7-8136-3ac637f584f2.png)
 
-![logisticregression_scikit-learn_3](https://user-images.githubusercontent.com/25688193/28613750-423810c8-722e-11e7-82d9-5f0a603835f5.png)
+![twitter_ 18-18_170726](https://user-images.githubusercontent.com/25688193/28615080-dcc565d8-7232-11e7-9e72-d7a9b8166136.png)
