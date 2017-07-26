@@ -50,3 +50,4 @@
 <機械学習＆Pythonの練習Memo>
 scikit-learn ライブラリの sklearn.linear_model モジュールの LogisticRegression クラスのpredict_proba() 関数を使用して、指定したサンプルのクラスの所属確率を予想
 
+![logisticregression_scikit-learn_4](https://user-images.githubusercontent.com/25688193/28619864-725f0614-7245-11e7-8534-6c162eba8dd3.png)
