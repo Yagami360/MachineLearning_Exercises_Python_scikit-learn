@@ -128,40 +128,63 @@ def main():
     # predict_proba() 関数を使用して、指定したサンプルのクラスの所属関係を予想
     # 戻り値は、サンプルが Iris-Setosa, Iris-Versicolor, Iris-Virginica に所属する確率をこの順で表している.
     #--------------------------------------------------------------------------------------------------------
-    pre = logReg.logReg_.predict_proba( X_test_std[0, :].reshape(1, -1) )   # 0番目のテストデータをreshap で定数配列化して渡す 
-    print("predict:", pre)
-    print("predict[0]:", pre[0])
-    print("predict[0,0]:", pre[0,0])
-    print("predict[0,1]:", pre[0,1])
-    print("predict[0,2]:", pre[0,2])
+    pre0 = logReg.logReg_.predict_proba( X_test_std[0, :].reshape(1, -1) )   # 0番目のテストデータをreshap で定数配列化して渡す
+    pre1 = logReg.logReg_.predict_proba( X_test_std[1, :].reshape(1, -1) )   # 1番目のテストデータをreshap で定数配列化して渡す
+    pre2 = logReg.logReg_.predict_proba( X_test_std[2, :].reshape(1, -1) )   # 1番目のテストデータをreshap で定数配列化して渡す
+    pre3 = logReg.logReg_.predict_proba( X_test_std[3, :].reshape(1, -1) )   # 1番目のテストデータをreshap で定数配列化して渡す
+    print("predict:", pre0)
+    print("predict[0]:", pre0[0])
+    print("predict[0,0]:", pre0[0,0]*100)
+    print("predict[0,1]:", pre0[0,1]*100)
+    print("predict[0,2]:", pre0[0,2]*100)
 
     # 各々のサンプルの所属クラスの図示 ["Setosa","Versicolor","Virginica"]
-    dat_hist = numpy.array( 
-        [ 
-            [0, pre[0,0]], 
-            [1, pre[0,1]],
-            [2, pre[0,2]] 
-        ] 
-    )
-    #dat_hist[0]  = [ 0, pre[0,0] ]
-    #dat_hist[1]  = [ 1, pre[0,1] ]
-    #dat_hist[2]  = [ 2, pre[0,2] ]
-
     plt.clf()                           # 現在の図をクリア
-    print("dat_hist:", dat_hist)
 
-    # 所属クラスの確率をヒストグラム表示
-    #plt.subplot(2,2,1)  # plt.subplot(行数, 列数, 何番目のプロットか)
-    plt.hist( 
-        x = dat_hist,    # ヒストグラムを作成するための生データの配列。(Must)
-        bins = 3         # ビン (表示する棒) の数。階級数。(デフォルト値: 10)
-    )             
-    
+    # 所属クラスの確率を棒グラフ表示(1,1)
+    plt.subplot(2,2,1)  # plt.subplot(行数, 列数, 何番目のプロットか)
     plt.title("Probability of class (use predict_proba mesod)")
-    plt.xlabel("Varieties (Belonging class) [Setosa,Versicolor,Virginica] ")    # label x-axis
-    plt.ylabel("probability")            # label y-axis
+    plt.xlabel("Varieties (Belonging class) [Setosa,Versicolor,Virginica]")    # label x-axis
+    plt.ylabel("probability[%]")        # label y-axis
+    plt.ylim( 0,100 )                   # y軸の範囲(0~100)
     plt.legend(loc = "upper left")      # 凡例    
+
+    plt.bar(
+        left = [0,1,2],
+        height  = pre0[0]*100,   # ヒストグラムを作成するための生データの配列。(Must)
+        tick_label = ["Setosa","Versicolor","Virginica"]
+    )             
     plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    
+    # 所属クラスの確率を棒グラフ表示(1,2)
+    plt.subplot(2,2,2)  # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.bar(
+        left = [0,1,2],
+        height  = pre1[0]*100,   # ヒストグラムを作成するための生データの配列。(Must)
+        tick_label = ["Setosa","Versicolor","Virginica"]
+    )             
+    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+
+    # 所属クラスの確率を棒グラフ表示(2,1)
+    plt.subplot(2,2,3)  # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.bar(
+        left = [0,1,2],
+        height  = pre2[0]*100,   # ヒストグラムを作成するための生データの配列。(Must)
+        tick_label = ["Setosa","Versicolor","Virginica"]
+    )             
+    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+
+    # 所属クラスの確率を棒グラフ表示(2,1)
+    plt.subplot(2,2,4)  # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.bar(
+        left = [0,1,2],
+        height  = pre3[0]*100,   # ヒストグラムを作成するための生データの配列。(Must)
+        tick_label = ["Setosa","Versicolor","Virginica"]
+    )             
+    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+
+
+    #
     plt.savefig("./LogisticRegression_scikit-learn_4.png", dpi=300)
     plt.show()
 
