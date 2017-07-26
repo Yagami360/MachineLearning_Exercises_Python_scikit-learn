@@ -42,6 +42,13 @@
 
 
 ## ./LogisticRegression_scikit-learn
+![twitter_ 18-1_161130](https://user-images.githubusercontent.com/25688193/28620065-596c98e6-7246-11e7-86bc-b162dc67923f.png)
+![twitter_ 18-2_161130](https://user-images.githubusercontent.com/25688193/28620079-6469d858-7246-11e7-8228-38d902db541f.png)
+![twitter_ 18-3_161130](https://user-images.githubusercontent.com/25688193/28620103-7ce82c9a-7246-11e7-80c1-0de312e10d62.png)
+![twitter_ 18-4_161130](https://user-images.githubusercontent.com/25688193/28620114-8273782c-7246-11e7-8505-4627605c4290.png)
+![twitter_ 18-5_161201](https://user-images.githubusercontent.com/25688193/28620120-884b54a4-7246-11e7-819a-61e546a75fb1.png)
+![twitter_ 18-6 _170204](https://user-images.githubusercontent.com/25688193/28620130-93ed169e-7246-11e7-9bea-de868a82455b.png)
+![twitter_ 18-7 _170204](https://user-images.githubusercontent.com/25688193/28620136-9846c1f4-7246-11e7-88af-7ac885a097e9.png)
 
 ![twitter_ 18-17_170726](https://user-images.githubusercontent.com/25688193/28604784-47ddf5f4-7208-11e7-8136-3ac637f584f2.png)
 
