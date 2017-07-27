@@ -16,7 +16,11 @@ import Plot2D
 import LogisticRegression
 
 def main():
-    print("Enter main()")
+
+    #==================================================================================
+    #   ロジスティクス回帰処理
+    #==================================================================================
+    print("Start Process1")
     
     #====================================================
     #   Pre Process（前処理）
@@ -33,6 +37,7 @@ def main():
     dat_y = iris.target
     print( 'Class labels:', numpy.unique(dat_y) )    # ※多くの機械学習ライブラリクラスラベルは文字列から整数にして管理されている（最適な性能を発揮するため）
     print("finishing reading data")
+
     #---------------------------------------------------------------------
     # トレーニングされたモデルの性能評価を未知のデータで評価するために、
     # データセットをトレーニングデータセットとテストデータセットに分割する
@@ -74,9 +79,9 @@ def main():
     y_combined     = numpy.hstack( (y_train, y_test) )
 
     # 学習データを正規化（後で plot データ等で使用する）
-    dat_X_std = numpy.copy(dat_X)                                           # ディープコピー（参照コピーではない）
-    dat_X_std[:,0] = ( dat_X[:,0] - dat_X[:,0].mean() ) / dat_X[:,0].std()  # 0列目全てにアクセス[:,0]
-    dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
+    #dat_X_std = numpy.copy(dat_X)                                           # ディープコピー（参照コピーではない）
+    #dat_X_std[:,0] = ( dat_X[:,0] - dat_X[:,0].mean() ) / dat_X[:,0].std()  # 0列目全てにアクセス[:,0]
+    #dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
 
     #====================================================
     #   Learning Process (& 説明用の図のpolt)
@@ -88,6 +93,7 @@ def main():
     plt.savefig("./LogisticRegression_scikit-learn_1.png", dpi=300)
     #plt.subplot(2,1,2)              # plt.subplot(行数, 列数, 何番目のプロットか)
     logReg.plotCostFunction()
+    
     plt.savefig("./LogisticRegression_scikit-learn_2.png", dpi=300)
     #plt.show()
 
@@ -118,6 +124,7 @@ def main():
     # 識別率を計算＆出力
     #-------------------------------
     y_predict = logReg.logReg_.predict( X_test_std )
+
     # 誤分類のサンプル数を出力
     print( 'Misclassified samples: %d' % (y_test != y_predict).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
 
@@ -128,18 +135,22 @@ def main():
     # predict_proba() 関数を使用して、指定したサンプルのクラスの所属関係を予想
     # 戻り値は、サンプルが Iris-Setosa, Iris-Versicolor, Iris-Virginica に所属する確率をこの順で表している.
     #--------------------------------------------------------------------------------------------------------
-    pre0 = logReg.logReg_.predict_proba( X_test_std[0, :].reshape(1, -1) )   # 0番目のテストデータをreshap で定数配列化して渡す
-    pre1 = logReg.logReg_.predict_proba( X_test_std[1, :].reshape(1, -1) )   # 1番目のテストデータをreshap で定数配列化して渡す
-    pre2 = logReg.logReg_.predict_proba( X_test_std[2, :].reshape(1, -1) )   # 1番目のテストデータをreshap で定数配列化して渡す
-    pre3 = logReg.logReg_.predict_proba( X_test_std[3, :].reshape(1, -1) )   # 1番目のテストデータをreshap で定数配列化して渡す
-    print("predict:", pre0)
-    print("predict[0]:", pre0[0])
-    print("predict[0,0]:", pre0[0,0]*100)
-    print("predict[0,1]:", pre0[0,1]*100)
-    print("predict[0,2]:", pre0[0,2]*100)
+    pre0 = logReg.logReg_.predict_proba( X_test_std[0, :].reshape(1, -1) )   # 0番目のテストデータをreshap でタプル化して渡す
+    pre1 = logReg.logReg_.predict_proba( X_test_std[1, :].reshape(1, -1) )   # 1番目のテストデータをreshap でタプル化して渡す
+    pre2 = logReg.logReg_.predict_proba( X_test_std[2, :].reshape(1, -1) )   # 2番目のテストデータをreshap でタプル化して渡す
+    pre3 = logReg.logReg_.predict_proba( X_test_std[3, :].reshape(1, -1) )   # 3番目のテストデータをreshap でタプル化して渡す
+    
+    #print("predict:", pre0)
+    #print("predict[0]:", pre0[0])
+    #print("predict[0,0]:", pre0[0,0]*100)
+    #print("predict[0,1]:", pre0[0,1]*100)
+    #print("predict[0,2]:", pre0[0,2]*100)
 
+    #------------------------------------------------------------------------
     # 各々のサンプルの所属クラスの図示 ["Setosa","Versicolor","Virginica"]
-    plt.clf()                           # 現在の図をクリア
+    #------------------------------------------------------------------------
+    # 現在の図をクリア
+    plt.clf()
 
     # 所属クラスの確率を棒グラフ表示(1,1)
     plt.subplot(2,2,1)  # plt.subplot(行数, 列数, 何番目のプロットか)
@@ -149,48 +160,139 @@ def main():
     plt.ylim( 0,100 )                   # y軸の範囲(0~100)
     plt.legend(loc = "upper left")      # 凡例    
 
+    # 棒グラフ
     plt.bar(
         left = [0,1,2],
-        height  = pre0[0]*100,   # ヒストグラムを作成するための生データの配列。(Must)
+        height  = pre0[0]*100,
         tick_label = ["Setosa","Versicolor","Virginica"]
     )             
     plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
     
     # 所属クラスの確率を棒グラフ表示(1,2)
     plt.subplot(2,2,2)  # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.ylim( 0,100 )                   # y軸の範囲(0~100)
     plt.bar(
         left = [0,1,2],
-        height  = pre1[0]*100,   # ヒストグラムを作成するための生データの配列。(Must)
+        height  = pre1[0]*100,
         tick_label = ["Setosa","Versicolor","Virginica"]
     )             
     plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
     # 所属クラスの確率を棒グラフ表示(2,1)
     plt.subplot(2,2,3)  # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.ylim( 0,100 )                   # y軸の範囲(0~100)
     plt.bar(
         left = [0,1,2],
-        height  = pre2[0]*100,   # ヒストグラムを作成するための生データの配列。(Must)
+        height  = pre2[0]*100,
         tick_label = ["Setosa","Versicolor","Virginica"]
     )             
     plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
     # 所属クラスの確率を棒グラフ表示(2,1)
     plt.subplot(2,2,4)  # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.ylim( 0,100 )                   # y軸の範囲(0~100)
     plt.bar(
         left = [0,1,2],
-        height  = pre3[0]*100,   # ヒストグラムを作成するための生データの配列。(Must)
+        height  = pre3[0]*100,
         tick_label = ["Setosa","Versicolor","Virginica"]
     )             
     plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
-
-    #
+    # 図の保存＆表示
     plt.savefig("./LogisticRegression_scikit-learn_4.png", dpi=300)
-    plt.show()
+    #plt.show()
 
+
+    #==================================================================================================
+    # ロジスティクス回帰の逆正則化パラメータ C の値と正則化の強さの関係
+    # ロジスティクス回帰における、正則化による過学習への対応
+    #==================================================================================================
+    print("Start Process2")
+    weights0 = []    # 重み係数の空リスト（Setosa）を生成
+    weights1 = []    # 重み係数の空リスト（Versicolor）を生成
+    weights2 = []    # 重み係数の空リスト（Virginica）を生成
+    paramesC = []    # 逆正則化パラメータの空リストを生成
+
+    # 10個の逆正則化パラメータ C（C=10^-5,C=10^-4, ... C=10, ... , C=10^5 ）に関して、LogisiticReegression オブジェクトを作成し、
+    # それぞれのモデルを学習データで学習
+    for c in numpy.arange(-5, 5):
+        logReg_tmp = LogisticRegression.LogisticRegression( paramC = 10**c )
+        logReg_tmp.logReg_.fit( X_train_std, y_train )
+
+        # 重み係数リストに学習後の重み係数を格納
+        weights0.append( logReg_tmp.logReg_.coef_[0] )   # coef_[0] : petal length, petal weightの重み (Setosa)
+        weights1.append( logReg_tmp.logReg_.coef_[1] )   # coef_[1] : petal length, petal weightの重み (Versicolor)
+        weights2.append( logReg_tmp.logReg_.coef_[2] )   # coef_[2] : petal length, petal weightの重み (Virginica)
+        
+        #print("weight0:", logReg_tmp.logReg_.coef_[0] )
+        #print("weight1:", logReg_tmp.logReg_.coef_[1] )
+        #print("weight2:", logReg_tmp.logReg_.coef_[2] )
+
+        # 逆正則化パラメータリストにモデルの C 値を格納
+        paramesC.append( 10**c )
+
+    # 重み係数リストを numpy 配列に変換
+    weights0 = numpy.array( weights0 )
+    weights1 = numpy.array( weights1 )
+    weights2 = numpy.array( weights2 )
+    
+    #----------------------------
+    # 図の plot
+    #----------------------------
+    # 現在の図をクリア
+    plt.clf()
+    
+    # Setosa
+    plt.plot(
+        paramesC, weights0[:, 0],            # １つ目(petal length)の重み係数 w00 
+        label='petal length (Setosa)',
+        color = "red",
+    )
+    plt.plot(
+        paramesC, weights0[:, 1],            # ２つ目 (petal weight) の重み係数 w01
+        linestyle = '--',
+        label = 'petal width (Setosa)',
+        color = "red"
+    )
+    # Versicolor
+    plt.plot(
+        paramesC, weights1[:, 0],            # １つ目(petal length)の重み係数 w10 
+        label='petal length (Versicolor)',
+        color = "blue"
+    )
+    plt.plot(
+        paramesC, weights1[:, 1],            # ２つ目 (petal weight) の重み係数 w11
+        linestyle = '--',
+        label = 'petal width (Versicolor)',
+        color = "blue"
+    )
+    # Virginica 
+    plt.plot(
+        paramesC, weights2[:, 0],            # １つ目(petal length)の重み係数 w20 
+        label='petal length (Virginica)',
+        color = "green"
+    )
+    plt.plot(
+        paramesC, weights2[:, 1],            # ２つ目 (petal weight) の重み係数 w21
+        linestyle = '--',
+        label = 'petal width (Virginica)',
+        color = "green"
+    )
+
+    plt.ylabel('weight coefficient')
+    plt.xlabel('C [reverse regularization parameter](=1/λ)')
+    plt.legend(loc = 'upper left')
+    plt.xscale('log')   # x軸を対数スケール
+    plt.tight_layout()
+
+    # 図の保存＆表示
+    plt.savefig("./LogisticRegression_scikit-learn_5.png", dpi=300)
+    plt.show()
+    
     print("Finish main()")
     return
 
     
 if __name__ == '__main__':
      main()
+

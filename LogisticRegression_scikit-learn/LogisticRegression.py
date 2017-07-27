@@ -15,10 +15,10 @@ class LogisticRegression(object):
             logReg_ : sklearn.linear_model の LogisticRegression クラスのオブジェクト
     """
 
-    def __init__( self ):
+    def __init__( self , paramC = 100 ):
         """ """
         #  sklearn.linear_model の LogisticRegression クラスのオブジェクト生成
-        self.logReg_ = sklearn.linear_model.LogisticRegression( C = 100, random_state = 0 )
+        self.logReg_ = sklearn.linear_model.LogisticRegression( C = paramC, random_state = 0 )
         
         return
 
