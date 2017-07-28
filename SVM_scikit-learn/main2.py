@@ -5,10 +5,10 @@ import numpy
 import matplotlib.pyplot as plt
 
 # scikit-learn ライブラリ関連
-#from sklearn import datasets                            # 
+from sklearn import datasets                            # 
 #from sklearn.cross_validation import train_test_split  # scikit-learn の train_test_split関数の old-version
 from sklearn.model_selection import train_test_split    # scikit-learn の train_test_split関数の new-version
-#from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
+from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
 from sklearn.metrics import accuracy_score              # 
 from sklearn.svm import SVC                             # 
 
@@ -67,8 +67,6 @@ def main():
     #----------------------------------------------------------------------------------------------------
     # scikit-learn の preprocessing モジュールの StandardScaler クラスを用いて、データをスケーリング
     #----------------------------------------------------------------------------------------------------
-    # このケースではデータが特に意味のないランダムデータなので正規化の必要はない
-    """
     stdScaler = StandardScaler()
     
     # X_train の平均値と標準偏差を計算
@@ -83,21 +81,50 @@ def main():
     y_combined     = numpy.hstack( (y_train, y_test) )
 
     # 学習データを正規化（後で plot データ等で使用する）
-    dat_X_std = numpy.copy(dat_X)                                           # ディープコピー（参照コピーではない）
-    dat_X_std[:,0] = ( dat_X[:,0] - dat_X[:,0].mean() ) / dat_X[:,0].std()  # 0列目全てにアクセス[:,0]
-    dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
-    """
-
+    #dat_X_std = numpy.copy(dat_X)                                           # ディープコピー（参照コピーではない）
+    #dat_X_std[:,0] = ( dat_X[:,0] - dat_X[:,0].mean() ) / dat_X[:,0].std()  # 0列目全てにアクセス[:,0]
+    #dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
+    
     #====================================================
     #   Learning Process
     #====================================================
-        
+    # RBFカーネル（gamma=0.10）でのカーネルトリックを使うC-SVM（C=10）
+    kernelSVM1 = SVC( 
+        kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
+        random_state = 0, 
+        gamma = 0.10,       # RFBカーネル関数のγ値
+        C = 10.0,           # C-SVM の C 値
+        probability = True  # 学習後の predict_proba method による予想確率を有効にする
+    )
+    kernelSVM1.fit( X_train_std, y_train )
+
+    """
+    kernelSVM2 = SVC( 
+        kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
+        random_state = 0, 
+        gamma = 0.20,       # RFBカーネル関数のγ値
+        C = 1               # C-SVM の C 値
+    )
+    kernelSVM2.fit( X_train_std, y_train )
+
+    kernelSVM3 = SVC( 
+        kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
+        random_state = 0, 
+        gamma = 100,        # RFBカーネル関数のγ値
+        C = 1               # C-SVM の C 値
+    )
+    kernelSVM3.fit( X_train_std, y_train )
+    """
+
     #====================================================
     #   汎化性能の評価
     #====================================================
     #-------------------------------------
     # サンプルデータの図示
     #-------------------------------------
+    # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.subplot(1,2,1)
+
     plt.grid(linestyle='-')
 
     # class +1 plot(赤の□)
@@ -121,14 +148,117 @@ def main():
     plt.xlim( [-3,3] )
     plt.ylim( [-3,3] )
     plt.legend(loc = "upper left")              # 凡例    
-    plt.tight_layout()                          # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    #plt.tight_layout()                          # グラフ同士のラベルが重ならない程度にグラフを小さくする。
     
-    plt.savefig("./SVM_scikit-learn_3.png", dpi=300)
-    plt.show()
-
     #-------------------------------
     # 識別結果＆識別領域の表示
     #-------------------------------
+    # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.subplot(1,2,2)
+
+    Plot2D.Plot2D.drawDiscriminantRegions( 
+        dat_X = X_combined_std, dat_y = y_combined,
+        classifier = kernelSVM1,
+        list_test_idx = range( 101,150 )
+    )
+    plt.title("Idification Result (γ=0.1 C=10)")     # title
+    plt.xlim( [-3,3] )
+    plt.ylim( [-3,3] )
+    plt.legend(loc = "upper left")              # 凡例    
+    #plt.tight_layout()                          # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    
+
+    plt.savefig("./SVM_scikit-learn_3.png", dpi=300)
+    #plt.show()
+
+    #-------------------------------
+    # 識別率を計算＆出力
+    #-------------------------------
+    y_predict = kernelSVM1.predict( X_test_std )
+
+    # 誤分類のサンプル数を出力
+    print( 'Misclassified samples: %d' % (y_test != y_predict).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
+
+    # 分類の正解率を出力
+    print( 'Accuracy: %.2f' % accuracy_score(y_test, y_predict) )
+
+    #--------------------------------------------------------------------------------------------------------
+    # predict_proba() 関数を使用して、指定したサンプルのクラスの所属関係を予想
+    # 戻り値は、サンプルが Iris-Setosa, Iris-Versicolor, Iris-Virginica に所属する確率をこの順で表している.
+    #--------------------------------------------------------------------------------------------------------
+    pre0 = kernelSVM1.predict_proba( X_test_std[0, :].reshape(1, -1) )   # 0番目のテストデータをreshap でタプル化して渡す
+    pre1 = kernelSVM1.predict_proba( X_test_std[1, :].reshape(1, -1) )   # 1番目のテストデータをreshap でタプル化して渡す
+    pre2 = kernelSVM1.predict_proba( X_test_std[2, :].reshape(1, -1) )   # 2番目のテストデータをreshap でタプル化して渡す
+    pre3 = kernelSVM1.predict_proba( X_test_std[3, :].reshape(1, -1) )   # 3番目のテストデータをreshap でタプル化して渡す
+    
+    print("サンプル0の所属クラス確率 :", pre0[0]*100 )
+    print("サンプル1の所属クラス確率 :", pre1[0]*100 )
+    print("サンプル2の所属クラス確率 :", pre2[0]*100 )
+    print("サンプル3の所属クラス確率 :", pre3[0]*100 )
+
+    #------------------------------------------------------------------------
+    # 各々のサンプルの所属クラスの図示 ["Setosa","Versicolor","Virginica"]
+    #------------------------------------------------------------------------
+    # 現在の図をクリア
+    plt.clf()
+
+    # 所属クラスの確率を棒グラフ表示(1,1)
+    plt.subplot(2,2,1)  # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.title("Probability of class (use predict_proba method)")
+    plt.xlabel("Varieties (Belonging class)")   # label x-axis
+    plt.ylabel("probability[%]")                # label y-axis
+    plt.ylim( 0,100 )                           # y軸の範囲(0~100)
+    plt.legend(loc = "upper left")              # 凡例    
+
+    # 棒グラフ
+    plt.bar(
+        left = [0,1],
+        height  = pre0[0]*100,
+        tick_label = ["+1","-1"]
+    )             
+    plt.tight_layout()                          # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    
+    # 所属クラスの確率を棒グラフ表示(1,2)
+    plt.subplot(2,2,2)
+    plt.xlabel("Varieties (Belonging class)")   # label x-axis
+    plt.ylabel("probability[%]")                # label y-axis
+    plt.ylim( 0,100 )                           # y軸の範囲(0~100)
+    plt.bar(
+        left = [0,1],
+        height  = pre0[0]*100,
+        tick_label = ["+1","-1"]
+    )             
+    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+
+    # 所属クラスの確率を棒グラフ表示(2,1)
+    plt.subplot(2,2,3)
+    plt.xlabel("Varieties (Belonging class)")   # label x-axis
+    plt.ylabel("probability[%]")                # label y-axis
+    plt.ylim( 0,100 )                           # y軸の範囲(0~100)
+    plt.bar(
+        left = [0,1],
+        height  = pre0[0]*100,
+        tick_label = ["+1","-1"]
+    )             
+    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+
+    # 所属クラスの確率を棒グラフ表示(2,1)
+    plt.subplot(2,2,4)
+    plt.xlabel("Varieties (Belonging class)")   # label x-axis
+    plt.ylabel("probability[%]")                # label y-axis
+    plt.ylim( 0,100 )                           # y軸の範囲(0~100)
+    plt.bar(
+        left = [0,1],
+        height  = pre0[0]*100,
+        tick_label = ["+1","-1"]
+    )             
+    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+
+    # 図の保存＆表示
+    plt.savefig("./SVM_scikit-learn_4.png", dpi=300)
+    plt.show()
+
+
 
     print("Finish main()")
     return
