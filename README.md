@@ -19,6 +19,7 @@
 
 ![twitter_ _1_2_170718](https://user-images.githubusercontent.com/25688193/28357345-0fc51218-6ca6-11e7-859e-5e1d71bca1c2.png)
 
+
 <a name="AdaLineGD"></a>
 ## ./AdaLineGD
 
@@ -29,6 +30,7 @@
 ![twitter_adaline_1-2_170718](https://user-images.githubusercontent.com/25688193/28357349-152a9656-6ca6-11e7-9611-90643928b4a6.png)
 
 
+<a name="AdaLineSGD"></a>
 ## ./AdaLineSGD
 
 <機械学習＆Pythonの練習Memo> 
@@ -38,6 +40,7 @@
 ![twitter_adaline_2-2_170719](https://user-images.githubusercontent.com/25688193/28357356-19940cb8-6ca6-11e7-80ba-50e0c968f6dc.png)
 
 
+<a name="Perceptron_scikit-learn"></a>
 ## ./Perceptron_scikit-learn
 
 <機械学習＆Pythonの練習Memo> 
@@ -51,6 +54,7 @@
 ![twitter_ 5-2_160919](https://user-images.githubusercontent.com/25688193/28366331-2ee5c04a-6cc7-11e7-9085-210c9b0de274.png)
 
 
+<a name="LogisticRegression_scikit-learn"></a>
 ## ./LogisticRegression_scikit-learn
 ![twitter_ 18-1_161130](https://user-images.githubusercontent.com/25688193/28620065-596c98e6-7246-11e7-86bc-b162dc67923f.png)
 ![twitter_ 18-2_161130](https://user-images.githubusercontent.com/25688193/28620079-6469d858-7246-11e7-8228-38d902db541f.png)
@@ -83,6 +87,7 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 ![twitter_ 18-19_170727](https://user-images.githubusercontent.com/25688193/28652198-4b09b560-72c1-11e7-8053-a9e00b280ef8.png)
 
 
+<a name="SVM_scikit-learn"></a>
 ## ./SVM_scikit-learn
 
 ![twitter_svm_1-1_170211](https://user-images.githubusercontent.com/25688193/28708179-313cdc98-73b6-11e7-985f-8ced8d316ecc.png)
