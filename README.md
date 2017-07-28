@@ -4,13 +4,14 @@
 ### 目次（フォルダ）
 
 1. [./Perceptron](#Perceptron)
-1. [./AdaLineGD] 
-1. [./AdaLineSGD]
-1. [./Perceptron_scikit-learn]
-1. [./LogisticRegression_scikit-learn]
-1. [./SVM_scikit-learn]
+1. [./AdaLineGD](#AdaLineGD) 
+1. [./AdaLineSGD](#AdaLineSGD)
+1. [./Perceptron_scikit-learn](#Perceptron_scikit-learn)
+1. [./LogisticRegression_scikit-learn](#LogisticRegression_scikit-learn)
+1. [./SVM_scikit-learn](#SVM_scikit-learn)
 
-## ./Perceptron <a name="Perceptron"></a>
+<a name="Perceptron"></a>
+## ./Perceptron 
 
 <機械学習＆Pythonの練習Memo>
 
@@ -18,7 +19,7 @@
 
 ![twitter_ _1_2_170718](https://user-images.githubusercontent.com/25688193/28357345-0fc51218-6ca6-11e7-859e-5e1d71bca1c2.png)
 
-
+<a name="AdaLineGD"></a>
 ## ./AdaLineGD
 
 <機械学習＆Pythonの練習Memo>
