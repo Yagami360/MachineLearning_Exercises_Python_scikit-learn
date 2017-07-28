@@ -1,7 +1,7 @@
 # MachineLearning_Samples_Python
 機械学習のサンプルコード集（Python使用）。機械学習とPythonのお練習
 
-## 目次（フォルダ）
+### 目次（フォルダ）
 
 1. ./Perceptron
 1. ./AdaLineGD
