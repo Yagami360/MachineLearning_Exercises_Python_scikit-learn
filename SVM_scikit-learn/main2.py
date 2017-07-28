@@ -191,10 +191,10 @@ def main():
     pre2 = kernelSVM1.predict_proba( X_test_std[2, :].reshape(1, -1) )   # 2番目のテストデータをreshap でタプル化して渡す
     pre3 = kernelSVM1.predict_proba( X_test_std[3, :].reshape(1, -1) )   # 3番目のテストデータをreshap でタプル化して渡す
     
-    print("サンプル0の所属クラス確率 :", pre0[0]*100 )
-    print("サンプル1の所属クラス確率 :", pre1[0]*100 )
-    print("サンプル2の所属クラス確率 :", pre2[0]*100 )
-    print("サンプル3の所属クラス確率 :", pre3[0]*100 )
+    print("サンプル0の所属クラス確率 [%] :", pre0[0]*100 )
+    print("サンプル1の所属クラス確率 [%] :", pre1[0]*100 )
+    print("サンプル2の所属クラス確率 [%] :", pre2[0]*100 )
+    print("サンプル3の所属クラス確率 [%] :", pre3[0]*100 )
 
     #------------------------------------------------------------------------
     # 各々のサンプルの所属クラスの図示 ["Setosa","Versicolor","Virginica"]
@@ -258,8 +258,7 @@ def main():
     plt.savefig("./SVM_scikit-learn_4.png", dpi=300)
     plt.show()
 
-
-
+    
     print("Finish main()")
     return
 
