@@ -92,18 +92,22 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 
 ![twitter_svm_1-1_170211](https://user-images.githubusercontent.com/25688193/28708179-313cdc98-73b6-11e7-985f-8ced8d316ecc.png)
 ![twitter_svm_1-2_170211](https://user-images.githubusercontent.com/25688193/28708178-313a6daa-73b6-11e7-9817-8621f3cd9985.png)
+
 ![twitter_svm_2-1_170212](https://user-images.githubusercontent.com/25688193/28708177-31342c92-73b6-11e7-9b19-0a41a4b7b705.png)
 ![twitter_svm_2-2_170212](https://user-images.githubusercontent.com/25688193/28708175-312ab5c2-73b6-11e7-8617-37b57c475b35.png)
+
 ![twitter_svm_3-1_170214](https://user-images.githubusercontent.com/25688193/28708174-311e33d8-73b6-11e7-82e5-3da320e93b89.png)
 ![twitter_svm_3-2_170214](https://user-images.githubusercontent.com/25688193/28708173-311dbda4-73b6-11e7-832e-bf7162703056.png)
 ![twitter_svm_3-3_170214](https://user-images.githubusercontent.com/25688193/28708172-3118eeaa-73b6-11e7-960a-71824390bee5.png)
 ![twitter_svm_3-4_170214](https://user-images.githubusercontent.com/25688193/28708171-3113dc62-73b6-11e7-9140-f4974f44b495.png)
 ![twitter_svm_3-5_170216](https://user-images.githubusercontent.com/25688193/28708170-31097290-73b6-11e7-8d0c-8087e1751fb1.png)
+
 ![twitter_svm_4-1_170216](https://user-images.githubusercontent.com/25688193/28708169-310200aa-73b6-11e7-8492-41e07ad0a3f9.png)
 ![twitter_svm_4-2_170217](https://user-images.githubusercontent.com/25688193/28708168-30faf92c-73b6-11e7-987b-996e874fb16f.png)
 ![twitter_svm_4-3_170217](https://user-images.githubusercontent.com/25688193/28708165-30eb1a5c-73b6-11e7-8530-e19ac4cef9e1.png)
 ![twitter_svm_4-4_170218](https://user-images.githubusercontent.com/25688193/28708167-30f916ac-73b6-11e7-976d-d4c1e3a52524.png)
 ![twitter_svm_4-5_170218](https://user-images.githubusercontent.com/25688193/28708166-30f5c588-73b6-11e7-9d9b-54d46b8a69f5.png)
+
 ![twitter_svm_5-1_170219](https://user-images.githubusercontent.com/25688193/28708164-30e4d688-73b6-11e7-89a0-d78b5065b467.png)
 ![twitter_svm_5-2_170220](https://user-images.githubusercontent.com/25688193/28708163-30def074-73b6-11e7-8d17-57fdbf9bab59.png)
 ![twitter_svm_5-2_170225](https://user-images.githubusercontent.com/25688193/28708162-30c28aba-73b6-11e7-8e63-aa1d77db8c00.png)
@@ -113,4 +117,4 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 ![twitter_svm_5-6_170303](https://user-images.githubusercontent.com/25688193/28708157-30bbfba0-73b6-11e7-9aba-894974b30167.png)
 
 ![twitter_svm_6-1_170728](https://user-images.githubusercontent.com/25688193/28708061-adc48348-73b5-11e7-8cf8-17f3c3a8ba0e.png)
-![twitter_svm_6-2_170728](https://user-images.githubusercontent.com/25688193/28718631-c28bab40-73e1-11e7-92d2-cce367dd1a29.png)
+![twitter_svm_6-2 _170728](https://user-images.githubusercontent.com/25688193/28719743-f71ebd8a-73e5-11e7-91cb-476014748aad.png)
