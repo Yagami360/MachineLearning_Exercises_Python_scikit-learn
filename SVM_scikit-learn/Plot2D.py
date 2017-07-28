@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import numpy
 from matplotlib.colors import ListedColormap
 
-
 class Plot2D(object):
     """
     ２次元の図を描写をサポートする関数群からなるクラス
@@ -14,7 +13,7 @@ class Plot2D(object):
         self.mainTitle = "mainTitle"
     
     @ staticmethod
-    def drawDiscriminantRegions( dat_X, dat_y, classifier, list_test_idx=None, resolusion= 0.02 ):
+    def drawDiscriminantRegions( dat_X, dat_y, classifier, list_test_idx = None, resolusion = 0.02 ):
         """ 識別器 [classifier] による識別領域を色分けで描写する """
         
         # 識別クラス数に対応したMAPの作成（最大５クラス対応）
@@ -79,6 +78,7 @@ class Plot2D(object):
                 label='test set'
             )
 
+        # グラフ同士のラベルが重ならない程度にグラフを小さくする。
         plt.tight_layout()
 
         return
