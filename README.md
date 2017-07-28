@@ -3,14 +3,14 @@
 
 ### 目次（フォルダ）
 
-1. ./Perceptron
-1. ./AdaLineGD
-1. ./AdaLineSGD
-1. ./Perceptron_scikit-learn
-1. ./LogisticRegression_scikit-learn
-1. ./SVM_scikit-learn
+1. [./Perceptron](#Perceptron)
+1. [./AdaLineGD] 
+1. [./AdaLineSGD]
+1. [./Perceptron_scikit-learn]
+1. [./LogisticRegression_scikit-learn]
+1. [./SVM_scikit-learn]
 
-## ./Perceptron
+## ./Perceptron <a name="Perceptron"></a>
 
 <機械学習＆Pythonの練習Memo>
 
