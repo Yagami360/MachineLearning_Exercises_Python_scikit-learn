@@ -1,5 +1,14 @@
 # MachineLearning_Samples_Python
-機械学習のサンプルコード集（Python使用）。機械学習とPythonのお練習（初歩）
+機械学習のサンプルコード集（Python使用）。機械学習とPythonのお練習
+
+## 目次（フォルダ）
+
+1. ./Perceptron
+1. ./AdaLineGD
+1. ./AdaLineSGD
+1. ./Perceptron_scikit-learn
+1. ./LogisticRegression_scikit-learn
+1. ./SVM_scikit-learn
 
 ## ./Perceptron
 
