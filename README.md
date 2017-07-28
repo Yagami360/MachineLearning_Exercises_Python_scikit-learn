@@ -71,3 +71,8 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 
 ロジスティクス回帰の逆正則化パラメータ C の値と正則化の強さの関係（ロジスティクス回帰における、正則化による過学習への対応）正則化の強さを確認するため、重み係数 w と逆正則化パラメータ C の関係を plot
 ![twitter_ 18-19_170727](https://user-images.githubusercontent.com/25688193/28652198-4b09b560-72c1-11e7-8053-a9e00b280ef8.png)
+
+
+## ./SVM_scikit-learn
+
+![twitter_svm_6-1_170728](https://user-images.githubusercontent.com/25688193/28708061-adc48348-73b5-11e7-8cf8-17f3c3a8ba0e.png)
