@@ -5,7 +5,7 @@ import numpy
 import matplotlib.pyplot as plt
 
 # scikit-learn ライブラリ関連
-from sklearn import datasets                            # 
+#from sklearn import datasets                            # 
 #from sklearn.cross_validation import train_test_split  # scikit-learn の train_test_split関数の old-version
 from sklearn.model_selection import train_test_split    # scikit-learn の train_test_split関数の new-version
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
@@ -175,16 +175,16 @@ def main():
     # 識別率を計算＆出力
     #-------------------------------
     y_predict = kernelSVM1.predict( X_test_std )
-
+     
+    print("<テストデータの識別結果>")
     # 誤分類のサンプル数を出力
-    print( 'Misclassified samples: %d' % (y_test != y_predict).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
+    print( "誤識別数 [Misclassified samples] : %d" % (y_test != y_predict).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
 
     # 分類の正解率を出力
-    print( 'Accuracy: %.2f' % accuracy_score(y_test, y_predict) )
+    print( "正解率 [Accuracy] : %.2f" % accuracy_score(y_test, y_predict) )
 
     #--------------------------------------------------------------------------------------------------------
     # predict_proba() 関数を使用して、指定したサンプルのクラスの所属関係を予想
-    # 戻り値は、サンプルが Iris-Setosa, Iris-Versicolor, Iris-Virginica に所属する確率をこの順で表している.
     #--------------------------------------------------------------------------------------------------------
     pre0 = kernelSVM1.predict_proba( X_test_std[0, :].reshape(1, -1) )   # 0番目のテストデータをreshap でタプル化して渡す
     pre1 = kernelSVM1.predict_proba( X_test_std[1, :].reshape(1, -1) )   # 1番目のテストデータをreshap でタプル化して渡す
@@ -197,7 +197,7 @@ def main():
     print("サンプル3の所属クラス確率 [%] :", pre3[0]*100 )
 
     #------------------------------------------------------------------------
-    # 各々のサンプルの所属クラスの図示 ["Setosa","Versicolor","Virginica"]
+    # 各々のサンプルの所属クラスの図示
     #------------------------------------------------------------------------
     # 現在の図をクリア
     plt.clf()
@@ -205,7 +205,7 @@ def main():
     # 所属クラスの確率を棒グラフ表示(1,1)
     plt.subplot(2,2,1)  # plt.subplot(行数, 列数, 何番目のプロットか)
     plt.title("Probability of class (use predict_proba method)")
-    plt.xlabel("Varieties (Belonging class)")   # label x-axis
+    plt.xlabel("belonging class")               # label x-axis
     plt.ylabel("probability[%]")                # label y-axis
     plt.ylim( 0,100 )                           # y軸の範囲(0~100)
     plt.legend(loc = "upper left")              # 凡例    
@@ -220,7 +220,7 @@ def main():
     
     # 所属クラスの確率を棒グラフ表示(1,2)
     plt.subplot(2,2,2)
-    plt.xlabel("Varieties (Belonging class)")   # label x-axis
+    plt.xlabel("belonging class")               # label x-axis
     plt.ylabel("probability[%]")                # label y-axis
     plt.ylim( 0,100 )                           # y軸の範囲(0~100)
     plt.bar(
@@ -228,11 +228,11 @@ def main():
         height  = pre0[0]*100,
         tick_label = ["+1","-1"]
     )             
-    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    plt.tight_layout()                          # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
     # 所属クラスの確率を棒グラフ表示(2,1)
     plt.subplot(2,2,3)
-    plt.xlabel("Varieties (Belonging class)")   # label x-axis
+    plt.xlabel("belonging class)")              # label x-axis
     plt.ylabel("probability[%]")                # label y-axis
     plt.ylim( 0,100 )                           # y軸の範囲(0~100)
     plt.bar(
@@ -240,11 +240,11 @@ def main():
         height  = pre0[0]*100,
         tick_label = ["+1","-1"]
     )             
-    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    plt.tight_layout()                          # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
     # 所属クラスの確率を棒グラフ表示(2,1)
     plt.subplot(2,2,4)
-    plt.xlabel("Varieties (Belonging class)")   # label x-axis
+    plt.xlabel("belonging class)")              # label x-axis
     plt.ylabel("probability[%]")                # label y-axis
     plt.ylim( 0,100 )                           # y軸の範囲(0~100)
     plt.bar(
@@ -252,7 +252,7 @@ def main():
         height  = pre0[0]*100,
         tick_label = ["+1","-1"]
     )             
-    plt.tight_layout()                  # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+    plt.tight_layout()                          # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
     # 図の保存＆表示
     plt.savefig("./SVM_scikit-learn_4.png", dpi=300)
