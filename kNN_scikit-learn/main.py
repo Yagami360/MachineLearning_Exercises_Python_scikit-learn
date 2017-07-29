@@ -156,7 +156,7 @@ def main():
         classifier = kNN1,
         list_test_idx = range( 101,150 )
     )
-    plt.title("Idification Result (k=1)")         # titile
+    plt.title("Idification Result (k=1)")   # titile
     plt.xlabel("sepal length [Normalized]") # label x-axis
     plt.ylabel("petal length [Normalized]") # label y-axis
     plt.legend(loc = "upper left")          # 凡例    
@@ -169,7 +169,7 @@ def main():
         classifier = kNN2,
         list_test_idx = range( 101,150 )
     )
-    plt.title("Idification Result (k=5)")         # titile
+    plt.title("Idification Result (k=5)")   # titile
     plt.xlabel("sepal length [Normalized]") # label x-axis
     plt.ylabel("petal length [Normalized]") # label y-axis
     plt.legend(loc = "upper left")          # 凡例    
@@ -182,7 +182,7 @@ def main():
         classifier = kNN3,
         list_test_idx = range( 101,150 )
     )
-    plt.title("Idification Result (k=10)")         # titile
+    plt.title("Idification Result (k=10)")  # titile
     plt.xlabel("sepal length [Normalized]") # label x-axis
     plt.ylabel("petal length [Normalized]") # label y-axis
     plt.legend(loc = "upper left")          # 凡例    
@@ -207,13 +207,13 @@ def main():
     # 分類の正解率を出力
     print( "正解率 [Accuracy] : %.2f" % accuracy_score(y_test, y_predict1) )
 
-    print("classifier1 : kNN1 (k=5)")
+    print("classifier1 : kNN2 (k=5)")
     # 誤分類のサンプル数を出力
     print( "誤識別数 [Misclassified samples] : %d" % (y_test != y_predict2).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
     # 分類の正解率を出力
     print( "正解率 [Accuracy] : %.2f" % accuracy_score(y_test, y_predict2) )
 
-    print("classifier3 : kNN1 (k=10)")
+    print("classifier3 : kNN3 (k=10)")
     # 誤分類のサンプル数を出力
     print( "誤識別数 [Misclassified samples] : %d" % (y_test != y_predict3).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
     # 分類の正解率を出力
@@ -226,19 +226,19 @@ def main():
     preProb = []
 
     # classifier1 : kNN1 (k=1)
-    preProb.append( kNN1.predict_proba( X_test_std[3, :].reshape(1, -1) ) )  # 0 番目のテストデータを reshap でタプル化して格納
-    preProb.append( kNN1.predict_proba( X_test_std[4, :].reshape(1, -1) ) )  # 1 番目のテストデータを reshap でタプル化して格納
-    preProb.append( kNN1.predict_proba( X_test_std[5, :].reshape(1, -1) ) )  # 2 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN1.predict_proba( X_test_std[0, :].reshape(1, -1) ) )  # 0 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN1.predict_proba( X_test_std[1, :].reshape(1, -1) ) )  # 1 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN1.predict_proba( X_test_std[2, :].reshape(1, -1) ) )  # 2 番目のテストデータを reshap でタプル化して格納
 
     # classifier2 : kNN1 (k=5)
-    preProb.append( kNN2.predict_proba( X_test_std[3, :].reshape(1, -1) ) )  # 0 番目のテストデータを reshap でタプル化して格納
-    preProb.append( kNN2.predict_proba( X_test_std[4, :].reshape(1, -1) ) )  # 1 番目のテストデータを reshap でタプル化して格納
-    preProb.append( kNN2.predict_proba( X_test_std[5, :].reshape(1, -1) ) )  # 2 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN2.predict_proba( X_test_std[0, :].reshape(1, -1) ) )  # 0 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN2.predict_proba( X_test_std[1, :].reshape(1, -1) ) )  # 1 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN2.predict_proba( X_test_std[2, :].reshape(1, -1) ) )  # 2 番目のテストデータを reshap でタプル化して格納
 
     # classifier3 : kNN1 (k=10)
-    preProb.append( kNN3.predict_proba( X_test_std[3, :].reshape(1, -1) ) )  # 0 番目のテストデータを reshap でタプル化して格納
-    preProb.append( kNN3.predict_proba( X_test_std[4, :].reshape(1, -1) ) )  # 1 番目のテストデータを reshap でタプル化して格納
-    preProb.append( kNN3.predict_proba( X_test_std[5, :].reshape(1, -1) ) )  # 2 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN3.predict_proba( X_test_std[0, :].reshape(1, -1) ) )  # 0 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN3.predict_proba( X_test_std[1, :].reshape(1, -1) ) )  # 1 番目のテストデータを reshap でタプル化して格納
+    preProb.append( kNN3.predict_proba( X_test_std[2, :].reshape(1, -1) ) )  # 2 番目のテストデータを reshap でタプル化して格納
     
     # 各々のサンプルの所属クラス確率の出力
     print("classifier1 : kNN1 (k=1)")
@@ -251,7 +251,7 @@ def main():
     print("サンプル 1 の所属クラス確率 [%] :", preProb[4] * 100 )
     print("サンプル 2 の所属クラス確率 [%] :", preProb[5] * 100 )
 
-    print("classifier2 : kNN3 (k=10)")
+    print("classifier3 : kNN3 (k=10)")
     print("サンプル 0 の所属クラス確率 [%] :", preProb[6] * 100 )
     print("サンプル 1 の所属クラス確率 [%] :", preProb[7] * 100 )
     print("サンプル 2 の所属クラス確率 [%] :", preProb[8] * 100 )
