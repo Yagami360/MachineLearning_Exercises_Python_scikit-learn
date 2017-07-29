@@ -125,3 +125,15 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 <a name="kNN_scikit-learn"></a>
 ## ./kNN_scikit-learn
 
+![twitter_ 14-1_161007](https://user-images.githubusercontent.com/25688193/28742174-1d0f13f4-7464-11e7-8cc9-1d669f2c50ca.png)
+![twitter_ 14-2_161007](https://user-images.githubusercontent.com/25688193/28742169-1d0c9bce-7464-11e7-97c2-0ec640aa3e15.png)
+![twitter_ 14-3_161008](https://user-images.githubusercontent.com/25688193/28742170-1d0d1270-7464-11e7-8cfb-5ec25983427f.png)
+![twitter_ 14-4_161009](https://user-images.githubusercontent.com/25688193/28742171-1d0e1530-7464-11e7-8e32-04b007727098.png)
+![twitter_ 14-5_161010](https://user-images.githubusercontent.com/25688193/28742173-1d0f097c-7464-11e7-8df7-cd6018620fbf.png)
+
+![twitter_ 16-1_161011](https://user-images.githubusercontent.com/25688193/28742172-1d0edbfa-7464-11e7-8e82-238a91faf92e.png)
+![twitter_ 16-2_161012](https://user-images.githubusercontent.com/25688193/28742176-1d2fe52a-7464-11e7-825d-6d49ca8ccfed.png)
+
+![twitter_ 16-5_161112](https://user-images.githubusercontent.com/25688193/28742175-1d2f1b0e-7464-11e7-9b18-3d74ddd6e142.png)
+![twitter_ 16-6_161112](https://user-images.githubusercontent.com/25688193/28742177-1d31eb68-7464-11e7-8bd6-a9443593c392.png)
+
