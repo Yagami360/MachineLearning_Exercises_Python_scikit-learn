@@ -10,6 +10,7 @@
 1. [./LogisticRegression_scikit-learn](#LogisticRegression_scikit-learn)
 1. [./SVM_scikit-learn](#SVM_scikit-learn)
 1. [./kNN_scikit-learn](#kNN_scikit-learn)
+1. [./DecisionTree_scikit-learn](#DecisionTree_scikit-learn)
 
 <a name="Perceptron"></a>
 ## ./Perceptron 
@@ -138,3 +139,10 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 ![twitter_ 16-6_161112](https://user-images.githubusercontent.com/25688193/28742177-1d31eb68-7464-11e7-8bd6-a9443593c392.png)
 
 ![twitter_ 16-7_170729](https://user-images.githubusercontent.com/25688193/28742632-1482008c-7470-11e7-9590-df87069db4ed.png)
+
+
+<a name="DecisionTree_scikit-learn"></a>
+## ./DecisionTree_scikit-learn
+
+![twitter_ 21-2_170730](https://user-images.githubusercontent.com/25688193/28753081-4acca2ba-7569-11e7-9a06-33e59c20fb66.png)
+![twitter_ 21-1_170730](https://user-images.githubusercontent.com/25688193/28753082-4ad10f58-7569-11e7-82b3-8adfae7e562c.png)
