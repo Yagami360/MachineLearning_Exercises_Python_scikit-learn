@@ -1,5 +1,7 @@
 # MachineLearning_Samples_Python
-機械学習のサンプルコード集（Python使用）。機械学習とPythonのお練習
+機械学習のサンプルコード集（Python使用）。機械学習とPythonのお練習。
+
+README.md：コード決定の解説と理論の解説を記載してます。
 
 ### 目次（フォルダ）
 
