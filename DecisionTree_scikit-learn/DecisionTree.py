@@ -5,7 +5,11 @@ import numpy
 import matplotlib.pyplot as plt
 
 from sklearn.tree import DecisionTreeClassifier
-#from sklearn.tree import export_graphviz
+
+from sklearn.tree import export_graphviz
+#import pydotplus
+#from IPython.display import Image
+#from IPython.display import display
 
 
 class DecisionTree(object):
@@ -143,3 +147,17 @@ class DecisionTree(object):
         plt.ylim( [0, 1.1] )
         plt.xlabel( "p (i=1)" )
         plt.ylabel( "Purity" )
+
+        return
+
+    def exportDecisionTreeDotFile( self, fileName = "DecisionTree.dot", feature_names = ["feature1","feature2"] ):
+
+        # dot ファイルを出力
+        # 出力した dot ファイルは、GraphViz で dot -Tpng DecisionTree.dot -o DecisionTreeGraph.png で png ファイル化できる.
+        export_graphviz(
+            self.tree_,
+            out_file = fileName, 
+            feature_names = feature_names
+        )
+
+        return

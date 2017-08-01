@@ -291,6 +291,14 @@ def main():
     plt.savefig("./DecisionTree_scikit-learn_3.png", dpi=300)
     plt.show()
 
+    #-----------------------------------------------------------------------------------
+    # 決定木のグラフの為の dot ファイルを出力（GraphViz で png ファイル化出来る）
+    #-----------------------------------------------------------------------------------
+    tree1.exportDecisionTreeDotFile( fileName = "DecisionTree1.dot", feature_names = ['petal length', 'petal width'] )
+    tree2.exportDecisionTreeDotFile( fileName = "DecisionTree2.dot", feature_names = ['petal length', 'petal width'] )
+    tree3.exportDecisionTreeDotFile( fileName = "DecisionTree3.dot", feature_names = ['petal length', 'petal width'] )
+
+
     print("Finish main()")
     return
 
