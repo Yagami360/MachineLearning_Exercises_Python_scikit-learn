@@ -13,8 +13,16 @@ class DecisionTree(object):
     決定木 [DecisionTree] を表すクラス
     scikit-learn ライブラリの sklearn.tree モジュールにある DecisionTreeClassifier クラスのラッパークラス
 
+    [public] 
+        tree_ : DecisionTreeClassifier クラスのオブジェクト
     """
-    def __init__( self ):
+    def __init__( self, purity = 'gini', max_depth = 3, random_state = 0 ):
+        self.tree_ = DecisionTreeClassifier( 
+            criterion = purity, 
+            max_depth = max_depth, 
+            random_state = random_state
+        )
+
         return
 
     @staticmethod
@@ -24,7 +32,8 @@ class DecisionTree(object):
         [Input]
             p : float
                 確率値（0~1）
-
+        [Output]
+            入力 p に対する計算結果
         """
         value = 1 - numpy.max( [p, 1-p] )
         return value
@@ -80,7 +89,7 @@ class DecisionTree(object):
         return
 
     def plotCrossEntropyFunction( self, figure, axis, x = numpy.arange( 0.0, 1.0, 0.01 ) ):
-        # 配列 x の値を元にノードの誤り率を計算し, errors リストに格納
+        # 配列 x の値を元にノードの交差エントロピーを計算し, リストに格納
         ents = []
         for p in x:
             if ( p == 0.01 ):
@@ -111,7 +120,7 @@ class DecisionTree(object):
         return
 
     def plotGiniIndexFunction( self, figure, axis, x = numpy.arange( 0.0, 1.0, 0.01 ) ):
-        # 配列 x の値を元にノードの誤り率を計算し, errors リストに格納
+        # 配列 x の値を元にジニ係数を計算し, リストに格納
         gines = []
         for p in x:
             gine = self.clacGineIndex( p )
