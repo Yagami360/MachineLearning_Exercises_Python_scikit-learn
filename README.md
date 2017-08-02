@@ -13,6 +13,7 @@ README.md：コード実行結果の解説と合わせて、理論の解説も�
 1. [./SVM_scikit-learn](#SVM_scikit-learn)
 1. [./kNN_scikit-learn](#kNN_scikit-learn)
 1. [./DecisionTree_scikit-learn](#DecisionTree_scikit-learn)
+1. [./RandomForests_scikit-learn](#RandomForests_scikit-learn)
 
 <a name="Perceptron"></a>
 ## ./Perceptron 
@@ -171,3 +172,9 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 ![twitter_ 21-13_170802](https://user-images.githubusercontent.com/25688193/28861308-39ed005a-779b-11e7-96e1-2e80becc6e82.png)
 ![twitter_ 21-14_170802](https://user-images.githubusercontent.com/25688193/28867517-5710c002-77b1-11e7-8d12-941e6272d5b4.png)
 ![twitter_ 21-15_170802](https://user-images.githubusercontent.com/25688193/28867521-5afb3328-77b1-11e7-8b57-ec9e9dc9f255.png)
+
+
+<a name="RandomForests_scikit-learn"></a>
+## ./RandomForests_scikit-learn
+
+![twitter_ 22-1_170802](https://user-images.githubusercontent.com/25688193/28868969-2389ca6c-77b6-11e7-9b90-ee9fbe0f04bc.png)
