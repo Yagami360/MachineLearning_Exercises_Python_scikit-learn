@@ -159,7 +159,7 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 ![twitter_ 21-10_170801](https://user-images.githubusercontent.com/25688193/28819004-cc4a33a0-76e7-11e7-8816-b8f4bd2b31ac.png)
 ![twitter_ 21-11_170801](https://user-images.githubusercontent.com/25688193/28819013-cf690e94-76e7-11e7-86cd-ef445a17d7ce.png)
 
-<Note> 決定木の結果の解析追記[17/08/02]
+#<Note> 決定木の結果の解析追記[17/08/02]
   
 ・識別境界は、特徴軸に対して平行（他の軸に対して垂直）になるように描画されていることが、逆に言えばこれは単に軸に平行な決定境界では分けられないデータは分けられないと見ることもできる。
 
