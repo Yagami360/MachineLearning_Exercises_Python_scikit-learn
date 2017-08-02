@@ -167,3 +167,4 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 
 ・３番目の添付画像のように、構築した決定木を図示することが出来る。このようにビジュアル的にモデルの中身を見ることが出来るのが決定木の１つの強み
 
+![twitter_ 21-12_170802](https://user-images.githubusercontent.com/25688193/28858808-38dee410-778e-11e7-89a8-2f993e20a3d1.png)
