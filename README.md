@@ -177,4 +177,4 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 <a name="RandomForests_scikit-learn"></a>
 ## ./RandomForests_scikit-learn
 
-![twitter_ 22-1_170802](https://user-images.githubusercontent.com/25688193/28868969-2389ca6c-77b6-11e7-9b90-ee9fbe0f04bc.png)
+![twitter_ 22-1_170802](https://user-images.githubusercontent.com/25688193/28871164-5482daca-77be-11e7-8732-67253307f2c3.png)
