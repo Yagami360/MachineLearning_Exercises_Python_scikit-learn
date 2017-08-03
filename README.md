@@ -181,3 +181,5 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 ![twitter_ 22-2_170802](https://user-images.githubusercontent.com/25688193/28893585-f645aae2-780c-11e7-9c25-47b9b92e5017.png)
 ![twitter_ 22-3_170802](https://user-images.githubusercontent.com/25688193/28875951-68509326-77d2-11e7-89d8-dbc5388193f8.png)
 
+![twitter_ 22-4_170803](https://user-images.githubusercontent.com/25688193/28907039-f5c7e96e-7856-11e7-902d-d1aaaba7954c.png)
+![twitter_ 22-5_170803](https://user-images.githubusercontent.com/25688193/28907040-f78f779e-7856-11e7-839d-9845e29dce24.png)
