@@ -188,3 +188,10 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 ![twitter_ 22-7_170804](https://user-images.githubusercontent.com/25688193/28963702-0961b768-7945-11e7-8043-8c2d24884d44.png)
 ![twitter_ 22-8_170804](https://user-images.githubusercontent.com/25688193/28965432-fc909656-794b-11e7-9c16-3c34c381c8d9.png)
 
+＜機械学習＆Pythonの練習Memo＞ 
+ランダムフォレストを用いた識別問題における、森のサイズと特徴の誤り率＆OOB誤り率の変化の関係図。
+
+データはアヤメデータの３品種、合計150個を、それぞれ指定された森のサイズ（弱識別器の数）を持つランダムフォレスト全てに適用している。
+決定木構築のための不純度としてジニ係数を使用。
+
+森のサイズ（弱識別器数：決定木数）が大きくなるほど誤り率は低下しており、およそ２５個程度で値が収束（OOB error rate : 0.057, iris error rate : 0.002）していることが分かる。
