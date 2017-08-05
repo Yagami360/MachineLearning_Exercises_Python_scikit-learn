@@ -195,3 +195,4 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 決定木構築のための不純度としてジニ係数を使用。
 
 森のサイズ（弱識別器数：決定木数）が大きくなるほど誤り率は低下しており、およそ２５個程度で値が収束（OOB error rate : 0.057, iris error rate : 0.002）していることが分かる。
+![ramdomforest_scikit-learn_3](https://user-images.githubusercontent.com/25688193/28994775-21988056-7a11-11e7-9e6c-780369f19ebf.png)
