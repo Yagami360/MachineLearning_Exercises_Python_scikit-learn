@@ -97,20 +97,20 @@ def main():
 
     max_numForests = 50
     lst_numForests = range( 1, max_numForests )     # 森のサイズのリスト（1 ~ max_numForests）
-    obb_errors = []            # 
-    iris_errors = []           # 
+    
+    obb_errors = []            # OOB error rate のリスト（森のサイズに対するリスト）
+    iris_errors = []           # テストに使用した Iris data 全体での誤り率のリスト （森のサイズに対するリスト）
     setosa_errors = []         # 品種 setosa の誤り率のリスト（森のサイズに対するリスト）
     virginica_errors = []      # 品種 virginica の誤り率のリスト（森のサイズに対するリスト）
     versicolor_errors = []     # 品種 versicolor の誤り率のリスト（森のサイズに対するリスト）
 
-    for i in range( 1, max_numForests ):
+    for i in lst_numForests:
         # 森のサイズ（弱識別器数[決定木の数]）を設定後、学習データで学習させる。
         forest.set_params( n_estimators = i )
         forest.fit( X_train_std, y_train )
 
         # （この森のサイズのランダムフォレストでの）OOB誤り率の計算
-        obb_error = 1- forest.oob_score_
-        print(i, obb_error)
+        obb_error = 1 - forest.oob_score_
         obb_errors.append( obb_error )
         
         # （この森のサイズのランダムフォレストでの）各特徴量の計算
@@ -124,15 +124,18 @@ def main():
         #virginica_error      = 1 - accuracy_score( dat_y, y_predict_virginica )
         #versicolor_error     = 1 - accuracy_score( dat_y, y_predict_versicolor )
 
-        print(i, error_rate)
-
         iris_errors.append( error_rate )
         #setosa_errors.append( setosa_error )
         #virginica_errors.append( virginica_error )
         #versicolor_errors.append( versicolor_error )
         
+        print( "[error rate]")
+        print( "the number of forests = ", i )
+        print( "obb_error = ", obb_error )
+        print( "error_rate = ", error_rate )
+
     #------------------------------------------------------------------------
-    # 各特徴の誤り率＆OOB 誤り率 [ out-of-bag error rate]の図示
+    # 各特徴の誤り率＆OOB 誤り率 [ out-of-bag error rate] の図示
     #------------------------------------------------------------------------    
     # 現在の図をクリア
     plt.clf()
@@ -188,7 +191,7 @@ def main():
     )
     """
 
-    plt.title("Error rate")  # titile
+    plt.title("Error rate of Iris data (classifier : RandomForest)")  # titile
     plt.xlabel("The number of trees in the forest") # label x-axis
     plt.ylabel("Error rate") # label y-axis
     plt.legend(loc = "upper left")          # 凡例
