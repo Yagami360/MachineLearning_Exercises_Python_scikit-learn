@@ -18,11 +18,11 @@ import Plot2D
 
 def main():
     print("Enter main()")
-    #==================================================================================
+    #======================================================================================
     # ランダムフォレスト [random forests] による識別問題（３クラス）
     # アヤメデータの３品種の分類　（Python & scikit-learn ライブラリを使用）   
-    # ランダムフォレストによるデータ解析（OBB [out-og-bug]. OBB error rate, 特徴の重要さ等）
-    #==================================================================================
+    # ランダムフォレストによるデータ解析（各特徴の誤り率、OBB error rate, 特徴の重要さ等）
+    #======================================================================================
 
     #====================================================
     #   Data Preprocessing（前処理）
@@ -82,173 +82,122 @@ def main():
     dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
 
     #====================================================
-    #   Learning Process
+    #   Learning Process & 汎化性能の評価
     #====================================================
-    # classifier1 : random forest1 \n ( purity = "entropy", The number of trees in the forest = 2 )
-    forest1 = RandomForestClassifier(
-                criterion = "entropy",  # 不純度関数 [purity]
+    # classifier : random forest \n ( purity = "gini")
+    forest = RandomForestClassifier(
+                criterion = "gini",     # 不純度関数 [purity]
                 bootstrap = True,       # 決定木の構築に、ブートストラップサンプルを使用するか否か（default:True）
-                n_estimators = 2,       # 弱識別器（決定木）の数
+                #n_estimators = 2,       # 弱識別器（決定木）の数
                 n_jobs = 2,             # The number of jobs to run in parallel for both fit and predict
                 random_state = 1,       #
                 oob_score = True        # Whether to use out-of-bag samples to estimate the generalization accuracy.(default=False)
             )
-    forest1.fit( X_train_std, y_train )
+    #forest.fit( X_train_std, y_train )
 
-    # classifier2 : random forest2 \n ( purity = "entropy", The number of trees in the forest = 5 )
-    forest2 = RandomForestClassifier(
-                criterion = "entropy",  # 不純度関数 [purity]
-                bootstrap = True,       # 決定木の構築に、ブートストラップサンプルを使用するか否か（default:True）
-                n_estimators = 5,       # 弱識別器（決定木）の数
-                n_jobs = 2,             # The number of jobs to run in parallel for both fit and predict
-                random_state = 1,       # 
-                oob_score = True        # Whether to use out-of-bag samples to estimate the generalization accuracy.(default=False)
-            )
-    forest2.fit( X_train_std, y_train )
-     
-    # classifier3 : random forest3 \n ( purity = "entropy", The number of trees in the forest = 10 )
-    forest3 = RandomForestClassifier(
-                criterion = "entropy",  # 不純度関数 [purity]
-                bootstrap = True,       # 決定木の構築に、ブートストラップサンプルを使用するか否か（default:True）
-                n_estimators = 10,      # 弱識別器（決定木）の数
-                n_jobs = 2,             # The number of jobs to run in parallel for both fit and predict
-                random_state = 1,       #
-                oob_score = True        # Whether to use out-of-bag samples to estimate the generalization accuracy.(default=False)
-            )
-    forest3.fit( X_train_std, y_train )
-    
+    max_numForests = 50
+    lst_numForests = range( 1, max_numForests )     # 森のサイズのリスト（1 ~ max_numForests）
+    obb_errors = []            # 
+    iris_errors = []           # 
+    setosa_errors = []         # 品種 setosa の誤り率のリスト（森のサイズに対するリスト）
+    virginica_errors = []      # 品種 virginica の誤り率のリスト（森のサイズに対するリスト）
+    versicolor_errors = []     # 品種 versicolor の誤り率のリスト（森のサイズに対するリスト）
 
-    #====================================================
-    #   汎化性能の評価
-    #====================================================
-    #-------------------------------
-    # サンプルデータの plot
-    #-------------------------------
-    # plt.subplot(行数, 列数, 何番目のプロットか)
-    plt.subplot(2,2,1)
-    plt.grid(linestyle='-')
+    for i in range( 1, max_numForests ):
+        # 森のサイズ（弱識別器数[決定木の数]）を設定後、学習データで学習させる。
+        forest.set_params( n_estimators = i )
+        forest.fit( X_train_std, y_train )
 
-    # 品種 setosa のplot(赤の□)
-    plt.scatter(
-        dat_X_std[0:50,0], dat_X_std[0:50,1],
-        color = "red",
-        edgecolor = 'black',
-        marker = "s",
-        label = "setosa"
-    )
-    # 品種 virginica のplot(青のx)
-    plt.scatter(
-        dat_X_std[51:100,0], dat_X_std[51:100,1],
-        color = "blue",
-        edgecolor = 'black',
-        marker = "x",
-        label = "virginica"
-    )
-    # 品種 versicolor のplot(緑の+)
-    plt.scatter(
-        dat_X_std[101:150,0], dat_X_std[101:150,1],
-        color = "green",
-        edgecolor = 'black',
-        marker = "+",
-        label = "versicolor"
-    )
+        # （この森のサイズのランダムフォレストでの）OOB誤り率の計算
+        obb_error = 1- forest.oob_score_
+        print(i, obb_error)
+        obb_errors.append( obb_error )
+        
+        # （この森のサイズのランダムフォレストでの）各特徴量の計算
+        y_predict            = forest.predict( X_test_std )
+        #y_predict_setosa     = forest.predict( dat_X_std[0:50] )
+        #y_predict_virginica  = forest.predict( dat_X_std[51:100] )
+        #y_predict_versicolor = forest.predict( dat_X_std[101:150] )
 
-    plt.title("iris data [Normalized]")     # title
-    plt.xlabel("sepal length [Normalized]") # label x-axis
-    plt.ylabel("petal length [Normalized]") # label y-axis
-    plt.legend(loc = "upper left")          # 凡例    
-    plt.tight_layout()                      # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+        error_rate           = 1 - accuracy_score( y_test, y_predict )
+        #setosa_error         = 1 - accuracy_score( dat_y, y_predict_setosa )
+        #virginica_error      = 1 - accuracy_score( dat_y, y_predict_virginica )
+        #versicolor_error     = 1 - accuracy_score( dat_y, y_predict_versicolor )
 
-    #-------------------------------
-    # 識別結果＆識別領域の表示
-    #-------------------------------
-    # classifier1 : 
-    plt.subplot(2,2,2)
-    Plot2D.Plot2D.drawDiscriminantRegions( 
-        dat_X = X_combined_std, dat_y = y_combined,
-        classifier = forest1,
-        list_test_idx = range( 101,150 )
-    )
-    plt.title("Ramdom Forest 1 \n ( purity = entropy, The number of trees in the forest = 2 )")   # titile
-    plt.xlabel("sepal length [Normalized]") # label x-axis
-    plt.ylabel("petal length [Normalized]") # label y-axis
-    plt.legend(loc = "upper left")          # 凡例    
-    plt.tight_layout()                      # グラフ同士のラベルが重ならない程度にグラフを小さくする。
-    
-    # classifier2 : 
-    plt.subplot(2,2,3)
-    Plot2D.Plot2D.drawDiscriminantRegions( 
-        dat_X = X_combined_std, dat_y = y_combined,
-        classifier = forest2,
-        list_test_idx = range( 101,150 )
-    )
-    plt.title("Ramdom Forest 2 \n ( purity = entropy, The number of trees in the forest = 5 )")   # titile
-    plt.xlabel("sepal length [Normalized]") # label x-axis
-    plt.ylabel("petal length [Normalized]") # label y-axis
-    plt.legend(loc = "upper left")          # 凡例    
-    plt.tight_layout()                      # グラフ同士のラベルが重ならない程度にグラフを小さくする。
+        print(i, error_rate)
 
-    # classifier3 : 
-    plt.subplot(2,2,4)
-    Plot2D.Plot2D.drawDiscriminantRegions( 
-        dat_X = X_combined_std, dat_y = y_combined,
-        classifier = forest3,
-        list_test_idx = range( 101,150 )
-    )
-    plt.title("Ramdom Forest 3 \n ( purity = entropy, The number of trees in the forest = 10 )")  # titile
-    plt.xlabel("sepal length [Normalized]") # label x-axis
-    plt.ylabel("petal length [Normalized]") # label y-axis
-    plt.legend(loc = "upper left")          # 凡例    
-    plt.tight_layout()                      # グラフ同士のラベルが重ならない程度にグラフを小さくする。
-
-    # 
-    plt.savefig("./RandomForest_scikit-learn_3.png", dpi=300)
-    plt.show()
-
-    #-------------------------------
-    # 識別率を計算＆出力
-    #-------------------------------
-    y_predict1 = forest1.predict( X_test_std )
-    y_predict2 = forest2.predict( X_test_std )
-    y_predict3 = forest3.predict( X_test_std )
-
-    print("<テストデータの識別結果>")
-    
-    print("classifier1 : Ramdom Forest1 \n ( purity = entropy, The number of trees in the forest = 2 )")
-    # 誤分類のサンプル数を出力
-    print( "誤識別数 [Misclassified samples] : %d" % (y_test != y_predict1).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
-    # 分類の正解率を出力
-    print( "正解率 [Accuracy] : %.2f" % accuracy_score(y_test, y_predict1) )
-
-    print("classifier2 : Ramdom Forest2 \n ( purity = entropy, The number of trees in the forest = 5 )")
-    # 誤分類のサンプル数を出力
-    print( "誤識別数 [Misclassified samples] : %d" % (y_test != y_predict2).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
-    # 分類の正解率を出力
-    print( "正解率 [Accuracy] : %.2f" % accuracy_score(y_test, y_predict2) )
-
-    print("classifier3 : Ramdom Forest3 \n ( purity = entropy, The number of trees in the forest = 10 )")
-    # 誤分類のサンプル数を出力
-    print( "誤識別数 [Misclassified samples] : %d" % (y_test != y_predict3).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
-    # 分類の正解率を出力
-    print( "正解率 [Accuracy] : %.2f" % accuracy_score(y_test, y_predict3) )
-
+        iris_errors.append( error_rate )
+        #setosa_errors.append( setosa_error )
+        #virginica_errors.append( virginica_error )
+        #versicolor_errors.append( versicolor_error )
+        
     #------------------------------------------------------------------------
-    # OBB 誤り率 [ out-of-bag error rate]の図示
-    #------------------------------------------------------------------------
-
-
+    # 各特徴の誤り率＆OOB 誤り率 [ out-of-bag error rate]の図示
+    #------------------------------------------------------------------------    
     # 現在の図をクリア
     plt.clf()
+    plt.grid()
 
-    plt.title("OBB 誤り率 [ out-of-bag error rate] \n classifiler1")  # titile
-    plt.xlabel("") # label x-axis
-    plt.ylabel("") # label y-axis
-    plt.legend(loc = "upper left")          # 凡例    
+    # OBB error rate plot(黒の●)
+    plt.plot(
+        lst_numForests, obb_errors,
+        color = "black",
+        marker = "o",
+        label = "OOB error rate",
+        markersize = 6,                 # プロット点サイズ
+        linestyle = "solid"             # 実線
+    )
+
+    # iris error rate plot
+    plt.plot(
+        lst_numForests, iris_errors,
+        color = "cyan",
+        marker = "v",
+        label = "iris error rate",
+        markersize = 6,                 # プロット点サイズ
+        linestyle = "solid"             # 実線
+    )
+    
+    """
+    # 品種 setosa の誤り率の plot(赤の□)
+    plt.plot(
+        lst_numForests, setosa_errors,
+        color = "red",
+        marker = "s",
+        label = "setosa error rate",
+        markersize = 6,                 # プロット点サイズ
+        linestyle = "solid"             # 実線
+    )
+    # 品種 virginica の誤り率の plot(青のx)
+    plt.plot(
+        lst_numForests, virginica_errors,
+        color = "blue",
+        marker = "x",
+        label = "virginica error rate",
+        markersize = 6,                 # プロット点サイズ
+        linestyle = "solid"             # 実線
+    )
+    # 品種 versicolor の誤り率の plot(緑の+)
+    plt.plot(
+        lst_numForests, versicolor_errors,
+        color = "green",
+        marker = "+",
+        label = "versicolor error rate",
+        markersize = 6,                 # プロット点サイズ
+        linestyle = "solid"             # 実線
+    )
+    """
+
+    plt.title("Error rate")  # titile
+    plt.xlabel("The number of trees in the forest") # label x-axis
+    plt.ylabel("Error rate") # label y-axis
+    plt.legend(loc = "upper left")          # 凡例
     plt.tight_layout()                      # グラフ同士のラベルが重ならない程度にグラフを小さくする。
 
     # 図の保存＆表示
-    plt.savefig("./RamdomForest_scikit-learn_4.png", dpi=300)
+    plt.savefig("./RamdomForest_scikit-learn_3.png", dpi=300)
     plt.show()
+    
 
     print("Finish main()")
     return
