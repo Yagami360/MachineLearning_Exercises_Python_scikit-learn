@@ -14,7 +14,7 @@ README.md：コード実行結果の解説と合わせて、理論の解説も�
 1. [./kNN_scikit-learn](#kNN_scikit-learn)
 1. [./DecisionTree_scikit-learn](#DecisionTree_scikit-learn)
 1. [./RandomForests_scikit-learn](#RandomForests_scikit-learn)
-1. [./DataPreProcess_scikit-learn](#DataPreProcess_scikit-learn)
+1. [./DataPreProcess_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/DataPreProcess_scikit-learn)
 
 <a name="Perceptron"></a>
 ## ./Perceptron 
