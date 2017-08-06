@@ -36,6 +36,11 @@ class DataPreProcess( object ):
 
         return
 
+    def print( self ):
+        print( self )
+        print( self.df_ )
+        return
+
     def setDataFrame( self, dataFrame ):
         """
         [Input]
@@ -55,9 +60,12 @@ class DataPreProcess( object ):
     def setDataFrameFromCsvFile( self, csv_fileName ):
         return
 
-    def print( self ):
-        print( self.df_ )
-
+    def setColumns( self, columns ):
+        """
+        データフレームにコラム（列）を設定する。
+        """
+        self.df_.columns = columns
+        
         return
 
     def getNumpyArray( self ):
