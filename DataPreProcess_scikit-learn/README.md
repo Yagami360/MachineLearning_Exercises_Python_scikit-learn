@@ -1,4 +1,3 @@
-<a name="DataPreProcess_scikit-learn"></a>
 # DataPreProcess_scikit-learn
 
 機械学習における、データの前処理のサンプルコード集。
