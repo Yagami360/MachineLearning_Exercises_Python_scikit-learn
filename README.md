@@ -205,3 +205,15 @@ scikit-learn ライブラリの sklearn.linear_model モジュールの Logistic
 データはアヤメデータの３品種合計150個を、50個の森を持つランダムフォレストに適用。
 
 データは、トレーニング用：１０５個、テスト用：４５個、に分割する。分割手法はクロスバリデーションで行った。決定木構築のための不純度としてジニ係数を使用。
+
+＜各特徴の重要度の値＞
+
+1 : sepal length (cm)  = 0.151
+
+2 : sepal width (cm)  = 0.025
+
+3 : petal length (cm) = 0.429010
+
+4 : petal width (cm) =0.395
+
+![ramdomforest_scikit-learn_4](https://user-images.githubusercontent.com/25688193/29001389-54ede3c0-7ac4-11e7-9cac-1599d07bf28e.png)
