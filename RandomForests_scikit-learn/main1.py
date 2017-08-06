@@ -88,7 +88,7 @@ def main():
                 criterion = "entropy",  # 不純度関数 [purity]
                 bootstrap = True,       # 決定木の構築に、ブートストラップサンプルを使用するか否か（default:True）
                 n_estimators = 2,       # 弱識別器（決定木）の数
-                n_jobs = 2,             # The number of jobs to run in parallel for both fit and predict
+                n_jobs = -1,            # The number of jobs to run in parallel for both fit and predict (-1 : 全てのCPUコアで並列計算)
                 random_state = 1,       #
                 oob_score = True        # Whether to use out-of-bag samples to estimate the generalization accuracy.(default=False)
             )
@@ -99,7 +99,7 @@ def main():
                 criterion = "entropy",  # 不純度関数 [purity]
                 bootstrap = True,       # 決定木の構築に、ブートストラップサンプルを使用するか否か（default:True）
                 n_estimators = 5,       # 弱識別器（決定木）の数
-                n_jobs = 2,             # The number of jobs to run in parallel for both fit and predict
+                n_jobs = -1,            # The number of jobs to run in parallel for both fit and predict (-1 : 全てのCPUコアで並列計算)
                 random_state = 1,       # 
                 oob_score = True        # Whether to use out-of-bag samples to estimate the generalization accuracy.(default=False)
             )
@@ -110,7 +110,7 @@ def main():
                 criterion = "entropy",  # 不純度関数 [purity]
                 bootstrap = True,       # 決定木の構築に、ブートストラップサンプルを使用するか否か（default:True）
                 n_estimators = 10,      # 弱識別器（決定木）の数
-                n_jobs = 2,             # The number of jobs to run in parallel for both fit and predict
+                n_jobs = -1,            # The number of jobs to run in parallel for both fit and predict (-1 : 全てのCPUコアで並列計算)
                 random_state = 1,       #
                 oob_score = True        # Whether to use out-of-bag samples to estimate the generalization accuracy.(default=False)
             )
