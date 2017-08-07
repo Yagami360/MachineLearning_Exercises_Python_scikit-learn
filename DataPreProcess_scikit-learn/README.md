@@ -7,7 +7,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 
 ## Practice 1 : 欠損値 NaN への対応
 
-### 欠損値 NaNの補完（平均値）
+#### 欠損値 NaNの補完（平均値）
 
 csv data
 
@@ -25,9 +25,9 @@ csv data
 
 ## Practice 2 : カテゴリデータの処理
 
-### 名義 [nominal] 特徴量、順序 [ordinal] 特徴量
+#### 名義 [nominal] 特徴量、順序 [ordinal] 特徴量
 
-### 名義 [nominal] 特徴量の map(directionary) での整数化
+#### 名義 [nominal] 特徴量の map(directionary) での整数化
 
 list から pandas データフレームを作成
 
@@ -45,17 +45,17 @@ pandas データフレームにコラム（列）を追加
 |1  |red   |L   |13.5 |class2|
 |2  |blue  |XL  |15.3 |class1|
 
-### クラスラベルのエンコーディング（ディクショナリマッピング方式）
+#### クラスラベルのエンコーディング（ディクショナリマッピング方式）
 
 順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化
 
 |color  |size  |price |classlabel|
-|---|---|---|---|---|---|
+|:-:|:-:|:-:|:-:|:-:|:-:|
 |0  |green  |1 |10.1  |class1 |
 |1  |red    |2 |13.5  |class2 |
 |2  |blue   |3 |15.3  |class1 |
 
-### カテゴリデータの one-hot encoding
+#### カテゴリデータの one-hot encoding
 
 |size  |price  |color_blue  |color_green  |color_red|
 |---|---|---|---|---|---|
@@ -66,14 +66,14 @@ pandas データフレームにコラム（列）を追加
 
 ## Practice 3 : データセットの分割
 
-### トレーニングデータとテストデータへの分割とその割合
+#### トレーニングデータとテストデータへの分割とその割合
 
 ## Practice 4 : 特徴量のスケーリング
 
-### 正規化 [nomalization]（min-max スケーリング <0~1>）
+#### 正規化 [nomalization]（min-max スケーリング <0~1>）
 
-### 標準化 [standardization]（平均値：０、分散値：１）
+#### 標準化 [standardization]（平均値：０、分散値：１）
 
 ## Practice 4 : 有益な特徴量の選択
 
-### L1正則化による疎な解
+#### L1正則化による疎な解
