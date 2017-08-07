@@ -10,6 +10,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 ### 欠損値 NaNの補完（平均値）
 
 csv data
+
 |A|B|C|D|
 |---|---|---|---|---|
 |0 |1.0  |2.0  |3.0  |4.0 |
@@ -29,6 +30,7 @@ csv data
 ### 名義 [nominal] 特徴量の map(directionary) での整数化
 
 list から pandas データフレームを作成
+
 |0|1|2|3|
 |---|---|---|---|---|
 |0 |green |M   |10.1  |class1|
@@ -36,6 +38,7 @@ list から pandas データフレームを作成
 |2 |blue  |XL  |15.3  |class1|
 
 pandas データフレームにコラム（列）を追加
+
 |color |size  |price |classlabel|
 |---|---|---|---|---|---|
 |0  |green |M   |10.1 |class1|
@@ -45,6 +48,7 @@ pandas データフレームにコラム（列）を追加
 ### クラスラベルのエンコーディング（ディクショナリマッピング方式）
 
 順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化
+
 |color  |size  |price |classlabel|
 |---|---|---|---|---|---|
 |0  |green  |1 |10.1  |class1 |
