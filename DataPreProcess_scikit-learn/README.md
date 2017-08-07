@@ -19,7 +19,7 @@ csv data (欠損値 NaN を含むデータ)
 
 欠損値 NaN の平均値補完
 
-"""
+```
 from sklearn.preprocessing import Imputer
 imputer = Imputer( 
                       missing_values = 'NaN', 
@@ -28,7 +28,7 @@ imputer = Imputer(
                   )
         
 imputer.fit( self.df_ )         # self.df_ は１次配列に変換されることに注意
-"""
+```
 
 ||A|B|C|D|
 |:--:|:--:|:--:|:--:|:--:|
