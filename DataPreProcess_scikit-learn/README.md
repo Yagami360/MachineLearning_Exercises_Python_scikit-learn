@@ -17,11 +17,22 @@ csv data (欠損値 NaN を含むデータ)
 |1|5.0|6.0|NaN|8.0|
 |2|10.0|11.0|12.0|NaN|
 
-欠損値 NaN の平均値補完 'sklearn.preprocessing.Imputer()｀ 使用
+欠損値 NaN の平均値補完
+
+"""
+from sklearn.preprocessing import Imputer
+imputer = Imputer( 
+                      missing_values = 'NaN', 
+                      strategy = 'mean', 
+                      axis = axis       # 0 : 列の平均値, 1 : 行の平均値
+                  )
+        
+imputer.fit( self.df_ )         # self.df_ は１次配列に変換されることに注意
+"""
 
 ||A|B|C|D|
 |:--:|:--:|:--:|:--:|:--:|
-|0|.0|2.0|3.0|4.0|
+|0|1.0|2.0|3.0|4.0|
 |1|5.0|6.0|7.5|8.0|
 |2|10.0|11.0|12.0|6.0|
 
