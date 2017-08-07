@@ -21,9 +21,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 |[  5.    6.    7.5   8. ]| 
 |[ 10.   11.   12.    6. ]|
 
-## Practice 2 : カテゴリデータの処理
-
-#### 名義 [nominal] 特徴量、順序 [ordinal] 特徴量
+## Practice 2 : カテゴリデータ（名義 [nominal] 特徴量、順序 [ordinal] 特徴量）の処理
 
 #### 名義 [nominal] 特徴量の map(directionary) での整数化
 
@@ -34,7 +32,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 |2 |blue  |XL  |15.3  |class1|
 
 |pandas データフレームにコラム（列）を追加|color |size  |price |classlabel|
-|---|---|---|---|---|---|
+|---|---|---|---|---|
 |0  |green |M   |10.1 |class1|
 |1  |red   |L   |13.5 |class2|
 |2  |blue  |XL  |15.3 |class1|
@@ -50,7 +48,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 #### カテゴリデータの one-hot encoding
 
 |size|price|color_blue|color_green|color_red|
-|---|---|---|---|---|---|
+|---|---|---|---|---|
 |0|1|10.1|0|1|0|
 |1|2|13.5|0|0|1|
 |2|3|15.3|1|0|0|
