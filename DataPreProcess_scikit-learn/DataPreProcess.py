@@ -8,12 +8,14 @@ import pandas
 from io import StringIO
 
 # scikit-learn ライブラリ関連
-from sklearn import datasets                            # 
+from sklearn import datasets                            # scikit-learn ライブラリのデータセット群
 #from sklearn.cross_validation import train_test_split  # scikit-learn の train_test_split関数の old-version
 from sklearn.model_selection import train_test_split    # scikit-learn の train_test_split関数の new-version
+from sklearn.metrics import accuracy_score              # 正解率、誤識別率の計算用に使用
+
+from sklearn.preprocessing import Imputer               # データ（欠損値）の保管用に使用
+from sklearn.preprocessing import OneHotEncoder         # One-hot encoding 用に使用
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
-from sklearn.metrics import accuracy_score              # 
-from sklearn.preprocessing import Imputer               # 
 
 
 class DataPreProcess( object ):
@@ -36,8 +38,9 @@ class DataPreProcess( object ):
         self.df_ = pandas.DataFrame()
         return
 
-    def print( self ):
+    def print( self, str = '' ):
         print( self )
+        print( str )
         print( self.df_ )
         return
 
@@ -49,17 +52,25 @@ class DataPreProcess( object ):
         """
         self.df_ = pandas.DataFrame( dataFrame )
 
-        return
+        return self
 
 
     def setDataFrameFromCsvData( self, csv_data ):
 
         # read_csv() 関数を用いて, csv フォーマットのデータを pandas DataFrame オブジェクトに変換して読み込む.
         self.df_ = pandas.read_csv( StringIO( csv_data ) )
-        return
+        return self
 
     def setDataFrameFromCsvFile( self, csv_fileName ):
-        return
+        """
+        csv ファイルからデータフレームを構築する
+
+        [Input]
+            csv_fileName : string
+                csvファイルパス＋ファイル名
+        """
+        self.df_ = pandas.read_csv( csv_fileName, header = None )
+        return self
 
     def getNumpyArray( self ):
         """
@@ -73,7 +84,7 @@ class DataPreProcess( object ):
     #---------------------------------------------------------
     def meanImputationNaN( self, axis = 0 ):
         """
-        欠損値 [NaN] を平均値で保管する
+        欠損値 [NaN] を平均値で補完する
         [Input]
             axis : int
                 0 : NaN を列の平均値で補完
@@ -89,7 +100,7 @@ class DataPreProcess( object ):
 
         self.df_ = imputer.transform( self.df_ )
 
-        return
+        return self
     
     #---------------------------------------------------------
     # カテゴリデータの処理を行う関数群
@@ -100,7 +111,7 @@ class DataPreProcess( object ):
         """
         self.df_.columns = columns
         
-        return
+        return self
     
     def MappingOrdinalFeatures( self, key, input_dict ):
         """
@@ -108,21 +119,66 @@ class DataPreProcess( object ):
         
         [Input]
             key : string
-                順序特徴量を表すキー（１文字）
+                順序特徴量を表すキー（文字列）
 
             dict : dictionary { "" : 1, "" : 2, ... }
         
         """
         self.df_[key] = self.df_[key].map( dict(input_dict) )   # 整数に変換
 
-        return
+        return self
+
+    def EncodeClassLabel( self, key ):
+        """
+        クラスラベルを表す文字列を 0,1,2,.. の順に整数化する.（ディクショナリマッピング方式）
+
+        [Input]
+            key : string
+                整数化したいクラスラベルの文字列
+        """
+        mapping = { label: idx for idx, label in enumerate( numpy.unique( self.df_[key]) ) }
+        self.df_[key] = self.df_[key].map( mapping )
+
+        return self
+
+    def OneHotEncode( self, categories, col ):
+        """
+        カテゴリデータ（名義特徴量, 順序特徴量）の One-hot Encoding を行う.
+
+        [Input]
+            categories : list
+                カテゴリデータの list
+
+            col : int
+                特徴行列の変換する変数の列位置 : 0 ~
+
+        """
+        X_values = self.df_[categories].values    # カテゴリデータ（特徴行列）を抽出
+        #print( X_values )
+        #print( self.df_[categories] )
+
+        # one-hot Encoder の生成
+        ohEncode = OneHotEncoder( 
+                      categorical_features = [col],    # 変換する変数の列位置：[0] = 特徴行列 X_values の最初の列
+                      sparse = False                   # ?  False : 通常の行列を返すようにする。
+                   )
+
+        # one-hot Encoding を実行
+        #self.df_ = ohEncode.fit_transform( X_values ).toarray()   # ? sparse = True の場合の処理
+        self.df_ = pandas.get_dummies( self.df_[categories] )     # 文字列値を持つ行だけ数値に変換する
+        
+        return self
 
     #---------------------------------------------------------
-    # カテゴリデータの処理を行う関数群
+    # データセットの分割を行う関数群
     #---------------------------------------------------------
-    def normalized( self, dat_X ):
+
+    #---------------------------------------------------------
+    # データのスケーリングを行う関数群
+    #---------------------------------------------------------
+    def normalized( self ):
         """
 
         """
-        return
+        return self
 

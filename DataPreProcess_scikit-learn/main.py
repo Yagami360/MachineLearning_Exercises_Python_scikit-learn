@@ -35,10 +35,10 @@ def main():
                '''
     
     prePro1.setDataFrameFromCsvData( csv_data )
-    prePro1.print()
+    prePro1.print( "csv data" )
 
     prePro1.meanImputationNaN()
-    prePro1.print()
+    prePro1.print( "欠損値 NaN の平均値補完" )
 
     #--------------------------------------------------
     # Practice 2 : カテゴリデータの処理
@@ -55,11 +55,11 @@ def main():
             ]
     )
 
-    prePro2.print()
+    prePro2.print( "list から pandas データフレームを作成" )
 
     # pandas データフレームにコラム（列）を追加
     prePro2.setColumns( ['color', 'size', 'price', 'classlabel'] )
-    prePro2.print()
+    prePro2.print( "pandas データフレームにコラム（列）を追加" )
     
     # 順序特徴量 size の map(directionary) を作成
     dict_size = {
@@ -69,8 +69,17 @@ def main():
     }
     # 作成した map で順序特徴量を整数化
     prePro2.MappingOrdinalFeatures( key = 'size', input_dict = dict_size )
-    prePro2.print()
+    prePro2.print( "順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化" )
     
+    # クラスラベルのエンコーディング（ディクショナリマッピング方式）
+    prePro2.EncodeClassLabel("classlabel")
+    prePro2.print( "クラスラベルのエンコーディング（ディクショナリマッピング方式" )
+
+    # カテゴリデータのone-hot encoding
+    prePro2.OneHotEncode( categories = ['color', 'size', 'price'], col = 0 )
+    prePro2.print( "カテゴリデータのone-hot encoding" )
+
+
 
     print("Finish main()")
     return
