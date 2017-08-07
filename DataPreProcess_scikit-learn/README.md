@@ -202,6 +202,7 @@ class DataPreProcess( object ):
         self.df_ = pandas.get_dummies( self.df_[categories] )     # 文字列値を持つ行だけ数値に変換する
         
         return self
+        
 def main():
     ....
     # カテゴリデータのone-hot encoding
@@ -209,6 +210,7 @@ def main():
     prePro2.print( "カテゴリデータのone-hot encoding" )
     ....
 ``` 
+
 |size|price|color_blue|color_green|color_red|
 |---|---|---|---|---|
 |0|1|10.1|0|1|0|
