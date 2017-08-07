@@ -3,6 +3,7 @@
 
 import numpy
 import matplotlib.pyplot as plt
+import pandas
 
 # scikit-learn ライブラリ関連
 from sklearn import datasets                            # 
@@ -45,19 +46,31 @@ def main():
     #--------------------------------------------------
     prePro2 = DataPreProcess.DataPreProcess()
 
+    # list から pandas データフレームを作成
     prePro2.setDataFrame(
-        [
-            ['green', 'M', 10.1, 'class1'],
-            ['red', 'L', 13.5, 'class2'],
-            ['blue', 'XL', 15.3, 'class1']
-        ]
+        dataFrame= [ 
+                ['green', 'M', 10.1, 'class1'], 
+                ['red', 'L', 13.5, 'class2'], 
+                ['blue', 'XL', 15.3, 'class1'] 
+            ]
     )
 
-    #prePro2.setColumns( columns = ['color', 'size', 'price', 'classlabel'] )
+    prePro2.print()
+
+    # pandas データフレームにコラム（列）を追加
+    prePro2.setColumns( ['color', 'size', 'price', 'classlabel'] )
     prePro2.print()
     
-
-
+    # 順序特徴量 size の map(directionary) を作成
+    dict_size = {
+        'XL': 3,
+        'L': 2,
+        'M': 1
+    }
+    # 作成した map で順序特徴量を整数化
+    prePro2.MappingOrdinalFeatures( key = 'size', input_dict = dict_size )
+    prePro2.print()
+    
 
     print("Finish main()")
     return
