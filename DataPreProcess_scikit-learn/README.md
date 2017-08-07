@@ -20,14 +20,30 @@ csv data (欠損値 NaN を含むデータ)
 欠損値 NaN の平均値補完
 
 ```
+import numpy
+import pandas
 from sklearn.preprocessing import Imputer
-imputer = Imputer( 
+
+class DataPreProcess( object ):
+    ....
+    
+    def meanImputationNaN( self, axis = 0 ):
+        """
+        欠損値 [NaN] を平均値で補完する
+        [Input]
+            axis : int
+                0 : NaN を列の平均値で補完
+                1 : NaN を行の平均値で補完
+        """
+        imputer = Imputer( 
                       missing_values = 'NaN', 
                       strategy = 'mean', 
                       axis = axis       # 0 : 列の平均値, 1 : 行の平均値
                   )
         
-imputer.fit( self.df_ )         # self.df_ は１次配列に変換されることに注意
+    imputer.fit( self.df_ )         # self.df_ は１次配列に変換されることに注意
+    self.df_ = imputer.transform( self.df_ )
+    return self
 ```
 
 ||A|B|C|D|
@@ -58,6 +74,42 @@ pandas データフレームにコラム（列）を追加
 |2  |blue  |XL  |15.3 |class1|
 
 順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化
+
+```
+import numpy
+import pandas
+...
+
+class DataPreProcess( object ):
+...
+
+    def EncodeClassLabel( self, key ):
+        """
+        クラスラベルを表す文字列を 0,1,2,.. の順に整数化する.（ディクショナリマッピング方式）
+        [Input]
+            key : string
+                整数化したいクラスラベルの文字列
+        """
+        mapping = { label: idx for idx, label in enumerate( numpy.unique( self.df_[key]) ) }
+        self.df_[key] = self.df_[key].map( mapping )
+
+        return self
+
+def main():
+    ....
+    # 順序特徴量 size の map(directionary) を作成
+    dict_size = {
+        'XL': 3,
+        'L': 2,
+        'M': 1
+    }
+    # 作成した map で順序特徴量を整数化
+    prePro2.MappingOrdinalFeatures( key = 'size', input_dict = dict_size )
+    prePro2.print( "順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化" )
+    
+    # クラスラベルのエンコーディング（ディクショナリマッピング方式）
+    prePro2.EncodeClassLabel("classlabel")
+```
 
 ||color  |size  |price |classlabel|
 |---|---|---|---|---|
