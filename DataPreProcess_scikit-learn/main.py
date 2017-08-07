@@ -80,6 +80,28 @@ def main():
     prePro2.print( "カテゴリデータのone-hot encoding" )
 
 
+    #--------------------------------------------------
+    # Practice 3 : データセットの分割
+    # トレーニングデータとテストデータへの分割
+    #--------------------------------------------------
+    prePro3 = DataPreProcess.DataPreProcess()
+
+    # Wine データセットの読み込み
+    prePro3.setDataFrameFromCsvFile( "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data" )
+    
+    # 列名をセット
+    prePro3.setColumns( 
+        [
+            'Class label', 'Alcohol', 'Malic acid', 'Ash',
+            'Alcalinity of ash', 'Magnesium', 'Total phenols',
+            'Flavanoids', 'Nonflavanoid phenols', 'Proanthocyanins',
+            'Color intensity', 'Hue', 'OD280/OD315 of diluted wines',
+            'Proline'
+        ] 
+    )
+
+    prePro3.print("Wine データセット")
+
 
     print("Finish main()")
     return

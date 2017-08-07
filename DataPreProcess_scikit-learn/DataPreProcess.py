@@ -39,9 +39,14 @@ class DataPreProcess( object ):
         return
 
     def print( self, str = '' ):
-        print( self )
+        print("\n")
+        print("-------------------------------------------------------------------")
         print( str )
+        print("\n")
+        print("<pandas DataFrame> \n")
         print( self.df_ )
+        print( self )
+        print("-------------------------------------------------------------------")
         return
 
     def setDataFrame( self, dataFrame ):
