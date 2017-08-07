@@ -49,13 +49,13 @@ class DataPreProcess( object ):
         print("-------------------------------------------------------------------")
         return
 
-    def setDataFrame( self, dataFrame ):
+    def setDataFrameFromList( self, list ):
         """
         [Input]
-            dataFrame : list
+            list : list
 
         """
-        self.df_ = pandas.DataFrame( dataFrame )
+        self.df_ = pandas.DataFrame( list )
 
         return self
 
@@ -118,7 +118,7 @@ class DataPreProcess( object ):
         
         return self
     
-    def MappingOrdinalFeatures( self, key, input_dict ):
+    def mappingOrdinalFeatures( self, key, input_dict ):
         """
         順序特徴量のマッピング（整数への変換）
         
@@ -133,7 +133,7 @@ class DataPreProcess( object ):
 
         return self
 
-    def EncodeClassLabel( self, key ):
+    def encodeClassLabel( self, key ):
         """
         クラスラベルを表す文字列を 0,1,2,.. の順に整数化する.（ディクショナリマッピング方式）
 
@@ -146,7 +146,7 @@ class DataPreProcess( object ):
 
         return self
 
-    def OneHotEncode( self, categories, col ):
+    def oneHotEncode( self, categories, col ):
         """
         カテゴリデータ（名義特徴量, 順序特徴量）の One-hot Encoding を行う.
 
@@ -177,6 +177,36 @@ class DataPreProcess( object ):
     #---------------------------------------------------------
     # データセットの分割を行う関数群
     #---------------------------------------------------------
+    def dataTrainTestSplit( self, X_input, y_input, ratio_test = 0.3 ):
+        """
+        データをトレーニングデータとテストデータに分割する。
+        分割は, ランダムサンプリングで行う.
+
+        [Input]
+            X_input : Matrix (行と列からなる配列)
+                特徴行列
+
+            y_input : 配列
+                教師データ
+
+            ratio_test : float
+                テストデータの割合 (0.0~1.0)
+
+        [Output]
+            X_train : トレーニングデータ用の Matrix (行と列からなる配列)
+            X_test  : テストデータの Matrix (行と列からなる配列)
+            y_train : トレーニングデータ用教師データ配列
+            y_test  : テストデータ用教師データ配列
+        """
+
+        X_train, X_test, y_train, y_test = train_test_split(
+                                               X = X_input, 
+                                               y = y_input, 
+                                               test_size = ratio_test, 
+                                               random_state = 0 
+                                           )
+
+        return X_train, X_test, y_train, y_test
 
     #---------------------------------------------------------
     # データのスケーリングを行う関数群

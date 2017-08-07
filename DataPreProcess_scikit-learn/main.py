@@ -47,8 +47,8 @@ def main():
     prePro2 = DataPreProcess.DataPreProcess()
 
     # list から pandas データフレームを作成
-    prePro2.setDataFrame(
-        dataFrame= [ 
+    prePro2.setDataFrameFromList(
+        list = [ 
                 ['green', 'M', 10.1, 'class1'], 
                 ['red', 'L', 13.5, 'class2'], 
                 ['blue', 'XL', 15.3, 'class1'] 
@@ -68,15 +68,15 @@ def main():
         'M': 1
     }
     # 作成した map で順序特徴量を整数化
-    prePro2.MappingOrdinalFeatures( key = 'size', input_dict = dict_size )
+    prePro2.mappingOrdinalFeatures( key = 'size', input_dict = dict_size )
     prePro2.print( "順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化" )
     
     # クラスラベルのエンコーディング（ディクショナリマッピング方式）
-    prePro2.EncodeClassLabel("classlabel")
+    prePro2.encodeClassLabel("classlabel")
     prePro2.print( "クラスラベルのエンコーディング（ディクショナリマッピング方式" )
 
     # カテゴリデータのone-hot encoding
-    prePro2.OneHotEncode( categories = ['color', 'size', 'price'], col = 0 )
+    prePro2.oneHotEncode( categories = ['color', 'size', 'price'], col = 0 )
     prePro2.print( "カテゴリデータのone-hot encoding" )
 
 
@@ -102,6 +102,25 @@ def main():
 
     prePro3.print("Wine データセット")
 
+    X_train, X_test, y_train, y_test = prePro3.dataTrainTestSplit( 
+        X_input = prePro3.df_.iloc[:, 1:].values,   #
+        y_input = prePro3.df_.iloc[:, 0].values,    #
+        ratio_test = 0.3
+    )
+
+    #--------------------------------------------------
+    # Practice 4 : 特徴量のスケーリング
+    # 正規化 [normalization], 標準化 [standardization]
+    #--------------------------------------------------
+    prePro4_X_train = DataPreProcess.DataPreProcess()
+    prePro4_X_test = DataPreProcess.DataPreProcess()
+
+    #prePro_X_train.se
+
+    #--------------------------------------------------
+    # Practice 5 : 有益な特徴量の選択
+    # L1正則化による疎な解
+    #--------------------------------------------------
 
     print("Finish main()")
     return
