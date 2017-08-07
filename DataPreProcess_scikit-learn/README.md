@@ -11,7 +11,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 
 csv data
 
-|ー|A|B|C|D|
+||A|B|C|D|
 |:--:|:--:|:--:|:--:|:--:|
 |0|1.0|2.0|3.0|4.0|
 |1|5.0|6.0|NaN|8.0|
@@ -29,7 +29,7 @@ csv data
 
 list から pandas データフレームを作成
 
-|ー|0|1|2|3|
+||0|1|2|3|
 |---|---|---|---|---|
 |0 |green |M   |10.1  |class1|
 |1 |red   |L   |13.5  |class2|
@@ -37,7 +37,7 @@ list から pandas データフレームを作成
 
 pandas データフレームにコラム（列）を追加
 
-|ー|color |size  |price |classlabel|
+||color |size  |price |classlabel|
 |---|---|---|---|---|
 |0  |green |M   |10.1 |class1|
 |1  |red   |L   |13.5 |class2|
@@ -47,7 +47,7 @@ pandas データフレームにコラム（列）を追加
 
 順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化
 
-|ー|color  |size  |price |classlabel|
+||color  |size  |price |classlabel|
 |---|---|---|---|---|
 |0  |green  |1 |10.1  |class1 |
 |1  |red    |2 |13.5  |class2 |
