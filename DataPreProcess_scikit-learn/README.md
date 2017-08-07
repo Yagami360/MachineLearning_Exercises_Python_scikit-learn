@@ -103,7 +103,14 @@ import pandas
 
 class DataPreProcess( object ):
 ...
-
+    def setColumns( self, columns ):
+        """
+        データフレームにコラム（列）を設定する。
+        """
+        self.df_.columns = columns
+        
+        return self
+        
     def EncodeClassLabel( self, key ):
         """
         クラスラベルを表す文字列を 0,1,2,.. の順に整数化する.（ディクショナリマッピング方式）
