@@ -19,6 +19,12 @@ csv data (欠損値 NaN を含むデータ)
 
 欠損値 NaN の平均値補完
 
+||A|B|C|D|
+|:--:|:--:|:--:|:--:|:--:|
+|0|1.0|2.0|3.0|4.0|
+|1|5.0|6.0|7.5|8.0|
+|2|10.0|11.0|12.0|6.0|
+
 ```
 import numpy
 import pandas
@@ -67,12 +73,6 @@ def main():
     prePro1.print( "欠損値 NaN の平均値補完" )
 ```
 
-||A|B|C|D|
-|:--:|:--:|:--:|:--:|:--:|
-|0|1.0|2.0|3.0|4.0|
-|1|5.0|6.0|7.5|8.0|
-|2|10.0|11.0|12.0|6.0|
-
 ## Practice 2 : カテゴリデータ（名義 [nominal] 特徴量、順序 [ordinal] 特徴量）の処理
 
 #### ・名義 [nominal] 特徴量の map(directionary) での整数化
@@ -95,6 +95,12 @@ pandas データフレームにコラム（列）を追加
 |2  |blue  |XL  |15.3 |class1|
 
 順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化
+
+||color  |size  |price |classlabel|
+|---|---|---|---|---|
+|0  |green  |1 |10.1  |class1 |
+|1  |red    |2 |13.5  |class2 |
+|2  |blue   |3 |15.3  |class1 |
 
 ```
 import numpy
@@ -162,13 +168,13 @@ def main():
     ....
 ```
 
-||color  |size  |price |classlabel|
-|---|---|---|---|---|
-|0  |green  |1 |10.1  |class1 |
-|1  |red    |2 |13.5  |class2 |
-|2  |blue   |3 |15.3  |class1 |
-
 #### ・カテゴリデータの one-hot encoding
+
+|size|price|color_blue|color_green|color_red|
+|---|---|---|---|---|
+|0|1|10.1|0|1|0|
+|1|2|13.5|0|0|1|
+|2|3|15.3|1|0|0|
 
 ```
 ....
@@ -210,13 +216,6 @@ def main():
     prePro2.print( "カテゴリデータのone-hot encoding" )
     ....
 ``` 
-
-|size|price|color_blue|color_green|color_red|
-|---|---|---|---|---|
-|0|1|10.1|0|1|0|
-|1|2|13.5|0|0|1|
-|2|3|15.3|1|0|0|
-
 
 ## Practice 3 : データセットの分割
 
