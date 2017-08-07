@@ -42,7 +42,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 #### クラスラベルのエンコーディング（ディクショナリマッピング方式）
 
 |順序特徴量 size の map(directionary) を作成し、作成した map で順序特徴量を整数化|color  |size  |price |classlabel|
-|:-:|:-:|:-:|:-:|:-:|:-:|
+|---|---|---|---|---|
 |0  |green  |1 |10.1  |class1 |
 |1  |red    |2 |13.5  |class2 |
 |2  |blue   |3 |15.3  |class1 |
@@ -50,7 +50,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 #### カテゴリデータの one-hot encoding
 
 |size|price|color_blue|color_green|color_red|
-|---|---|---|---|---|
+|---|---|---|---|---|---|
 |0     |1   |10.1           |0            |1          |0
 |1     |2   |13.5           |0            |0          |1
 |2     |3   |15.3           |1            |0          |0
