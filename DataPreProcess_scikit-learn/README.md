@@ -8,7 +8,7 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 ## Practice 1 : 欠損値 NaN への対応
 
 ・欠損値 NaNの補完（平均値）
-
+`
 <DataPreProcess.DataPreProcess object at 0x0000000002A80470>
 csv data
                      A     B     C    D
@@ -20,7 +20,7 @@ csv data
 [[  1.    2.    3.    4. ]
  [  5.    6.    7.5   8. ]
  [ 10.   11.   12.    6. ]]
- 
+ `
  
 ## Practice 2 : カテゴリデータの処理
 
