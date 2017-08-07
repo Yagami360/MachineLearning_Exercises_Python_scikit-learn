@@ -181,6 +181,8 @@ def main():
 from sklearn.preprocessing import OneHotEncoder         # One-hot encoding 用に使用
 
 class DataPreProcess( object ): 
+    ....
+    
     def OneHotEncode( self, categories, col ):
         """
         カテゴリデータ（名義特徴量, 順序特徴量）の One-hot Encoding を行う.
