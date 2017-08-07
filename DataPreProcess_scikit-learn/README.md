@@ -26,6 +26,7 @@ csv data (欠損値 NaN を含むデータ)
 |2|10.0|11.0|12.0|6.0|
 
 ```
+# 関連箇所コード抜粋
 import numpy
 import pandas
 ....
@@ -103,12 +104,23 @@ pandas データフレームにコラム（列）を追加
 |2  |blue   |3 |15.3  |class1 |
 
 ```
+# 関連箇所コード抜粋
 import numpy
 import pandas
 ...
 
 class DataPreProcess( object ):
-...
+    ....
+    def setDataFrame( self, dataFrame ):
+        """
+        [Input]
+            dataFrame : list
+
+        """
+        self.df_ = pandas.DataFrame( dataFrame )
+
+        return self
+        
     def setColumns( self, columns ):
         """
         データフレームにコラム（列）を設定する。
@@ -177,6 +189,7 @@ def main():
 |2|3|15.3|1|0|0|
 
 ```
+#関連箇所コード抜粋
 ....
 from sklearn.preprocessing import OneHotEncoder         # One-hot encoding 用に使用
 
