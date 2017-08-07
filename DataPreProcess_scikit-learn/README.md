@@ -9,6 +9,19 @@ pandas ライブラリ、scikit-learn ライブラリを使用。
 
 ・欠損値 NaNの補完（平均値）
 
+<DataPreProcess.DataPreProcess object at 0x0000000002A80470>
+csv data
+                     A     B     C    D
+0                  1.0   2.0   3.0  4.0
+1                  5.0   6.0   NaN  8.0
+2                 10.0  11.0  12.0  NaN
+<DataPreProcess.DataPreProcess object at 0x0000000002A80470>
+欠損値 NaN の平均値補完
+[[  1.    2.    3.    4. ]
+ [  5.    6.    7.5   8. ]
+ [ 10.   11.   12.    6. ]]
+ 
+ 
 ## Practice 2 : カテゴリデータの処理
 
 ・名義 [nominal] 特徴量、順序 [ordinal] 特徴量
