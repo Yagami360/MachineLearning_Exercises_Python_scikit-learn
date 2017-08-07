@@ -22,6 +22,7 @@ csv data (欠損値 NaN を含むデータ)
 ```
 import numpy
 import pandas
+....
 from sklearn.preprocessing import Imputer
 
 class DataPreProcess( object ):
@@ -44,6 +45,26 @@ class DataPreProcess( object ):
     imputer.fit( self.df_ )         # self.df_ は１次配列に変換されることに注意
     self.df_ = imputer.transform( self.df_ )
     return self
+
+def main():
+    ....
+    #-----------------------------------------
+    # Practice 1 : 欠損値 NaN の補完
+    #-----------------------------------------
+    prePro1 = DataPreProcess.DataPreProcess()
+
+    csv_data = '''
+                  A,B,C,D
+                  1.0,2.0,3.0,4.0
+                  5.0,6.0,,8.0
+                  10.0,11.0,12.0,
+               '''
+    
+    prePro1.setDataFrameFromCsvData( csv_data )
+    prePro1.print( "csv data" )
+
+    prePro1.meanImputationNaN()
+    prePro1.print( "欠損値 NaN の平均値補完" )
 ```
 
 ||A|B|C|D|
@@ -97,6 +118,27 @@ class DataPreProcess( object ):
 
 def main():
     ....
+    #--------------------------------------------------
+    # Practice 2 : カテゴリデータの処理
+    # 名義 [nominal] 特徴量、順序 [ordinal] 特徴量
+    #--------------------------------------------------
+    prePro2 = DataPreProcess.DataPreProcess()
+
+    # list から pandas データフレームを作成
+    prePro2.setDataFrame(
+        dataFrame= [ 
+                ['green', 'M', 10.1, 'class1'], 
+                ['red', 'L', 13.5, 'class2'], 
+                ['blue', 'XL', 15.3, 'class1'] 
+            ]
+    )
+
+    prePro2.print( "list から pandas データフレームを作成" )
+
+    # pandas データフレームにコラム（列）を追加
+    prePro2.setColumns( ['color', 'size', 'price', 'classlabel'] )
+    prePro2.print( "pandas データフレームにコラム（列）を追加" )
+    
     # 順序特徴量 size の map(directionary) を作成
     dict_size = {
         'XL': 3,
@@ -109,6 +151,8 @@ def main():
     
     # クラスラベルのエンコーディング（ディクショナリマッピング方式）
     prePro2.EncodeClassLabel("classlabel")
+    prePro2.print( "クラスラベルのエンコーディング（ディクショナリマッピング方式" )
+    ....
 ```
 
 ||color  |size  |price |classlabel|
@@ -119,6 +163,45 @@ def main():
 
 #### ・カテゴリデータの one-hot encoding
 
+```
+....
+from sklearn.preprocessing import OneHotEncoder         # One-hot encoding 用に使用
+
+class DataPreProcess( object ): 
+    def OneHotEncode( self, categories, col ):
+        """
+        カテゴリデータ（名義特徴量, 順序特徴量）の One-hot Encoding を行う.
+
+        [Input]
+            categories : list
+                カテゴリデータの list
+
+            col : int
+                特徴行列の変換する変数の列位置 : 0 ~
+
+        """
+        X_values = self.df_[categories].values    # カテゴリデータ（特徴行列）を抽出
+        #print( X_values )
+        #print( self.df_[categories] )
+
+        # one-hot Encoder の生成
+        ohEncode = OneHotEncoder( 
+                      categorical_features = [col],    # 変換する変数の列位置：[0] = 特徴行列 X_values の最初の列
+                      sparse = False                   # ?  False : 通常の行列を返すようにする。
+                   )
+
+        # one-hot Encoding を実行
+        #self.df_ = ohEncode.fit_transform( X_values ).toarray()   # ? sparse = True の場合の処理
+        self.df_ = pandas.get_dummies( self.df_[categories] )     # 文字列値を持つ行だけ数値に変換する
+        
+        return self
+def main():
+    ....
+    # カテゴリデータのone-hot encoding
+    prePro2.OneHotEncode( categories = ['color', 'size', 'price'], col = 0 )
+    prePro2.print( "カテゴリデータのone-hot encoding" )
+    ....
+``` 
 |size|price|color_blue|color_green|color_red|
 |---|---|---|---|---|
 |0|1|10.1|0|1|0|
