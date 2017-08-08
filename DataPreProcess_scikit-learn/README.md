@@ -346,14 +346,14 @@ def main():
             'Proline'
         ] 
     )
+    
     X_train, X_test, y_train, y_test \
     = prePro3.dataTrainTestSplit( 
         X_input = prePro3.df_.iloc[:, 1:].values,   # iloc : 行、列を番号で指定（先頭が 0）。df_.iloc[:, 1:] = 全行、1~の全列
         y_input = prePro3.df_.iloc[:, 0].values,    #
         ratio_test = 0.3
     )
-
-
+....
 ``` 
 
 <a name="Practice4"></a>
@@ -363,7 +363,8 @@ def main():
 
 #### ・標準化 [standardization]（平均値：０、分散値：１）
 
-"""
+```
+# 関連箇所コード抜粋
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
 ....
 
@@ -403,7 +404,7 @@ def main():
     prePro4_y_train.print("トレーニング用教師データ")
     prePro4_y_test.print("テスト用教師データ")
     ....
-"""
+```
 
 <a name="Practice5"></a>
 ## Practice 5 : 有益な特徴量の選択
