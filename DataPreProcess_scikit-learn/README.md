@@ -292,6 +292,39 @@ class DataPreProcess( object ):
         
         return self
 
+    #---------------------------------------------------------
+    # データセットの分割を行う関数群
+    #---------------------------------------------------------
+    def dataTrainTestSplit( self, X_input, y_input, ratio_test = 0.3 ):
+        """
+        データをトレーニングデータとテストデータに分割する。
+        分割は, ランダムサンプリングで行う.
+
+        [Input]
+            X_input : Matrix (行と列からなる配列)
+                特徴行列
+
+            y_input : 配列
+                教師データ
+
+            ratio_test : float
+                テストデータの割合 (0.0 ~ 1.0)
+
+        [Output]
+            X_train : トレーニングデータ用の Matrix (行と列からなる配列)
+            X_test  : テストデータの Matrix (行と列からなる配列)
+            y_train : トレーニングデータ用教師データ配列
+            y_test  : テストデータ用教師データ配列
+        """        
+        X_train, X_test, y_train, y_test \
+        = train_test_split(
+            X_input,  y_input, 
+            test_size = ratio_test, 
+            random_state = 0             # 
+          )
+        
+        return X_train, X_test, y_train, y_test
+
 def main():
     ....
     #--------------------------------------------------
@@ -313,8 +346,14 @@ def main():
             'Proline'
         ] 
     )
+    X_train, X_test, y_train, y_test \
+    = prePro3.dataTrainTestSplit( 
+        X_input = prePro3.df_.iloc[:, 1:].values,   # iloc : 行、列を番号で指定（先頭が 0）。df_.iloc[:, 1:] = 全行、1~の全列
+        y_input = prePro3.df_.iloc[:, 0].values,    #
+        ratio_test = 0.3
+    )
 
-    ....
+
 ``` 
 
 <a name="Practice4"></a>
@@ -323,6 +362,48 @@ def main():
 #### ・正規化 [nomalization]（min-max スケーリング <0~1>）
 
 #### ・標準化 [standardization]（平均値：０、分散値：１）
+
+"""
+from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
+....
+
+class DataPreProcess( object ):
+    ....
+    #---------------------------------------------------------
+    # データのスケーリングを行う関数群
+    #---------------------------------------------------------
+    def normalized( self ):
+        """
+        自身のもつデータフレームを正規化する.
+        """
+
+        return self
+
+
+def main():
+    ....
+    #--------------------------------------------------
+    # Practice 4 : 特徴量のスケーリング
+    # 正規化 [normalization], 標準化 [standardization]
+    #--------------------------------------------------
+    # 上記の分割データ（ X_train, X_test, y_train, y_test）を設定.
+    prePro4_X_train = DataPreProcess.DataPreProcess()
+    prePro4_X_test  = DataPreProcess.DataPreProcess()
+    prePro4_y_train = DataPreProcess.DataPreProcess()
+    prePro4_y_test  = DataPreProcess.DataPreProcess()
+
+    prePro4_X_train.setDataFrameFromDataFrame( X_train )
+    prePro4_X_test.setDataFrameFromDataFrame( X_test )
+    prePro4_y_train.setDataFrameFromDataFrame( y_train )
+    prePro4_y_train.setDataFrameFromDataFrame( y_test )
+
+    # 分割データ（トレーニングデータ、テストデータ）を出力
+    prePro4_X_train.print( "トレーニングデータ" )
+    prePro4_X_test.print("テストデータ")
+    prePro4_y_train.print("トレーニング用教師データ")
+    prePro4_y_test.print("テスト用教師データ")
+    ....
+"""
 
 <a name="Practice5"></a>
 ## Practice 5 : 有益な特徴量の選択

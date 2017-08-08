@@ -59,9 +59,23 @@ class DataPreProcess( object ):
 
         return self
 
+    def setDataFrameFromDataFrame( self, dataFrame ):
+        """
+        [Input]
+            dataFrame : pandas DataFrame のオブジェクト
+
+        """
+        self.df_ = dataFrame
+
+        return self
 
     def setDataFrameFromCsvData( self, csv_data ):
+        """
+        csv フォーマットのデータを pandas DataFrame オブジェクトに変換して読み込む.
 
+        [Input]
+            csv_data : csv フォーマットのデータ
+        """
         # read_csv() 関数を用いて, csv フォーマットのデータを pandas DataFrame オブジェクトに変換して読み込む.
         self.df_ = pandas.read_csv( StringIO( csv_data ) )
         return self
@@ -190,22 +204,21 @@ class DataPreProcess( object ):
                 教師データ
 
             ratio_test : float
-                テストデータの割合 (0.0~1.0)
+                テストデータの割合 (0.0 ~ 1.0)
 
         [Output]
             X_train : トレーニングデータ用の Matrix (行と列からなる配列)
             X_test  : テストデータの Matrix (行と列からなる配列)
             y_train : トレーニングデータ用教師データ配列
             y_test  : テストデータ用教師データ配列
-        """
-
-        X_train, X_test, y_train, y_test = train_test_split(
-                                               X = X_input, 
-                                               y = y_input, 
-                                               test_size = ratio_test, 
-                                               random_state = 0 
-                                           )
-
+        """        
+        X_train, X_test, y_train, y_test \
+        = train_test_split(
+            X_input,  y_input, 
+            test_size = ratio_test, 
+            random_state = 0             # 
+          )
+        
         return X_train, X_test, y_train, y_test
 
     #---------------------------------------------------------
@@ -213,7 +226,8 @@ class DataPreProcess( object ):
     #---------------------------------------------------------
     def normalized( self ):
         """
-
+        自身のもつデータフレームを正規化する.
         """
+
         return self
 

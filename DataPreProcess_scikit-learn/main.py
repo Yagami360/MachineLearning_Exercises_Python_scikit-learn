@@ -89,7 +89,7 @@ def main():
     # Wine データセットの読み込み
     prePro3.setDataFrameFromCsvFile( "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data" )
     
-    # 列名をセット
+    # 上記URLのWine データセットにはラベルがついてないので, 列名をセット
     prePro3.setColumns( 
         [
             'Class label', 'Alcohol', 'Malic acid', 'Ash',
@@ -102,8 +102,9 @@ def main():
 
     prePro3.print("Wine データセット")
 
-    X_train, X_test, y_train, y_test = prePro3.dataTrainTestSplit( 
-        X_input = prePro3.df_.iloc[:, 1:].values,   #
+    X_train, X_test, y_train, y_test \
+    = prePro3.dataTrainTestSplit( 
+        X_input = prePro3.df_.iloc[:, 1:].values,   # iloc : 行、列を番号で指定（先頭が 0）。df_.iloc[:, 1:] = 全行、1~の全列
         y_input = prePro3.df_.iloc[:, 0].values,    #
         ratio_test = 0.3
     )
@@ -112,10 +113,24 @@ def main():
     # Practice 4 : 特徴量のスケーリング
     # 正規化 [normalization], 標準化 [standardization]
     #--------------------------------------------------
+    # わざわざ自作クラス DataPreProcess のオブジェクトを作成し, 
+    # 上記の分割データ（ X_train, X_test, y_train, y_test）を設定.
+    # ここの設計ウンコード臭がするので, 修正したい
     prePro4_X_train = DataPreProcess.DataPreProcess()
-    prePro4_X_test = DataPreProcess.DataPreProcess()
+    prePro4_X_test  = DataPreProcess.DataPreProcess()
+    prePro4_y_train = DataPreProcess.DataPreProcess()
+    prePro4_y_test  = DataPreProcess.DataPreProcess()
 
-    #prePro_X_train.se
+    prePro4_X_train.setDataFrameFromDataFrame( X_train )
+    prePro4_X_test.setDataFrameFromDataFrame( X_test )
+    prePro4_y_train.setDataFrameFromDataFrame( y_train )
+    prePro4_y_train.setDataFrameFromDataFrame( y_test )
+
+    # 分割データ（トレーニングデータ、テストデータ）を出力
+    prePro4_X_train.print( "トレーニングデータ" )
+    prePro4_X_test.print("テストデータ")
+    prePro4_y_train.print("トレーニング用教師データ")
+    prePro4_y_test.print("テスト用教師データ")
 
     #--------------------------------------------------
     # Practice 5 : 有益な特徴量の選択
