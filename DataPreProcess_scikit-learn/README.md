@@ -295,7 +295,8 @@ class DataPreProcess( object ):
     #---------------------------------------------------------
     # データセットの分割を行う関数群
     #---------------------------------------------------------
-    def dataTrainTestSplit( self, X_input, y_input, ratio_test = 0.3 ):
+    @staticmethod
+    def dataTrainTestSplit( X_input, y_input, ratio_test = 0.3 ):
         """
         データをトレーニングデータとテストデータに分割する。
         分割は, ランダムサンプリングで行う.
@@ -348,12 +349,18 @@ def main():
     )
     
     X_train, X_test, y_train, y_test \
-    = prePro3.dataTrainTestSplit( 
+    = DataPreProcess.DataPreProcess.dataTrainTestSplit( 
         X_input = prePro3.df_.iloc[:, 1:].values,   # iloc : 行、列を番号で指定（先頭が 0）。df_.iloc[:, 1:] = 全行、1~の全列
         y_input = prePro3.df_.iloc[:, 0].values,    #
         ratio_test = 0.3
     )
-....
+
+    # 分割データ（トレーニングデータ、テストデータ）を出力
+    print( "トレーニングデータ : \n", X_train )
+    print("テストデータ : \n", X_test )
+    print("トレーニング用教師データ : \n", y_train )
+    print("テスト用教師データ : \n", y_test )
+    ....
 ``` 
 
 <a name="Practice4"></a>
@@ -365,6 +372,8 @@ def main():
 
 ```
 # 関連箇所コード抜粋
+....
+from sklearn.preprocessing import MinMaxScaler          # scikit-learn の preprocessing モジュールの MinMaxScaler クラス
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
 ....
 
@@ -373,13 +382,63 @@ class DataPreProcess( object ):
     #---------------------------------------------------------
     # データのスケーリングを行う関数群
     #---------------------------------------------------------
-    def normalized( self ):
+    @staticmethod
+    def normalizedTrainTest( X_train, X_test ):
         """
-        自身のもつデータフレームを正規化する.
+        指定したトレーニングデータ, テストにデータ（データフレーム）を正規化する.
+        ここでの正規化は, min-maxスケーリング [0,1] 範囲を指す.
+        トレーニングデータは正規化だけでなく欠損値処理も行う.
+        テストデータは,トレーニングデータに対するfit()の結果で,transform()を行う必要
+
+        [Input]
+            X_train : トレーニングデータ用の Matrix (行と列からなる配列)
+            X_test  : テストデータの Matrix (行と列からなる配列)
+
+        [Output]
+            X_train_norm : 正規化されたトレーニングデータ用の Matrix (行と列からなる配列)
+            X_test_norm  : 正規化されたテストデータの Matrix (行と列からなる配列)
         """
+        mms = MinMaxScaler()
 
-        return self
+        # fit_transform() : fit()を実施した後に、同じデータに対してtransform()を実施する。
+        # トレーニングデータの場合は、それ自体の統計を基に正規化や欠損値処理を行っても問題ないので、fit_transform()を使って構わない。
+        X_train_norm = mms.fit_transform( X_train )
 
+        # transform() :  fit()で取得した統計情報を使って、渡されたデータを実際に書き換える。
+        # テストデータの場合は、比較的データ数が少なく、トレーニングデータの統計を使って正規化や欠損値処理を行うべきなので、トレーニングデータに対するfit()の結果で、transform()を行う必要がある。
+        X_test_norm = mms.transform( X_test )
+
+        return X_train_norm, X_test_norm
+        
+    @staticmethod
+    def standardizeTrainTest( X_train, X_test ):
+        """
+        指定したトレーニングデータ, テストにデータ（データフレーム）を標準化 [standardize] する.
+        ここでの標準化は, 平均値 : 0 , 分散値 : 1 への変換指す.
+        トレーニングデータは標準化だけでなく欠損値処理も行う.
+        テストデータは,トレーニングデータに対する fit() の結果で, transform() を行う.
+
+        [Input]
+            X_train : トレーニングデータ用の Matrix (行と列からなる配列)
+            X_test  : テストデータの Matrix (行と列からなる配列)
+
+        [Output]
+            X_train_std : 標準化された [standardized] トレーニングデータ用の Matrix (行と列からなる配列)
+            X_test_std  : 標準化された [standardized] テストデータの Matrix (行と列からなる配列)
+        """
+        stdsc = StandardScaler()
+
+        # fit_transform() : fit() を実施した後に, 同じデータに対して transform() を実施する。
+        # トレーニングデータの場合は, それ自体の統計を基に標準化や欠損値処理を行っても問題ないので, fit_transform() を使って構わない。
+        X_train_std = stdsc.fit_transform( X_train )
+
+        # transform() :  fit() で取得した統計情報を使って, 渡されたデータを実際に書き換える.
+        # テストデータの場合は, 比較的データ数が少なく, トレーニングデータの統計を使って標準化や欠損値処理を行うべきなので,
+        # トレーニングデータに対する fit() の結果で、transform() を行う必要がある。
+        X_test_std = stdsc.transform( X_test )
+
+        return X_train_std, X_test_std    
+    ....
 
 def main():
     ....
@@ -387,23 +446,23 @@ def main():
     # Practice 4 : 特徴量のスケーリング
     # 正規化 [normalization], 標準化 [standardization]
     #--------------------------------------------------
-    # 上記の分割データ（ X_train, X_test, y_train, y_test）を設定.
-    prePro4_X_train = DataPreProcess.DataPreProcess()
-    prePro4_X_test  = DataPreProcess.DataPreProcess()
-    prePro4_y_train = DataPreProcess.DataPreProcess()
-    prePro4_y_test  = DataPreProcess.DataPreProcess()
+    # 正規化
+    X_train_norm, X_test_norm \
+    = DataPreProcess.DataPreProcess.normalizedTrainTest( X_train, X_test )
+    
+    # 正規化後のデータを出力
+    print( "トレーニングデータ [normalized] :\n", X_train_norm )
+    print("テストデータ [normalized] : \n", X_test_norm )
 
-    prePro4_X_train.setDataFrameFromDataFrame( X_train )
-    prePro4_X_test.setDataFrameFromDataFrame( X_test )
-    prePro4_y_train.setDataFrameFromDataFrame( y_train )
-    prePro4_y_train.setDataFrameFromDataFrame( y_test )
+    # 標準化
+    X_train_std, X_test_std \
+    = DataPreProcess.DataPreProcess.standardizeTrainTest( X_train, X_test )
 
-    # 分割データ（トレーニングデータ、テストデータ）を出力
-    prePro4_X_train.print( "トレーニングデータ" )
-    prePro4_X_test.print("テストデータ")
-    prePro4_y_train.print("トレーニング用教師データ")
-    prePro4_y_test.print("テスト用教師データ")
+    # 標準化後のデータを出力
+    print( "トレーニングデータ [standardized] :\n", X_train_std )
+    print("テストデータ [standardized] : \n", X_test_std )
     ....
+
 ```
 
 <a name="Practice5"></a>

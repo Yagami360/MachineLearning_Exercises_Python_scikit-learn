@@ -103,34 +103,38 @@ def main():
     prePro3.print("Wine データセット")
 
     X_train, X_test, y_train, y_test \
-    = prePro3.dataTrainTestSplit( 
+    = DataPreProcess.DataPreProcess.dataTrainTestSplit( 
         X_input = prePro3.df_.iloc[:, 1:].values,   # iloc : 行、列を番号で指定（先頭が 0）。df_.iloc[:, 1:] = 全行、1~の全列
         y_input = prePro3.df_.iloc[:, 0].values,    #
         ratio_test = 0.3
     )
 
+    # 分割データ（トレーニングデータ、テストデータ）を出力
+    print( "トレーニングデータ : \n", X_train )
+    print("テストデータ : \n", X_test )
+    print("トレーニング用教師データ : \n", y_train )
+    print("テスト用教師データ : \n", y_test )
+
     #--------------------------------------------------
     # Practice 4 : 特徴量のスケーリング
     # 正規化 [normalization], 標準化 [standardization]
     #--------------------------------------------------
-    # わざわざ自作クラス DataPreProcess のオブジェクトを作成し, 
-    # 上記の分割データ（ X_train, X_test, y_train, y_test）を設定.
-    # ここの設計ウンコード臭がするので, 修正したい
-    prePro4_X_train = DataPreProcess.DataPreProcess()
-    prePro4_X_test  = DataPreProcess.DataPreProcess()
-    prePro4_y_train = DataPreProcess.DataPreProcess()
-    prePro4_y_test  = DataPreProcess.DataPreProcess()
+    # 正規化
+    X_train_norm, X_test_norm \
+    = DataPreProcess.DataPreProcess.normalizedTrainTest( X_train, X_test )
+    
+    # 正規化後のデータを出力
+    print( "トレーニングデータ [normalized] :\n", X_train_norm )
+    print("テストデータ [normalized] : \n", X_test_norm )
 
-    prePro4_X_train.setDataFrameFromDataFrame( X_train )
-    prePro4_X_test.setDataFrameFromDataFrame( X_test )
-    prePro4_y_train.setDataFrameFromDataFrame( y_train )
-    prePro4_y_train.setDataFrameFromDataFrame( y_test )
+    # 標準化
+    X_train_std, X_test_std \
+    = DataPreProcess.DataPreProcess.standardizeTrainTest( X_train, X_test )
 
-    # 分割データ（トレーニングデータ、テストデータ）を出力
-    prePro4_X_train.print( "トレーニングデータ" )
-    prePro4_X_test.print("テストデータ")
-    prePro4_y_train.print("トレーニング用教師データ")
-    prePro4_y_test.print("テスト用教師データ")
+    # 標準化後のデータを出力
+    print( "トレーニングデータ [standardized] :\n", X_train_std )
+    print("テストデータ [standardized] : \n", X_test_std )
+
 
     #--------------------------------------------------
     # Practice 5 : 有益な特徴量の選択
