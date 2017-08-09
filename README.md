@@ -55,11 +55,6 @@ README.md：コード実行結果の解説と合わせて、理論の解説も�
 
 ![perceptron_scikit-learn_2](https://user-images.githubusercontent.com/25688193/28395827-d3c43ef6-6d31-11e7-9421-0fb406a6ec49.png)
 
-データの分割に使用した、交差確認法（クロスバリデーション）について
-
-![twitter_ 5-2_160919](https://user-images.githubusercontent.com/25688193/28366331-2ee5c04a-6cc7-11e7-9085-210c9b0de274.png)
-
-
 <a name="LogisticRegression_scikit-learn"></a>
 ## ./LogisticRegression_scikit-learn
 ![twitter_ 18-1_161130](https://user-images.githubusercontent.com/25688193/28620065-596c98e6-7246-11e7-86bc-b162dc67923f.png)
