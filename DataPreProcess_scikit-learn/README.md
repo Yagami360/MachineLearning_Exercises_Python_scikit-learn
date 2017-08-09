@@ -468,4 +468,17 @@ def main():
 <a name="Practice5"></a>
 ## Practice 5 : 有益な特徴量の選択
 
+バイアス・分散トレードオフと過学習、及び正則化による過学習への対応
+
+![twitter_ _3-1_160924](https://user-images.githubusercontent.com/25688193/28652178-310a6984-72c1-11e7-994c-d28390cd000b.png)
+![twitter_ _3-2_160924](https://user-images.githubusercontent.com/25688193/28652185-381f5356-72c1-11e7-8fae-37e7f77b4e30.png)
+![twitter_ _3-3_160924](https://user-images.githubusercontent.com/25688193/28652189-3da74482-72c1-11e7-8050-866a21cba355.png)
+![twitter_ _3-4_170727](https://user-images.githubusercontent.com/25688193/28652195-456e0480-72c1-11e7-96c4-c2d9ee8ba273.png)
+
+＜機械学習＆Pythonの練習Memo＞
+
+ロジスティクス回帰の逆正則化パラメータ C の値と正則化の強さの関係（ロジスティクス回帰における、L2正則化による過学習への対応）正則化の強さを確認するため、重み係数 w と逆正則化パラメータ C の関係を plot
+![twitter_ 18-19_170727](https://user-images.githubusercontent.com/25688193/28652198-4b09b560-72c1-11e7-8053-a9e00b280ef8.png)
+
 #### ・L1正則化による疎な解
+
