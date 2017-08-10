@@ -490,3 +490,80 @@ L2正則化が重みベクトルの２乗和 ∑w^2 で与えられるのに対�
 その結果、コスト関数とL1正則化による制限双方を満たす最適解（最小値）は、特定の特徴の重み軸で最小化が行われることになり、他の特徴量に対しては疎な解（ほとんどの特徴量の重みが０になるような解）が得られる。
 
 ![twitter_ _3-8_170810](https://user-images.githubusercontent.com/25688193/29160054-ccc1b816-7deb-11e7-8fc4-2ba7380ce9f0.png)
+
+ロジスティクス回帰モデルでの L1 正則化による特徴の重みの変化の図
+
+![datapreprocess_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29161716-3e730c8e-7df2-11e7-8e03-be01c29b3841.png)
+
+```
+....
+from sklearn.linear_model import LogisticRegression
+
+# 関連箇所コード抜粋
+def main():
+    ....
+    #--------------------------------------------------------
+    # Practice 5 : 有益な特徴量の選択
+    # L1正則化による疎な解（ロジスティクス回帰モデルで検証）
+    #--------------------------------------------------------
+    logReg = LogisticRegression(
+        penalty = 'l1',     # L1正則化
+        C = 0.1             # 逆正則化パラメータ
+    )
+
+    logReg.fit( X_train_std, y_train )
+    
+    print( 'Training accuracy:', logReg.score( X_train_std, y_train ) )
+    print( 'Test accuracy:', logReg.score( X_test_std, y_test ) )
+
+    print("切片 :",logReg.intercept_ )
+    print("重み係数 : \n",logReg.coef_ )
+
+    #----------------------------------------
+    # 図の作図
+    fig = plt.figure()
+    ax = plt.subplot(1, 1, 1)
+    
+    # 各係数（特徴）の色のリスト
+    colors = [
+                 'blue', 'green', 'red', 'cyan', 'magenta', 'yellow', 'black', 
+                 'pink', 'lightgreen', 'lightblue', 'gray', 'indigo', 'orange'
+             ]
+
+    # 重み係数のリスト、逆正則化パラメータのリスト（空のリストで初期化）
+    weights = [] 
+    params = []
+
+    # 逆正則化パラメータの値毎に処理を繰り返す
+    for c in numpy.arange(-4., 6.):
+        lr = LogisticRegression( penalty = 'l1', C = 10.**c, random_state = 0 )
+        lr.fit( X_train_std, y_train )
+        weights.append( lr.coef_[1] )
+        params.append( 10.**c )
+
+    weights = numpy.array( weights )    # 重み係数を Numpy 配列に変換
+
+    # 各重み係数をプロット
+    for column, color in zip( range(weights.shape[1]), colors ):
+        # 折れ線グラフ
+        plt.plot(
+            params, weights[:, column],
+            label = prePro3.df_.columns[column + 1],
+            color = color
+        )
+    
+    plt.grid()
+    plt.axhline( 0, color = 'black', linestyle = '--', linewidth = 3 )
+    plt.xlim( [10**(-5), 10**5] )
+    plt.ylabel('weight coefficient')
+    plt.xlabel('C [Reverse regularization parameter] (log scale)')
+    plt.xscale('log')   # x 軸を log スケール化
+    plt.legend(loc='lower left')
+    plt.tight_layout()
+
+    plt.savefig( 'DataPreProcess_scikit-learn_1.png', dpi=300, bbox_inches = 'tight' )
+    plt.show()
+
+
+    ....
+```
