@@ -368,7 +368,8 @@ def main():
 
 #### ・正規化 [nomalization]（min-max スケーリング <0~1>）
 
-トレーニングデータ [normalized]
+トレーニングデータ [normalized] :
+
 ||[ Alcohol, Malic acid, Ash, Alcalinity of ash, Magnesium, Total phenols, Flavanoids, Nonflavanoid phenols, Proanthocyanins, Color intensity, Hue, OD280/OD315 of diluted wines,  Proline ] |
 |---|:---|
 |0|[ 0.72043011,  0.20378151,  0.53763441, ...,  0.48717949,  1.,          0.5854251 ]|
@@ -377,6 +378,7 @@ def main():
 |...| [...] |
 
 テストデータ [normalized] : 
+
 ||[ Alcohol, Malic acid, Ash, Alcalinity of ash, Magnesium, Total phenols, Flavanoids, Nonflavanoid phenols, Proanthocyanins, Color intensity, Hue, OD280/OD315 of diluted wines,  Proline ] |
 |---|:---|
 |0|[ 0.72849462,  0.16386555,  0.47849462,  0.29896907,  0.52173913,  0.53956835 ,0.74311927, 0.13461538, 0.37974684,  0.4364852,   0.32478632,  0.70695971, 0.60566802 ]|
