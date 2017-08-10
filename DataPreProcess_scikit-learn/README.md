@@ -474,6 +474,7 @@ def main():
 ![twitter_ _3-2_160924](https://user-images.githubusercontent.com/25688193/28652185-381f5356-72c1-11e7-8fae-37e7f77b4e30.png)
 ![twitter_ _3-3_160924](https://user-images.githubusercontent.com/25688193/28652189-3da74482-72c1-11e7-8050-866a21cba355.png)
 ![twitter_ _3-4_170727](https://user-images.githubusercontent.com/25688193/28652195-456e0480-72c1-11e7-96c4-c2d9ee8ba273.png)
+![twitter_ _3-5_170810](https://user-images.githubusercontent.com/25688193/29157553-5ed3f980-7de2-11e7-9d74-6bd33193dd0f.png)
 
 ＜機械学習＆Pythonの練習Memo＞
 
@@ -482,3 +483,8 @@ def main():
 
 #### ・L1正則化による疎な解
 
+＜Memo＞ L1正則化による過学習への対応、及び疎な解 [Sparseness] と次元圧縮
+
+L2正則化が重みベクトルの２乗和 ∑w^2 で与えられるのに対し、L1正則化は単に重みベクトルの絶対和 ∑w で与えられる。
+この L1 正則化による重みの変化の制限（正則化最小２乗法）を幾何学的に考えると、重みベクトル空間において、L1正則化による制限がひし形な形状となる。
+その結果、コスト関数とL1正則化による制限双方を満たす最適解（最小値）は、特定の特徴の重み軸で最小化が行われることになり、他の特徴量に対しては疎な解（ほとんどの特徴量の重みが０になるような解）が得られる。
