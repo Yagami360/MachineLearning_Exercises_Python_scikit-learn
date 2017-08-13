@@ -42,11 +42,11 @@
 
 ![pca_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29246420-1ecbdf3e-8034-11e7-9732-1979c1d9c597.png)
 
-13×178 次元のデータ → 124×2 次元のデータに次元削除（特徴抽出）（※124は分割したトレーニングデータ数）
+13×178 次元のワインデータ → 2×124 次元のデータに次元削除（特徴抽出）（※124は分割したトレーニングデータ数）
 
 寄与率と累積寄与率の図より、第１主成分と第２主成分だけで、全体のデータの６０％近くを説明できることから、次元削除（特徴抽出）した、124×2 次元のデータでワインデータのクラス識別を行なった。
 
-![pca_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29246715-2d9b08be-803e-11e7-8955-3ebff2f7e867.png)
+![pca_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29248581-7521b3fa-8056-11e7-804c-a99d24d184b4.png)
 
 ### Theory
 ![twitter_ _1-1_170812](https://user-images.githubusercontent.com/25688193/29239290-5fb880fa-7f86-11e7-8ccf-a4d5b7d5cb93.png)

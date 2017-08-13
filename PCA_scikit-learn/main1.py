@@ -227,11 +227,11 @@ def main():
             label = l, 
             marker = m
         )
-
-    # 
+    
+    plt.title("Idification Result (PCA)\n 13×178 dim → 2×124 dim [dimension / feature extraction]")
     plt.xlabel('PC 1')
     plt.ylabel('PC 2')
-    plt.legend(loc='lower left')
+    plt.legend(loc='upper left')
     plt.tight_layout()
 
     # 図の保存＆表示
