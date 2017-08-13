@@ -71,13 +71,15 @@
 ## Theory
 ![twitter_ _1-1_170812](https://user-images.githubusercontent.com/25688193/29239290-5fb880fa-7f86-11e7-8ccf-a4d5b7d5cb93.png)
 
-PCAの分散最大化による定式化
+### PCAの分散最大化による定式化
 
 ![twitter_pca_1-1_170812](https://user-images.githubusercontent.com/25688193/29239293-62991898-7f86-11e7-9f89-eb3b8fcd02a9.png)
 ![twitter_pca_1-2_170812](https://user-images.githubusercontent.com/25688193/29240813-9eac90e6-7fa7-11e7-9205-836d275f4d64.png)
 ![twitter_pca_1-3_170813](https://user-images.githubusercontent.com/25688193/29246918-bf1356c2-8041-11e7-9bd8-0c708c562d4c.png)
 
-PCAの誤差最小化による定式化
+尚、PCA での射影行列は線形変換であるので、PCA による次元削除法は、線形分離可能な問題に適した、所詮線形変換法であることに注意。非線形問題に対応したのが、カーネルPCA [kernel Principal Component Analysis]になる。
+
+### PCAの誤差最小化による定式化
 
 ![twitter_ _ 1-1_161209](https://user-images.githubusercontent.com/25688193/29246920-c49d31d0-8041-11e7-8f4f-10d130c6c370.png)
 ![twitter_ _ 1-2_161209](https://user-images.githubusercontent.com/25688193/29246921-c49d4440-8041-11e7-950a-b26f7308112f.png)
