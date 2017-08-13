@@ -1,6 +1,6 @@
 ## 主成分分析 [PCA : Principal Component Analysis] による教師なしデータの次元削除、特徴抽出
 
-### コードの実行結果
+## コードの実行結果
 
  Wine データセット (https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data)
 
@@ -49,7 +49,7 @@
 
 ![pca_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29248635-f33244ac-8057-11e7-9de8-89b925f16560.png)
 
-### Theory
+## Theory
 ![twitter_ _1-1_170812](https://user-images.githubusercontent.com/25688193/29239290-5fb880fa-7f86-11e7-8ccf-a4d5b7d5cb93.png)
 
 PCAの分散最大化による定式化
