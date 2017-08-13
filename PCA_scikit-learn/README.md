@@ -1,6 +1,6 @@
-# 主成分分析 [PCA : Principal Component Analysis] による教師なしデータの次元削除、特徴抽出
+## 主成分分析 [PCA : Principal Component Analysis] による教師なしデータの次元削除、特徴抽出
 
-## コードの実行結果
+### コードの実行結果
 
  Wine データセット (https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data)
 
@@ -48,9 +48,21 @@
 
 ![pca_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29246715-2d9b08be-803e-11e7-8955-3ebff2f7e867.png)
 
-## Theory
+### Theory
 ![twitter_ _1-1_170812](https://user-images.githubusercontent.com/25688193/29239290-5fb880fa-7f86-11e7-8ccf-a4d5b7d5cb93.png)
 
 ![twitter_pca_1-1_170812](https://user-images.githubusercontent.com/25688193/29239293-62991898-7f86-11e7-9f89-eb3b8fcd02a9.png)
 ![twitter_pca_1-2_170812](https://user-images.githubusercontent.com/25688193/29240813-9eac90e6-7fa7-11e7-9205-836d275f4d64.png)
-![twitter_pca_1-3_170813](https://user-images.githubusercontent.com/25688193/29242094-602bc5b6-7fc1-11e7-8859-ecabbead4ad7.png)
+![twitter_pca_1-3_170813](https://user-images.githubusercontent.com/25688193/29246918-bf1356c2-8041-11e7-9bd8-0c708c562d4c.png)
+
+
+![twitter_ _ 1-10_161209](https://user-images.githubusercontent.com/25688193/29246919-c49cf012-8041-11e7-8102-e04e4d4e1a80.png)
+![twitter_ _ 1-1_161209](https://user-images.githubusercontent.com/25688193/29246920-c49d31d0-8041-11e7-8f4f-10d130c6c370.png)
+![twitter_ _ 1-2_161209](https://user-images.githubusercontent.com/25688193/29246921-c49d4440-8041-11e7-950a-b26f7308112f.png)
+![twitter_ _ 1-3_161209](https://user-images.githubusercontent.com/25688193/29246922-c49d4da0-8041-11e7-9688-a415b282b863.png)
+![twitter_ _ 1-4_161209](https://user-images.githubusercontent.com/25688193/29246924-c49e1258-8041-11e7-84d2-351415a2b231.png)
+![twitter_ _ 1-5_161209](https://user-images.githubusercontent.com/25688193/29246923-c49e004c-8041-11e7-9ce9-615cd35a1ed9.png)
+![twitter_ _ 1-6_161209](https://user-images.githubusercontent.com/25688193/29246925-c4bf99c8-8041-11e7-9a04-20162af35f68.png)
+![twitter_ _ 1-7_161209](https://user-images.githubusercontent.com/25688193/29246927-c4bff49a-8041-11e7-9c40-f054884f774e.png)
+![twitter_ _ 1-8_161209](https://user-images.githubusercontent.com/25688193/29246926-c4bfbe26-8041-11e7-8243-bde1a5d99b93.png)
+![twitter_ _ 1-9_161209](https://user-images.githubusercontent.com/25688193/29246928-c4c059bc-8041-11e7-843f-177faae564c5.png)
