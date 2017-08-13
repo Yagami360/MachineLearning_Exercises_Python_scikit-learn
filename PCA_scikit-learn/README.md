@@ -51,12 +51,14 @@
 ### Theory
 ![twitter_ _1-1_170812](https://user-images.githubusercontent.com/25688193/29239290-5fb880fa-7f86-11e7-8ccf-a4d5b7d5cb93.png)
 
+PCAの分散最大化による定式化
+
 ![twitter_pca_1-1_170812](https://user-images.githubusercontent.com/25688193/29239293-62991898-7f86-11e7-9f89-eb3b8fcd02a9.png)
 ![twitter_pca_1-2_170812](https://user-images.githubusercontent.com/25688193/29240813-9eac90e6-7fa7-11e7-9205-836d275f4d64.png)
 ![twitter_pca_1-3_170813](https://user-images.githubusercontent.com/25688193/29246918-bf1356c2-8041-11e7-9bd8-0c708c562d4c.png)
 
+PCAの誤差最小化による定式化
 
-![twitter_ _ 1-10_161209](https://user-images.githubusercontent.com/25688193/29246919-c49cf012-8041-11e7-8102-e04e4d4e1a80.png)
 ![twitter_ _ 1-1_161209](https://user-images.githubusercontent.com/25688193/29246920-c49d31d0-8041-11e7-8f4f-10d130c6c370.png)
 ![twitter_ _ 1-2_161209](https://user-images.githubusercontent.com/25688193/29246921-c49d4440-8041-11e7-950a-b26f7308112f.png)
 ![twitter_ _ 1-3_161209](https://user-images.githubusercontent.com/25688193/29246922-c49d4da0-8041-11e7-9688-a415b282b863.png)
@@ -66,3 +68,4 @@
 ![twitter_ _ 1-7_161209](https://user-images.githubusercontent.com/25688193/29246927-c4bff49a-8041-11e7-9c40-f054884f774e.png)
 ![twitter_ _ 1-8_161209](https://user-images.githubusercontent.com/25688193/29246926-c4bfbe26-8041-11e7-8243-bde1a5d99b93.png)
 ![twitter_ _ 1-9_161209](https://user-images.githubusercontent.com/25688193/29246928-c4c059bc-8041-11e7-843f-177faae564c5.png)
+![twitter_ _ 1-10_161209](https://user-images.githubusercontent.com/25688193/29246919-c49cf012-8041-11e7-8102-e04e4d4e1a80.png)
