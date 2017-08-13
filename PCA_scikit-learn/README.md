@@ -47,7 +47,7 @@
 ワインデータをPCAによる次元削除を行なったデータの散布図。
 寄与率と累積寄与率の図より、第１主成分と第２主成分だけで、全体のデータの６０％近くを説明できることから、2×124 次元のデータで散布図を図示。この後、この次元削除したデータでクラス識別用のデータに使用する。
 
-![pca_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29248581-7521b3fa-8056-11e7-804c-a99d24d184b4.png)
+![pca_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29248635-f33244ac-8057-11e7-9de8-89b925f16560.png)
 
 ### Theory
 ![twitter_ _1-1_170812](https://user-images.githubusercontent.com/25688193/29239290-5fb880fa-7f86-11e7-8ccf-a4d5b7d5cb93.png)

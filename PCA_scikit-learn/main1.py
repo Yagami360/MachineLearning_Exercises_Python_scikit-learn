@@ -228,7 +228,7 @@ def main():
             marker = m
         )
     
-    plt.title("Idification Result (PCA)\n 13×178 dim → 2×124 dim [dimension / feature extraction]")
+    plt.title("Dimension deleted Wine data (PCA) \n 13×178 dim → 2×124 dim [dimension / feature extraction]")
     plt.xlabel('PC 1')
     plt.ylabel('PC 2')
     plt.legend(loc='upper left')
