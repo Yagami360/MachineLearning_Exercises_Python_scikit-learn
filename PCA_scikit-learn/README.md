@@ -49,6 +49,14 @@
 
 ![pca_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29248635-f33244ac-8057-11e7-9de8-89b925f16560.png)
 
+次元削除したトレーニングデータをロジスティクス回帰で識別
+
+![pca_scikit-learn_4](https://user-images.githubusercontent.com/25688193/29248838-06c82450-805d-11e7-8dc8-a3a2db61e9f6.png)
+
+次元削除したテストデータをロジスティクス回帰で識別
+
+![pca_scikit-learn_5](https://user-images.githubusercontent.com/25688193/29248839-0ba60bd6-805d-11e7-84f4-66ee85f076cb.png)
+
 ## Theory
 ![twitter_ _1-1_170812](https://user-images.githubusercontent.com/25688193/29239290-5fb880fa-7f86-11e7-8ccf-a4d5b7d5cb93.png)
 
