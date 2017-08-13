@@ -59,10 +59,9 @@ def main():
     print( "トレーニングデータ [standardized] :\n", X_train_std )
     print("テストデータ [standardized] : \n", X_test_std )    
     
-    #====================================================
-    #   Learning Process
-    #====================================================
-    # PCA
+    #========================================================================
+    # PCAによる各主成分に対する固有値＆寄与率の算出と次元削除（特徴抽出）
+    #========================================================================
     # トレーニングデータ（の転置）から共分散分散行列を作成
     Conv_mat = numpy.cov( X_test_std.T )    
 
@@ -86,6 +85,23 @@ def main():
     cum_var_ratio = numpy.cumsum( var_ratio )
 
     print( "\n累積寄与率 [Cumulative contribution rate \n|%-5s|" % cum_var_ratio )
+
+    # 特徴変換（射影行列の作成）
+    # 固有値, 固有ベクトルからなるタプルのリストを作成
+    eigen_pairs = [ ( numpy.abs( eigen_values[i] ), eigen_vecs[:, i] ) for i in range( len(eigen_values) ) ]
+
+    # タプルを大きい順に並び替え
+    eigen_pairs.sort( key = lambda k: k[0], reverse=True )  # ?
+
+    # 13×2の射影行列の作成
+    W_mat = numpy.hstack(
+                ( eigen_pairs[0][1][:, numpy.newaxis], eigen_pairs[1][1][:, numpy.newaxis] )   # ?
+            )
+
+    print('Matrix W:\n', W_mat)
+
+    # 作成した射影行列でトレーニングデータを変換
+    X_train_pca = X_train_std.dot( W_mat )
 
     #====================================================
     #   汎化性能の評価
@@ -195,9 +211,32 @@ def main():
     #--------------------------------------------------------
     # 13 次元 → 2 次元に次元削除した主成分空間での識別図
     #--------------------------------------------------------
+    # 現在の図をクリア
+    plt.clf()
+    plt.grid()
+
+    # パレット
+    colors = ['r', 'b', 'g']
+    markers = ['s', 'x', 'o']
+
+    for l, c, m in zip(numpy.unique(y_train), colors, markers):
+        plt.scatter(
+            X_train_pca[y_train == l, 0], # PC1 : class l (l=1,2,3)
+            X_train_pca[y_train == l, 1], # PC2 : class l (l=1,2,3)
+            c = c, 
+            label = l, 
+            marker = m
+        )
 
     # 
+    plt.xlabel('PC 1')
+    plt.ylabel('PC 2')
+    plt.legend(loc='lower left')
+    plt.tight_layout()
 
+    # 図の保存＆表示
+    plt.savefig("./PCA_scikit-learn_3.png", dpi = 300, bbox_inches = 'tight' )
+    plt.show()
 
     print("Finish main()")
     return
