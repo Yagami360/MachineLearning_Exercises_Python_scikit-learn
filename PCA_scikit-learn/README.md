@@ -2,7 +2,7 @@
 
 ## コードの実行結果
 
- Wine データセット (https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data)
+### Wine データセット (https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data)
 
 13×178 次元のデータ（13：特徴量、178：データ数）
 
@@ -25,7 +25,7 @@
 |177|3|14.13|4.10|2.74|24.5|96 |2.05|0.76|0.56|1.35|9.200000  |0.61|1.60|560| 
 
 
-固有値 [eigenvalue] 
+### 固有値 [eigenvalue] 
 
 |λ_1|λ_2|λ_3|λ_4|λ_5|λ_6|λ_7|λ_8|λ_9|λ_10|λ_11|λ_12|λ_13|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -33,7 +33,7 @@
 
 ![pca_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29246419-1b9440ae-8034-11e7-979c-566d42c37b5f.png)
 
-寄与率（分散の比）[proportion of the variance] / 累積寄与率 [Cumulative contribution rate]
+### 寄与率（分散の比）[proportion of the variance] / 累積寄与率 [Cumulative contribution rate]
 
 |principal component|1|2|3|4|5|6|7|8|9|10|11|12|13|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -42,18 +42,29 @@
 
 ![pca_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29246420-1ecbdf3e-8034-11e7-9732-1979c1d9c597.png)
 
-13×178 次元のワインデータ → 2×124 次元のデータに次元削除（特徴抽出）（※124は分割したトレーニングデータ数）
+### 13×178 次元のワインデータ → 2×124 次元のデータに次元削除（特徴抽出）（※124は分割したトレーニングデータ数）
 
 ワインデータをPCAによる次元削除を行なったデータの散布図。
 寄与率と累積寄与率の図より、第１主成分と第２主成分だけで、全体のデータの６０％近くを説明できることから、2×124 次元のデータで散布図を図示。この後、この次元削除したデータでクラス識別用のデータに使用する。
 
 ![pca_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29248635-f33244ac-8057-11e7-9de8-89b925f16560.png)
 
-次元削除したトレーニングデータをロジスティクス回帰で識別
+### 次元削除したトレーニングデータをロジスティクス回帰で識別
+
+|classifier 1 : logisitic Regression 1 ( leraning data dimesion by PCA  )|value|
+|---|--|
+|誤識別数 [Misclassified samples]|4|
+|正解率 [Accuracy]|0.97|
 
 ![pca_scikit-learn_4](https://user-images.githubusercontent.com/25688193/29248838-06c82450-805d-11e7-8dc8-a3a2db61e9f6.png)
 
-次元削除したテストデータをロジスティクス回帰で識別
+### 次元削除したテストデータをロジスティクス回帰で識別
+
+|classifier 2 : logisitic Regression 2 ( test data dimesion by PCA  )|value|
+|---|--|
+|誤識別数 [Misclassified samples]|1|
+|正解率 [Accuracy]|0.98|
+
 
 ![pca_scikit-learn_5](https://user-images.githubusercontent.com/25688193/29248839-0ba60bd6-805d-11e7-84f4-66ee85f076cb.png)
 

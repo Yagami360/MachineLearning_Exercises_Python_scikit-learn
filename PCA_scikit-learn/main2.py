@@ -4,8 +4,11 @@
 import numpy
 import matplotlib.pyplot as plt
 
-from sklearn.decomposition import PCA
-from sklearn.linear_model import LogisticRegression
+# scikit-learn ライブラリ関連
+from sklearn import datasets                            #
+from sklearn.metrics import accuracy_score              # 
+from sklearn.decomposition import PCA                   #
+from sklearn.linear_model import LogisticRegression     #
 
 # 自作クラス
 import Plot2D
@@ -78,6 +81,27 @@ def main():
     #====================================================
     #   汎化性能の評価
     #====================================================
+
+    #-------------------------------
+    # 識別率を計算＆出力
+    #-------------------------------
+    y_predict1 = logReg.predict( X_train_pca )
+    y_predict2 = logReg.predict( X_test_pca )
+
+    print("<テストデータの識別結果>")
+    
+    print("classifier1 : logisitic Regression 1 \n ( leraning data dimesion by PCA  )")
+    # 誤分類のサンプル数を出力
+    print( "誤識別数 [Misclassified samples] : %d" % (y_train != y_predict1).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
+    # 分類の正解率を出力
+    print( "正解率 [Accuracy] : %.2f" % accuracy_score(y_train, y_predict1) )
+
+    print("classifier1 : logisitic Regression 2 \n ( test data dimesion by PCA  )")
+    # 誤分類のサンプル数を出力
+    print( "誤識別数 [Misclassified samples] : %d" % (y_test != y_predict2).sum() )  # %d:10進数, string % data :文字とデータ（値）の置き換え
+    # 分類の正解率を出力
+    print( "正解率 [Accuracy] : %.2f" % accuracy_score(y_test, y_predict2) )
+
     #--------------------------------------------------------
     # 13 次元 → 2 次元に次元削除した主成分空間での散布図
     #--------------------------------------------------------
