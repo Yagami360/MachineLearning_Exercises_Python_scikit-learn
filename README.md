@@ -16,6 +16,7 @@ README.md：コード実行結果の解説と合わせて、理論の解説も�
 1. [./RandomForests_scikit-learn](#RandomForests_scikit-learn)
 1. [./DataPreProcess_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/DataPreProcess_scikit-learn)
 1. [./PCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/PCA_scikit-learn)
+1. [./kernelPCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/kernelPCA_scikit-learn)
 
 <a name="Perceptron"></a>
 ## ./Perceptron 
