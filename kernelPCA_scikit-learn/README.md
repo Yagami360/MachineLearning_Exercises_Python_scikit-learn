@@ -8,3 +8,5 @@
 ## Theory
 
 ![twitter_pca_2-1_170815](https://user-images.githubusercontent.com/25688193/29283593-621e79b6-8162-11e7-8624-e5c914da21f6.png)
+![twitter_pca_2-2_170815](https://user-images.githubusercontent.com/25688193/29303785-3cead10e-81ca-11e7-9ffd-46aa36d8869e.png)
+
