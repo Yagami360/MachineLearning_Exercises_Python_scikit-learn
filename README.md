@@ -3,7 +3,7 @@
 
 README.md：コード実行結果の解説と合わせて、理論の解説も記載してます。
 
-### 目次（フォルダ）
+### 目次（フォルダ別）
 
 1. [./Perceptron](#Perceptron)
 1. [./AdaLineGD](#AdaLineGD) 
