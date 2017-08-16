@@ -26,10 +26,11 @@ def main():
     #   read & set  data
     #----------------------------------------------------
     # 検証用サンプルデータセットの生成
-    dat_X, dat_y = DataPreProcess.DataPreProcess.generateMoonsDataSet()       # 半月状のデータセット
-    #dat_X, dat_y = DataPreProcess.DataPreProcess.generateCirclesDataSet()     # 同心円状のデータセット
+    #dat_X, dat_y = DataPreProcess.DataPreProcess.generateMoonsDataSet()       # 半月状のデータセット
+    dat_X, dat_y = DataPreProcess.DataPreProcess.generateCirclesDataSet()     # 同心円状のデータセット
 
-    
+    plot_numUp   = 500  #
+    plot_numDown = 500  #
     
     #========================================================================
     # Learning Process
@@ -53,12 +54,16 @@ def main():
     scikit_kpca1 = KernelPCA( 
         n_components = 2, 
         kernel = 'rbf',         # カーネル関数として, RBF カーネルを指定
-        gamma = 15 
+        gamma = 15,             # カーネル関数のパラメータ 
+        n_jobs = -1             # CPUの並列処理 (default=1)
+
     )
     scikit_kpca2 = KernelPCA( 
         n_components = None, 
         kernel = 'rbf',         # カーネル関数として, RBF カーネルを指定
-        gamma = 15 
+        gamma = 15,             # カーネル関数のパラメータ
+        remove_zero_eig = True, # カーネル行列の固有値 0 となるものを削除
+        n_jobs = -1             # CPUの並列処理 (default=1)
     )
 
     X_scikit_kpca1 = scikit_kpca1.fit_transform( dat_X )
@@ -67,7 +72,9 @@ def main():
     # scikit_kpca2 オブジェクトの内容確認
     print( "scikit_kpca2.get_params() : \n", scikit_kpca2.get_params() )
     print( "scikit_kpca2.coef0 : \n", scikit_kpca2.coef0 )
-
+    print( "scikit_kpca2.lambdas_ : \n", scikit_kpca2.lambdas_ )    # カーネル行列の固有値
+    print( "scikit_kpca2.lambdas_[0:40] : \n", scikit_kpca2.lambdas_[0:40] )    # カーネル行列の固有値
+    
     #====================================================
     #   汎化性能の評価
     #====================================================
@@ -147,7 +154,7 @@ def main():
     
     # サンプルデータの散布図を plot
     plt.scatter(
-        X_pca1[ dat_y == 0, 0 ], numpy.zeros( (50,1) ) + 0.02, 
+        X_pca1[ dat_y == 0, 0 ], numpy.zeros( (len(X_pca1)/2,1) ) + 0.02, 
         color = 'red', 
         marker = '^', 
         label = '0',
@@ -155,7 +162,7 @@ def main():
     )
 
     plt.scatter(
-        dat_X[ dat_y == 1, 0 ], numpy.zeros( (50,1) ) - 0.02, 
+        dat_X[ dat_y == 1, 0 ], numpy.zeros( (len(X_pca1)/2,1) ) - 0.02, 
         color = 'blue', 
         marker = 'o',
         label = '1',
@@ -264,7 +271,7 @@ def main():
     plt.clf()
     
     # plt.subplot(行数, 列数, 何番目のプロットか)
-    plt.subplot(2, 2, 1)
+    plt.subplot(2, 3, 1)
 
     plt.grid()
 
@@ -295,7 +302,7 @@ def main():
     # x_axis = PC1, y_axis = PC2 (２次元→２次元で次元削除を行わない)
 
     # plt.subplot(行数, 列数, 何番目のプロットか)
-    plt.subplot(2, 2, 3)
+    plt.subplot(2, 3, 2)
     plt.grid()
 
     # サンプルデータの散布図を plot
@@ -325,11 +332,11 @@ def main():
     # x_axis = PC1 (２次元→１次元で次元削除)
 
     # plt.subplot(行数, 列数, 何番目のプロットか)
-    plt.subplot(2, 2, 4)
+    plt.subplot(2, 3, 3)
     
     # サンプルデータの散布図を plot
     plt.scatter(
-        X_scikit_kpca1[ dat_y == 0, 0 ], numpy.zeros( (50,1) ) + 0.02, 
+        X_scikit_kpca1[ dat_y == 0, 0 ], numpy.zeros( (len(X_scikit_kpca1)/2,1) ) + 0.02, 
         color = 'red', 
         marker = '^', 
         label = '0',
@@ -337,7 +344,7 @@ def main():
     )
 
     plt.scatter(
-        X_scikit_kpca1[ dat_y == 1, 0 ], numpy.zeros( (50,1) ) - 0.02, 
+        X_scikit_kpca1[ dat_y == 1, 0 ], numpy.zeros( (len(X_scikit_kpca1)/2,1) ) - 0.02, 
         color = 'blue', 
         marker = 'o',
         label = '1',
@@ -352,6 +359,32 @@ def main():
     plt.legend( loc = 'best' )
     #plt.tight_layout()
     
+    #--------------------------
+    # 固有値の図
+    #--------------------------
+    #plt.clf()
+    # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.subplot(2, 3, 4)
+    
+    # 棒グラフ（固有値の値が上位のものを表示 ）
+    plt.bar(
+        range( 1, 41 ), scikit_kpca2.lambdas_[0:40],
+        alpha = 1.0, 
+        align = 'center',
+        color = "blue"
+    )
+    
+    plt.xticks( 
+        range( 1, len(scikit_kpca2.lambdas_[0:40]) ), 
+        rotation = 90
+    )
+
+    plt.title("Eigenvalues (RBF-kernelPCA)")
+    plt.xlabel('index of Eigenvalues')
+    plt.ylabel('Eigenvalues')
+    plt.legend( loc = 'best' )
+    plt.tight_layout()
+
     plt.savefig("./kernelPCA_scikit-learn_2.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()
 

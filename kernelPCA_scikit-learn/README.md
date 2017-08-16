@@ -24,16 +24,18 @@
 ![kernelpca_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29363414-e47126c0-82ca-11e7-8931-10472ac76627.png)
 
 
-`sklearn.datasets.make_circles( n_samples = 100 )` で生成した同心円状のデータ（サンプル数：１００個）に対し、通常の PCA を適用した結果。
+`sklearn.datasets.make_circles( n_samples = 1000 )` で生成した同心円状のデータ（サンプル数：１０００個）に対し、通常の PCA を適用した結果。
 
 上段の図より、通常の PCA では、うまく線形分離可能なテータに変換できていないことが分かる。（※下段の図は、各主成分に対する固有値と寄与率、累積率寄与率の図）尚、第１主成分 PC1 のみに次元削除（特徴抽出）した図は、各クラス（0 or 1）の識別を見やすくするため、上下に少し移動させている。
 
-![kernelpca_scikit-learn_4](https://user-images.githubusercontent.com/25688193/29364373-2bd5c180-82ce-11e7-8cba-47a01534e654.png)
+![kernelpca_scikit-learn_4](https://user-images.githubusercontent.com/25688193/29364831-bc25d8dc-82cf-11e7-84b2-9842d5e96a1c.png)
 
-`sklearn.datasets.make_circles( n_samples = 100 )` で生成した同心円状のデータ（サンプル数：１００個）に対し、RBF カーネルをカーネル関数とする、カーネル PCA を適用した結果。
+
+`sklearn.datasets.make_circles( n_samples = 1000 )` で生成した同心円状のデータ（サンプル数：１０００個）に対し、RBF カーネルをカーネル関数とする、カーネル PCA を適用した結果。
 上段の図より、RBFカーネルをカーネルとするkernelPCA では、この半月状のデータをうまく線形分離可能な特徴空間に写像出来ていることが分かる。（尚、第１主成分 PC1 のみに次元削除（特徴抽出）した図は、各クラス（0 or 1）の識別を見やすくするため、上下に少し移動させている。）
 
-![kernelpca_scikit-learn_5](https://user-images.githubusercontent.com/25688193/29364374-2bfbac2e-82ce-11e7-830e-c173589faf60.png)
+![kernelpca_scikit-learn_5](https://user-images.githubusercontent.com/25688193/29364832-bc48a862-82cf-11e7-9e59-25991406e03c.png)
+
 
 ## Theory
 
