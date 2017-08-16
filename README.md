@@ -30,7 +30,7 @@ MNIST：http://yann.lecun.com/exdb/mnist/
 1. [./DataPreProcess_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/DataPreProcess_scikit-learn)
 1. [./PCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/PCA_scikit-learn)
 1. [./kernelPCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/kernelPCA_scikit-learn)
-1. [./MachineLeaningPipeline_scikit-learn]()
+1. [./MachineLeaningPipeline_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/MachineLeaningPipeline_scikit-learn)
 
 
 <a name="Perceptron"></a>
