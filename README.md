@@ -3,9 +3,11 @@
 
 README.md：コード実行結果の解説と合わせて、理論の解説も記載してます。
 
+
 ### 機械学習ライブラリ
 
 scikit-learn ライブラリ チートシート：http://scikit-learn.org/stable/tutorial/machine_learning_map/
+
 
 ### 検証用データセット
 
@@ -28,6 +30,8 @@ MNIST：http://yann.lecun.com/exdb/mnist/
 1. [./DataPreProcess_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/DataPreProcess_scikit-learn)
 1. [./PCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/PCA_scikit-learn)
 1. [./kernelPCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/kernelPCA_scikit-learn)
+1. [./MachineLeaningPipeline_scikit-learn]()
+
 
 <a name="Perceptron"></a>
 ## ./Perceptron 
