@@ -7,11 +7,15 @@
 ### `main1.py`
 
 `sklearn.datasets.make_moons( n_samples = 100 )` で生成した半月状のデータ（サンプル数：１００個）に対し、通常の PCA を適用した結果。
+上段の図より、通常の PCA では、うまく線形分離可能なテータに変換できていないことが分かる。
+（※下段の図は、各主成分に対する固有値と寄与率、累積率寄与率の図）
 
-通常の PCA では、うまく線形分離可能なテータに変換できていないことが分かる。
+![kernelpca_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29361298-eef3455a-82c1-11e7-8329-04792751bf7e.png)
 
-![kernelpca_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29360577-8dcd0a02-82be-11e7-81b8-dddac869068b.png)
+`sklearn.datasets.make_moons( n_samples = 100 )` で生成した半月状のデータ（サンプル数：１００個）に対し、RBF カーネルをカーネル関数とする、カーネル PCA を適用した結果。
+RBF-kernel PCA では、うまく線形分離可能なテータに変換できていることが分かる。
 
+![kernelpca_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29361299-f106740c-82c1-11e7-9596-74a0c7da535a.png)
 
 
 ## Theory

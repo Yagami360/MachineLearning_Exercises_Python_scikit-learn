@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # scikit-learn ライブラリ関連
 from sklearn.decomposition import PCA
-
+from sklearn.decomposition import KernelPCA
 
 # 自作クラス
 import Plot2D
@@ -17,7 +17,7 @@ def main():
     print("Enter main()")
     #==========================================================================
     # カーネル主成分分析 [kernelPCA] による教師なしデータの次元削除、特徴抽出
-    # scikit-learn ライブラリでのカーネル主成分分析不使用
+    # scikit-learn ライブラリでのカーネル主成分分析使用
     #==========================================================================
     #====================================================
     #   Data Preprocessing（前処理）
@@ -49,13 +49,32 @@ def main():
     print( "pca2.get_covariance() : \n", pca2.get_covariance() )    # 共分散分散行列
     print( "numpy.linalg.eig( pca2.get_covariance() )[0] : \n" , numpy.linalg.eig( pca2.get_covariance() )[0] )  # 固有値のリスト
 
+    # scikit-learn ライブラリでの kernelPCA
+    scikit_kpca1 = KernelPCA( 
+        n_components = 2, 
+        kernel = 'rbf',         # カーネル関数として, RBF カーネルを指定
+        gamma = 15 
+    )
+    scikit_kpca2 = KernelPCA( 
+        n_components = None, 
+        kernel = 'rbf',         # カーネル関数として, RBF カーネルを指定
+        gamma = 15 
+    )
+
+    X_scikit_kpca1 = scikit_kpca1.fit_transform( dat_X )
+    X_scikit_kpca2 = scikit_kpca2.fit_transform( dat_X )
+
+    # scikit_kpca2 オブジェクトの内容確認
+    print( "scikit_kpca2.get_params() : \n", scikit_kpca2.get_params() )
+    print( "scikit_kpca2.coef0 : \n", scikit_kpca2.coef0 )
+
     #====================================================
     #   汎化性能の評価
     #====================================================
 
-    #====================================================
-    #   検証用サンプルデータ（半月）での図を plot
-    #====================================================
+    #==========================================================
+    #   検証用サンプルデータ（半月）での図を plot（通常のPCA）
+    #==========================================================
     #------------------------------------
     # サンプルデータの散布図 plot
     #------------------------------------
@@ -147,11 +166,10 @@ def main():
     plt.xlabel( "PC1" )
     plt.ylim( [-1,1] )
     plt.axhline( 0.0, color = 'gray', linestyle = '--', linewidth = 1 )
-    plt.xticks( [] )
+    plt.yticks( [] )
     plt.legend( loc = 'best' )
     #plt.tight_layout()
     
-    #plt.savefig("./kernelPCA_scikit-learn_1.png", dpi = 300, bbox_inches = 'tight' )
     #plt.show()
     
     #------------------------------------
@@ -235,6 +253,107 @@ def main():
     plt.savefig("./kernelPCA_scikit-learn_1.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()
 
+
+    #===========================================================
+    #   検証用サンプルデータ（半月）での図を plot（カーネルPCA）
+    #===========================================================
+    #------------------------------------
+    # サンプルデータの散布図 plot
+    #------------------------------------
+    # 現在の図をクリア
+    plt.clf()
+    
+    # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.subplot(2, 2, 1)
+
+    plt.grid()
+
+    # サンプルデータの散布図を plot
+    plt.scatter(
+        dat_X[ dat_y == 0, 0 ], dat_X[ dat_y == 0, 1 ], 
+        color = 'red', 
+        marker = '^', 
+        label = '0',
+        alpha = 0.5
+    )
+
+    plt.scatter(
+        dat_X[ dat_y == 1, 0 ], dat_X[ dat_y == 1, 1 ], 
+        color = 'blue', 
+        marker = 'o',
+        label = '1',
+        alpha = 0.5
+    )
+    plt.title( "verification data \n sklearn.datasets.make_moons() dataset" )
+    plt.legend( loc = 'best' )
+    #plt.tight_layout()
+
+
+    #----------------------------------------
+    # 変換した主成分空間での散布図 plot
+    #----------------------------------------
+    # x_axis = PC1, y_axis = PC2 (２次元→２次元で次元削除を行わない)
+
+    # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.subplot(2, 2, 3)
+    plt.grid()
+
+    # サンプルデータの散布図を plot
+    plt.scatter(
+        X_scikit_kpca1[ dat_y == 0, 0 ], X_scikit_kpca1[ dat_y == 0, 1 ], 
+        color = 'red', 
+        marker = '^', 
+        label = '0',
+        alpha = 0.5
+    )
+
+    plt.scatter(
+        X_scikit_kpca1[ dat_y == 1, 0 ], X_scikit_kpca1[ dat_y == 1, 1 ], 
+        color = 'blue', 
+        marker = 'o',
+        label = '1',
+        alpha = 0.5
+    )
+
+    plt.title("transformed data (RBF-kernel PCA) \n dimension is not deleted")
+    plt.xlabel( "PC1" )
+    plt.ylabel( "PC2" )
+    plt.legend( loc = 'best' )
+    #plt.tight_layout()
+
+
+    # x_axis = PC1 (２次元→１次元で次元削除)
+
+    # plt.subplot(行数, 列数, 何番目のプロットか)
+    plt.subplot(2, 2, 4)
+    
+    # サンプルデータの散布図を plot
+    plt.scatter(
+        X_scikit_kpca1[ dat_y == 0, 0 ], numpy.zeros( (50,1) ) + 0.02, 
+        color = 'red', 
+        marker = '^', 
+        label = '0',
+        alpha = 0.5
+    )
+
+    plt.scatter(
+        X_scikit_kpca1[ dat_y == 1, 0 ], numpy.zeros( (50,1) ) - 0.02, 
+        color = 'blue', 
+        marker = 'o',
+        label = '1',
+        alpha = 0.5
+    )
+
+    plt.title("transformed data (RBF-kernelPCA) \n dimension is deleted")
+    plt.xlabel( "PC1" )
+    plt.ylim( [-1,1] )
+    plt.axhline( 0.0, color = 'gray', linestyle = '--', linewidth = 1 )
+    plt.yticks( [] )
+    plt.legend( loc = 'best' )
+    #plt.tight_layout()
+    
+    plt.savefig("./kernelPCA_scikit-learn_2.png", dpi = 300, bbox_inches = 'tight' )
+    plt.show()
 
     print("Finish main()")
     return
