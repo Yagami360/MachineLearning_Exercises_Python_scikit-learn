@@ -9,6 +9,9 @@ from io import StringIO
 
 # scikit-learn ライブラリ関連
 from sklearn import datasets                            # scikit-learn ライブラリのデータセット群
+from sklearn.datasets import make_moons
+from sklearn.datasets import make_circles
+
 #from sklearn.cross_validation import train_test_split  # scikit-learn の train_test_split関数の old-version
 from sklearn.model_selection import train_test_split    # scikit-learn の train_test_split関数の new-version
 from sklearn.metrics import accuracy_score              # 正解率、誤識別率の計算用に使用
@@ -102,6 +105,66 @@ class DataPreProcess( object ):
         """
         values = self.df_.values     # pandas DataFrame の value 属性
         return values
+
+    #---------------------------------------------------------
+    # 検証用サンプルデータセットを出力する関数群
+    #---------------------------------------------------------
+    @staticmethod
+    def generateMoonsDataSet( input_n_samples = 100, input_random_state = 123 ):
+        """
+        半月形のデータセットを生成する。
+
+        [Input]
+            input_n_samples : int
+
+            input_random_state : int
+                
+        [Output]
+            dat_X : numpy.ndarray
+                2次元 Numpy 配列
+            dat_y : numpy.ndarray
+                1次元 Numpy 配列
+        """
+
+        dat_X, dat_y = make_moons( n_samples = input_n_samples, random_state = input_random_state )
+
+        # 戻り値のオブジェクトの型確認
+        #print( isinstance(dat_X, list) )
+        #print( isinstance(dat_y, list) )
+        #print( isinstance(dat_X, pandas.DataFrame) )
+        #print( isinstance(dat_X, numpy.ndarray) )
+
+        return dat_X, dat_y
+
+    @staticmethod
+    def generateCirclesDataSet( input_n_samples = 100, input_random_state = 123, input_noize = 0.1, input_factor = 0.2 ):
+        """
+        同心円形のデータセットを生成する。
+
+        [Input]
+            input_n_samples : int
+
+            input_random_state : int
+                seed used by the random number generator
+            input_noize : float
+                Gaussian noise
+            input_factor : float
+                Scale factor between inner and outer circle.
+        [Output]
+            dat_X : numpy.ndarray
+                2次元 Numpy 配列
+            dat_y : numpy.ndarray
+                1次元 Numpy 配列
+
+        """
+        dat_X, dat_y = make_circles( 
+                           n_samples = input_n_samples, random_state = input_random_state, 
+                           noise = input_noize, 
+                           factor = input_factor
+                       )
+
+        return dat_X, dat_y
+
 
     #---------------------------------------------------------
     # 欠損値の処理を行う関数群
