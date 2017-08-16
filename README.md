@@ -3,11 +3,11 @@
 
 README.md：コード実行結果の解説と合わせて、理論の解説も記載してます。
 
-## 機械学習ライブラリ
+### 機械学習ライブラリ
 
 scikit-learn ライブラリ チートシート：http://scikit-learn.org/stable/tutorial/machine_learning_map/
 
-## 検証用データセット
+### 検証用データセット
 
 MNIST：http://yann.lecun.com/exdb/mnist/
 
