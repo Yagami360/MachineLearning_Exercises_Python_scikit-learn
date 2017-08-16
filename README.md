@@ -11,9 +11,17 @@ scikit-learn ライブラリ チートシート：http://scikit-learn.org/stable
 
 ### 検証用データセット
 
-MNIST：http://yann.lecun.com/exdb/mnist/
+MNIST：（手書き数字文字画像データ）
 
-ワインデータセット（csvフォーマット）：https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
+http://yann.lecun.com/exdb/mnist/
+
+ワインデータセット：（csvフォーマット）
+
+https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
+
+Brest Cancer Wisconsin データセット：（csvフォーマット）
+
+https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
 
 
 ## 項目（フォルダ別）
