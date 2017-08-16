@@ -209,7 +209,8 @@ def main():
     plt.step(
         range(1, 3), numpy.cumsum( pca2.explained_variance_ratio_ ), 
         where = 'mid',
-        label='cumulative proportion of the variance'
+        label='cumulative proportion of the variance',
+        color = "red"
     )
 
     plt.axhline( 0.1, color = 'gray', linestyle = '--', linewidth = 1 )
