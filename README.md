@@ -11,7 +11,7 @@ scikit-learn ライブラリ チートシート：http://scikit-learn.org/stable
 
 MNIST：http://yann.lecun.com/exdb/mnist/
 
-ワインデータセット：https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
+ワインデータセット（csvフォーマット）：https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
 
 
 ### 項目（フォルダ別）
