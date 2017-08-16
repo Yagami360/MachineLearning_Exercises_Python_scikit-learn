@@ -3,9 +3,18 @@
 
 README.md：コード実行結果の解説と合わせて、理論の解説も記載してます。
 
+### 機械学習ライブラリ
+
 scikit-learn ライブラリチートシート：http://scikit-learn.org/stable/tutorial/machine_learning_map/
 
-### 目次（フォルダ別）
+### 検証用データセット
+
+MIST：http://yann.lecun.com/exdb/mnist/
+
+ワインデータセット：https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
+
+
+### 項目（フォルダ別）
 
 1. [./Perceptron](#Perceptron)
 1. [./AdaLineGD](#AdaLineGD) 
