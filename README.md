@@ -3,6 +3,8 @@
 
 README.md：コード実行結果の解説と合わせて、理論の解説も記載してます。
 
+scikit-learn ライブラリチートシート：http://scikit-learn.org/stable/tutorial/machine_learning_map/
+
 ### 目次（フォルダ別）
 
 1. [./Perceptron](#Perceptron)
