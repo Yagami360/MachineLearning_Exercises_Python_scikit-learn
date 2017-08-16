@@ -1,6 +1,10 @@
 ## カーネル主成分分析 [kernelPCA : kernel Principal Component Analysis] による非線形写像と教師なしデータの次元削除、特徴抽出
 
+使用する scikit-learn ライブラリ：
 
+`sklearn.decomposition.KernelPCA` : http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html
+
+`sklearn.decomposition.PCA` : http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
 
 ## コードの実行結果
 
