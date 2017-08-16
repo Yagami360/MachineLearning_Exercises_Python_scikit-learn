@@ -38,7 +38,7 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 1. [./DataPreProcess_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/DataPreProcess_scikit-learn)
 1. [./PCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/PCA_scikit-learn)
 1. [./kernelPCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/kernelPCA_scikit-learn)
-1. [./MachineLeaningPipeline_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/MachineLeaningPipeline_scikit-learn)
+1. [./MachineLearningPipeline_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/MachineLearningPipeline_scikit-learn)
 
 
 <a name="Perceptron"></a>
