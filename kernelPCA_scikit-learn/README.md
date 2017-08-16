@@ -1,8 +1,16 @@
 ## カーネル主成分分析 [kernelPCA : kernel Principal Component Analysis] による非線形写像と教師なしデータの次元削除、特徴抽出
 
-コード実装中...
+
 
 ## コードの実行結果
+
+### `main1.py`
+
+`make_moons( n_samples = 100)` `# from sklearn.datasets import make_moon` で生成した半月状のデータ（サンプル数：１００個）に対し、通常の PCA を適用した結果。
+
+通常の PCA では、うまく線形分離可能なテータに変換できていないことが分かる。
+
+![kernelpca_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29360113-5e6699b0-82bc-11e7-861a-efaa49e8ad4e.png)
 
 
 ## Theory

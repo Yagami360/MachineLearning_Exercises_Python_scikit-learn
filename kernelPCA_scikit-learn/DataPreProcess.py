@@ -1,6 +1,12 @@
 # -*- coding:utf-8 -*-
 # Anaconda 4.3.0 環境
 
+"""
+    更新情報
+    [17/08/16] : 検証用のサンプルデータセット生成関数を追加
+
+"""
+
 import numpy
 
 # Data Frame & IO 関連
@@ -123,7 +129,7 @@ class DataPreProcess( object ):
             dat_X : numpy.ndarray
                 2次元 Numpy 配列
             dat_y : numpy.ndarray
-                1次元 Numpy 配列
+                クラスラベル 0 or 1 (1次元 Numpy 配列)
         """
 
         dat_X, dat_y = make_moons( n_samples = input_n_samples, random_state = input_random_state )
@@ -154,7 +160,7 @@ class DataPreProcess( object ):
             dat_X : numpy.ndarray
                 2次元 Numpy 配列
             dat_y : numpy.ndarray
-                1次元 Numpy 配列
+                クラスラベル 0 or 1 (1次元 Numpy 配列)
 
         """
         dat_X, dat_y = make_circles( 
