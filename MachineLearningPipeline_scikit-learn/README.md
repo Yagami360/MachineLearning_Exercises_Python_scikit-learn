@@ -1,23 +1,20 @@
 ## scikit-learn パイプライン（Pipeline クラス）による機械学習処理フローの効率化、及び汎化性能の各種評価方法
 
----
 
-使用する scikit-learn ライブラリ：
+### 使用する scikit-learn ライブラリ：
 
 > `sklearn.pipeline.Pipeline` :
   http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 > `sklearn.model_selection.StratifiedKFold` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
 
----
 
-使用するデータセット：
+### 使用するデータセット
 
-> Brest Cancer Wisconsin データセット：（csvフォーマット）
-
-https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
+> Brest Cancer Wisconsin データセット：（csvフォーマット）: https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
 
 悪性腫瘍細胞と良性腫瘍細胞の 569 個のサンプルが含まれている。1 列目は固有の ID 、2 列目は悪性 [malignant] or 良性 [belign] を表すラベル、3 ~ 32 列目には、細胞核のデジタル画像から算出された 30 個の実数値の特徴量が含まれれいる。
+
 
 |行番号|ID|悪性（M）/良性（B）|1|2|3|4|5|6|7|8|...|22|23|24|25|26|27|28|29|30|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -34,21 +31,36 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 実装中...
 
+---
+
 ## Theory
 
 ### モデル選択とチューニングパラメータ（ハイパーパラメータ）
 
 「モデル選択」という用語は、チューニングパラメータの”最適な”値を選択する分類問題を指す。
 
+*    *    *
+
 ### トレーニングデータ、テストデータへのデータの分割
+
+*    *    *
 
 ### ホールドアウト法による汎化能力の検証
 
+*    *    *
+
 ### クロスバディゲーション法による汎化能力の検証
+
+*    *    *
 
 ### 学習曲線、検証曲線による汎化能力の検証とバイアス・バリアントトレードオフ
 
+*    *    *
+
 ### グリッドサーチによるハイパーパラメータのチューニング
+
+*    *    *
 
 ### ROC 曲線による汎化能力の検証
 
+*    *    *
