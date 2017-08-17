@@ -15,18 +15,20 @@ from io import StringIO
 
 # scikit-learn ライブラリ関連
 from sklearn import datasets                            # scikit-learn ライブラリのデータセット群
-from sklearn.datasets import make_moons
-from sklearn.datasets import make_circles
+from sklearn.datasets import make_moons                 # 半月状のデータセット生成
+from sklearn.datasets import make_circles               # 同心円状のデータセット生成
 
 #from sklearn.cross_validation import train_test_split  # scikit-learn の train_test_split関数の old-version
 from sklearn.model_selection import train_test_split    # scikit-learn の train_test_split関数の new-version
 from sklearn.metrics import accuracy_score              # 正解率、誤識別率の計算用に使用
 
 from sklearn.preprocessing import Imputer               # データ（欠損値）の保管用に使用
+from sklearn.preprocessing import LabelEncoder          # 
 from sklearn.preprocessing import OneHotEncoder         # One-hot encoding 用に使用
-
 from sklearn.preprocessing import MinMaxScaler          # scikit-learn の preprocessing モジュールの MinMaxScaler クラス
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
+
+from sklearn.pipeline import Pipeline                   # パイプライン
 
 
 class DataPreProcess( object ):
@@ -58,6 +60,7 @@ class DataPreProcess( object ):
         print( str )
         print("\n")
         print("<pandas DataFrame> \n")
+        #print( "rows, colums :", self.df_.shape )
         print( self.df_ )
         print( self )
         print("-------------------------------------------------------------------")
@@ -232,6 +235,27 @@ class DataPreProcess( object ):
         mapping = { label: idx for idx, label in enumerate( numpy.unique( self.df_[key]) ) }
         self.df_[key] = self.df_[key].map( mapping )
 
+        return self
+
+    def encodeClassLabelByLabelEncoder( self, colum, bPrint = True ):
+        """
+        クラスラベルを表す文字列を sklearn.preprocessing.LabelEncoder クラスを用いてエンコードする.
+
+        [input]
+            colum : int
+                エンコードしたいクラスラベルが存在する列番号
+            bPrint : bool
+            エンコード対象を print するか否か
+        """
+        encoder = LabelEncoder()
+        encoder.fit_transform( self.df_.loc[:, colum].values )
+        encoder.transform( encoder.classes_ )
+
+        if ( bPrint == True):
+            print( "encodeClassLabelByLabelEncoder() encoder.classes_ : ", encoder.classes_ )
+            print( "encoder.transform", encoder.transform( encoder.classes_ ) )
+            #print( "encodeClassLabelByLabelEncoder() encoder.classes_[0] : ", encoder.classes_[0] )
+            #print( "encodeClassLabelByLabelEncoder() encoder.classes_[1] : ", encoder.classes_[1] )
         return self
 
     def oneHotEncode( self, categories, col ):
