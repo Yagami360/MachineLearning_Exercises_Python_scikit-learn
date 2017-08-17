@@ -1,12 +1,19 @@
 ## scikit-learn パイプライン（Pipeline クラス）による機械学習処理フローの効率化、及び汎化性能の各種評価方法
 
+---
+
 使用する scikit-learn ライブラリ：
 
-`sklearn.pipeline.Pipeline` : http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
+> `sklearn.pipeline.Pipeline` :
+  http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
+
+> `sklearn.model_selection.StratifiedKFold` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
+
+---
 
 使用するデータセット：
 
-Brest Cancer Wisconsin データセット：（csvフォーマット）
+> Brest Cancer Wisconsin データセット：（csvフォーマット）
 
 https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
 
@@ -20,6 +27,8 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 |...|
 |568|
 |569|92751  |B   |7.760  |24.54   |47.92   |181.0  |0.05263  |0.04362  |0.000000|0.000000|...|9.456  |30.37   |59.16   |268.6  |0.08996  |0.06444|0.00000  |0.00000  |0.2871  |0.07039|
+
+---
 
 ## コードの実行結果
 
