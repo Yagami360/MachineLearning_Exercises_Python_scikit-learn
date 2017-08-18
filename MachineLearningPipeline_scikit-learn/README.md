@@ -1,4 +1,4 @@
-## scikit-learn パイプライン（Pipeline クラス）による機械学習処理フローの効率化、及び汎化性能の各種評価方法
+## scikit-learn パイプライン（`Pipeline` クラス）による機械学習処理フローの効率化、及び、モデルの汎化性能の各種評価方法
 
 
 ### 使用する scikit-learn ライブラリ：
@@ -45,14 +45,13 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 - クロス・バディゲーションで汎化性能を評価 : `sklearn.model_selection.cross_val_score()` を使用
 
 > クロス・バディゲーションでの汎化性能の検証結果
-
-CV accuracy scores :
+>> CV accuracy scores :
 
 |k|1|2|3|4|5|6|7|8|9|10|
 |---|---|---|---|---|---|---|---|---|---|---|
 |正解率|0.978|0.978|0.957|0.978|0.891|0.956|0.956|0.956|1.|0.978|
 
-CV accuracy :
+>> CV accuracy :
 
 |平均値|分散値|
 |---|---|
@@ -69,20 +68,18 @@ CV accuracy :
 - 検証曲線で汎化性能（過学習、学習不足）を評価 : 
 
 > 学習曲線
-
-コード実施中...
+>> コード実施中...
 
 > 検証曲線
-
-コード実施中...
+>> コード実施中...
 
 ### グリッドサーチによるモデルのハイパーパラメータのチューニング : `main3().py`
 
-コード実施中...
+>> コード実施中...
 
 ### ROC 曲線よるモデルの汎化性能の評価 : `main4().py`
 
-コード実施中...
+>> コード実施中...
 
 ---
 
@@ -90,11 +87,15 @@ CV accuracy :
 
 ### モデル選択とチューニングパラメータ（ハイパーパラメータ）
 
-「モデル選択」という用語は、チューニングパラメータの”最適な”値を選択する分類問題を指す。
+> 広義な意味でのモデル選択
+
+![twitter_ _ _10-1_170625](https://user-images.githubusercontent.com/25688193/29447595-98f797a6-842d-11e7-9eaf-c228479483d7.png)
+![twitter_ _ _10-2_170625](https://user-images.githubusercontent.com/25688193/29447597-9919f56c-842d-11e7-8251-e9c6e846c292.png)
+
+> より、狭義な意味でのモデル選択
+>>「モデル選択」という用語は、チューニングパラメータの”最適な”値を選択する分類問題を指す。
 
 ![twitter_ _3-1_160924](https://user-images.githubusercontent.com/25688193/29446078-4d1ba9a6-8425-11e7-8011-243be82de1db.png)
-![twitter_ _3-2_160924](https://user-images.githubusercontent.com/25688193/29446080-4d20feec-8425-11e7-9f74-8395a4521459.png)
-![twitter_ _3-3_160924](https://user-images.githubusercontent.com/25688193/29446079-4d1dd51e-8425-11e7-9cee-372aec8bca8d.png)
 
 *    *    *
 
@@ -114,6 +115,9 @@ CV accuracy :
 *    *    *
 
 ### 学習曲線、検証曲線による汎化能力の検証とバイアス・バリアントトレードオフ
+
+![twitter_ _3-2_160924](https://user-images.githubusercontent.com/25688193/29446080-4d20feec-8425-11e7-9f74-8395a4521459.png)
+![twitter_ _3-3_160924](https://user-images.githubusercontent.com/25688193/29446079-4d1dd51e-8425-11e7-9cee-372aec8bca8d.png)
 
 *    *    *
 
