@@ -3,7 +3,7 @@
 """
     更新情報
     [17/08/18] : 学習曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawLearningCurve() を追加
-               : 検証曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawValididationCurve() を追加
+               : 検証曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawValidationCurve() を追加
 """
 
 import matplotlib.pyplot as plt
@@ -166,7 +166,7 @@ class Plot2D(object):
 
 
     @ staticmethod
-    def drawValididationCurve( 
+    def drawValidationCurve( 
         param_range, 
         train_means, train_stds, 
         test_means, test_stds, 

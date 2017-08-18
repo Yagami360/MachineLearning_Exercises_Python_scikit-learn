@@ -40,9 +40,9 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 - Brest Cancer Wisconsin データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
 - scikit -learn ライブラリ の `Pipeline` クラスを使用して、各プロセスを実施
-  - パイプラインの１つ目の推定器は、スケーリング処理 : `("scl", StandardScaler())`
-  - パイプラインの２つ目の推定器は、PCA による次元削除（ 30 → 2 次元 ） : `( "pca", PCA( n_components=2 ) )`
-  - パイプラインの予想器は、ロジスティクス回帰 : `( "clf", LogisticRegression( random_state=1 )`
+  - パイプラインの１つ目の変換器は、スケーリング処理 : `("scl", StandardScaler())`
+  - パイプラインの２つ目の変換器は、PCA による次元削除（ 30 → 2 次元 ） : `( "pca", PCA( n_components=2 ) )`
+  - パイプラインの推定器は、ロジスティクス回帰 : `( "clf", LogisticRegression( random_state=1 )`
 - クロス・バディゲーションで汎化性能を評価 : `sklearn.model_selection.cross_val_score()` を使用
 
 > クロス・バディゲーションでの汎化性能の検証結果
@@ -63,21 +63,21 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 - Brest Cancer Wisconsin データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
 - scikit -learn ライブラリ の `Pipeline` クラスを使用して、各プロセスを実施
-  - パイプラインの１つ目の推定器は、スケーリング処理 : `("scl", StandardScaler())`
-  - パイプラインの予想器は、ロジスティクス回帰（L2正則化） : `( "clf", LogisticRegressionLogisticRegression(penalty='l2', random_state=0)`
+  - パイプラインの１つ目の変換器は、スケーリング処理 : `("scl", StandardScaler())`
+  - パイプラインの推定器は、ロジスティクス回帰（L2正則化） : `( "clf", LogisticRegressionLogisticRegression(penalty='l2', random_state=0)`
   - このロジスティクス回帰は、交差エントロピー関数（評価関数）を L2 正則化する。（過学習対策）
-- 学習曲線で汎化性能（バイアス・バリアントトレードオフ）を評価 : 
-- 検証曲線で汎化性能（過学習、学習不足）を評価 : 
+- 学習曲線で汎化性能（バイアス・バリアントトレードオフ関係）を評価 : `learning_curve()`
+- 検証曲線で汎化性能（過学習、学習不足）を評価 : `validation_curve()`
 
 > 学習曲線
->>図より、トレーニングサンプル数が、325 個程度を超えたあたりから僅かな過学習が発生しているのが見て取れるが、全体的にバイアス・バリアントトレードオフがちょうどいいバランスになっている。
+>>図より、トレーニングサンプル数が、325 個程度を超えたあたりから僅かな過学習が発生しているのが見て取れるが、全体的にバイアス・バリアントトレードオフがちょうどいいバランスになっていることが分かる。
 
 ![machinelearningpipeline_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29451212-c7290d4e-843c-11e7-9103-d33cc5aa1b6e.png)
 
 > 検証曲線
->> 横軸は、パイプラインの予想器に使用したこのロジスティクス回帰の交差エントロピー関数（評価関数）を L2 正則化するための、逆正則化パラメータ C の値（log スケール）。C 値を小さくして、正則化の強さを下げる（右から左方向）ほど、過学習傾向が下がっていることが見て取れる。つまり、L２正則化による過学習対策がうまく出来ている。
+>> 横軸は、パイプラインの予想器に使用したこのロジスティクス回帰の交差エントロピー関数（評価関数）を L2 正則化するための、逆正則化パラメータ C の値（log スケール）。C 値を小さくして、正則化の強さを上げる（図中の右から左方向）ほど、過学習傾向が下がっていることが見て取れる。つまり、L２正則化による過学習対策がうまく出来ていることが分かる。
 
-![machinelearningpipeline_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29451357-5893a6e0-843d-11e7-9319-b9af253e78a4.png)
+![machinelearningpipeline_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29456506-ec919114-8450-11e7-99f7-b20f0c230a57.png)
 
 
 ### グリッドサーチによるモデルのハイパーパラメータのチューニング : `main3().py`

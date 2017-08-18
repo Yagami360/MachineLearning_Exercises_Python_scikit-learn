@@ -160,7 +160,7 @@ def main():
     #-------------------------------------------
     # 検証曲線を描写
     #-------------------------------------------
-    Plot2D.Plot2D.drawValididationCurve(
+    Plot2D.Plot2D.drawValidationCurve(
         param_range = param_range,
         train_means = train_means,
         train_stds = train_stds,
@@ -168,7 +168,7 @@ def main():
         test_stds = test_stds
     )
     plt.xscale('log')   # log スケール
-    plt.title( "Valididation Curve \n LogisticRegression (L2 regularization)" )
+    plt.title( "Validation Curve \n LogisticRegression (L2 regularization)" )
     plt.xlabel('Parameter C [Reverse regularization parameter]')
     plt.ylabel('Accuracy')
     plt.legend(loc='best')
