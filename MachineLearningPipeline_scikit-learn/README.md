@@ -63,15 +63,18 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
 - scikit -learn ライブラリ の `Pipeline` クラスを使用して、各プロセスを実施
   - パイプラインの１つ目の推定器は、スケーリング処理 : `("scl", StandardScaler())`
-  - パイプラインの予想器は、ロジスティクス回帰 : `( "clf", LogisticRegression( random_state=1 )`
+  - パイプラインの予想器は、ロジスティクス回帰（L2正則化） : `( "clf", LogisticRegressionLogisticRegression(penalty='l2', random_state=0)`
+  - このロジスティクス回帰は、交差エントロピー関数（評価関数）を L2 正則化する。（過学習対策）
 - 学習曲線で汎化性能（バイアス・バリアントトレードオフ）を評価 : 
 - 検証曲線で汎化性能（過学習、学習不足）を評価 : 
 
 > 学習曲線
->> コード実施中...
+>>図より、トレーニングサンプル数が、325 個程度を超えたあたりから僅かな過学習が発生しているのが見て取れるが、全体的にバイアス・バリアントトレードオフがちょうどいいバランスになっている。
+
+![machinelearningpipeline_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29450243-d405b2be-8438-11e7-828d-efbcea49d3ba.png)
 
 > 検証曲線
->> コード実施中...
+
 
 ### グリッドサーチによるモデルのハイパーパラメータのチューニング : `main3().py`
 
