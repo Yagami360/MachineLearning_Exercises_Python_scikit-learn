@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
 
-from sklearn.model_selection import learning_curve      # 学習曲線、検証曲線用
+from sklearn.model_selection import learning_curve      # 学習曲線用
+from sklearn.model_selection import validation_curve    # 検証曲線用
 
 from sklearn.pipeline import Pipeline
 
@@ -76,7 +77,7 @@ def main():
     
 
     #===========================================
-    # 汎化性能の確認
+    # 学習曲線による汎化性能の確認
     #===========================================
     # learning_curve() 関数で"交差検証"による正解率を算出
     train_sizes, train_scores, test_scores \
@@ -115,7 +116,7 @@ def main():
         test_means = test_means,
         test_stds = test_stds
     )
-    plt.title( "Learning Curve" )
+    plt.title( "Learning Curve \n LogisticRegression (L2 regularization)" )
     plt.xlabel('Number of training samples')
     plt.ylabel('Accuracy')
     plt.legend(loc='best')
@@ -125,9 +126,57 @@ def main():
     plt.savefig("./MachineLearningPipeline_scikit-learn_1.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()
 
+    #===========================================
+    # 検証曲線による汎化性能の確認
+    #===========================================
+    param_range = [0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
+
+    # validication_curve() 関数で"交差検証"による正解率を算出
+    train_scores, test_scores \
+    = validation_curve(
+          estimator = pipe_logReg,      # 
+          X = X_train, 
+          y = y_train, 
+          param_name = 'clf__C',        # 
+          param_range = param_range,
+          cv = 10
+      )
+
+    # 上書き
+    train_means = numpy.mean( train_scores, axis=1 )
+    train_stds = numpy.std( train_scores, axis=1 )
+    test_means = numpy.mean( test_scores, axis=1 )
+    test_stds = numpy.std( test_scores, axis=1 )      
+
+    #
+    print( "param_range : \n" , param_range )
+    print( "train_scores : \n" , train_scores )
+    print( "test_scores : \n" , test_scores )
+    print( "train_means : \n" , train_means )
+    print( "train_stds : \n" , train_stds )
+    print( "test_means : \n" , test_means )
+    print( "test_stds : \n" , test_stds )
+
     #-------------------------------------------
     # 検証曲線を描写
     #-------------------------------------------
+    Plot2D.Plot2D.drawValididationCurve(
+        param_range = param_range,
+        train_means = train_means,
+        train_stds = train_stds,
+        test_means = test_means,
+        test_stds = test_stds
+    )
+    plt.xscale('log')   # log スケール
+    plt.title( "Valididation Curve \n LogisticRegression (L2 regularization)" )
+    plt.xlabel('Parameter C [Reverse regularization parameter]')
+    plt.ylabel('Accuracy')
+    plt.legend(loc='best')
+    plt.ylim( [0.8, 1.01] )
+    plt.tight_layout()
+
+    plt.savefig("./MachineLearningPipeline_scikit-learn_2.png", dpi = 300, bbox_inches = 'tight' )
+    plt.show()
 
 
     print("Finish main()")

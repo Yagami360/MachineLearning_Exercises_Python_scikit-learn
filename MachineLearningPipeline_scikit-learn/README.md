@@ -14,6 +14,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 
 > 学習曲線、検証曲線
 >> `sklearn.model_selection.learning_curve` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html
+>> `sklearn.model_selection.validation_curve` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.Validation_curve.html
 
 
 ### 使用するデータセット
@@ -71,9 +72,13 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 > 学習曲線
 >>図より、トレーニングサンプル数が、325 個程度を超えたあたりから僅かな過学習が発生しているのが見て取れるが、全体的にバイアス・バリアントトレードオフがちょうどいいバランスになっている。
 
-![machinelearningpipeline_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29450243-d405b2be-8438-11e7-828d-efbcea49d3ba.png)
+![machinelearningpipeline_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29451212-c7290d4e-843c-11e7-9103-d33cc5aa1b6e.png)
 
 > 検証曲線
+
+横軸は、パイプラインの予想器に使用したこのロジスティクス回帰の交差エントロピー関数（評価関数）を L2 正則化するための、逆正則化パラメータ C の値（log スケール）。C 値を小さくして、正則化の強さを下げる（右から左方向）ほど、過学習傾向が下がっていることが見て取れる。つまり、L２正則化による過学習対策がうまく出来ている。
+
+![machinelearningpipeline_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29451357-5893a6e0-843d-11e7-9319-b9af253e78a4.png)
 
 
 ### グリッドサーチによるモデルのハイパーパラメータのチューニング : `main3().py`
