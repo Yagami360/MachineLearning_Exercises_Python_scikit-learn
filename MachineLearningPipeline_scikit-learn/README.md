@@ -75,8 +75,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 ![machinelearningpipeline_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29451212-c7290d4e-843c-11e7-9103-d33cc5aa1b6e.png)
 
 > 検証曲線
-
-横軸は、パイプラインの予想器に使用したこのロジスティクス回帰の交差エントロピー関数（評価関数）を L2 正則化するための、逆正則化パラメータ C の値（log スケール）。C 値を小さくして、正則化の強さを下げる（右から左方向）ほど、過学習傾向が下がっていることが見て取れる。つまり、L２正則化による過学習対策がうまく出来ている。
+>> 横軸は、パイプラインの予想器に使用したこのロジスティクス回帰の交差エントロピー関数（評価関数）を L2 正則化するための、逆正則化パラメータ C の値（log スケール）。C 値を小さくして、正則化の強さを下げる（右から左方向）ほど、過学習傾向が下がっていることが見て取れる。つまり、L２正則化による過学習対策がうまく出来ている。
 
 ![machinelearningpipeline_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29451357-5893a6e0-843d-11e7-9319-b9af253e78a4.png)
 
