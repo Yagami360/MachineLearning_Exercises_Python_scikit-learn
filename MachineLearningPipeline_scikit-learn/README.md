@@ -3,20 +3,23 @@
 
 ### 使用する scikit-learn ライブラリ：
 
-> `sklearn.pipeline.Pipeline` :
+> パイプライン
+>> `sklearn.pipeline.Pipeline` :
   http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
-> `sklearn.model_selection.StratifiedKFold` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
-
+> クロスバディゲーション
+>> `sklearn.model_selection.StratifiedKFold` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
 > `sklearn.model_selection.cross_val_score` : 
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html
 
+> 学習曲線、検証曲線
+>> `sklearn.model_selection.learning_curve` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html
+
+
 ### 使用するデータセット
 
-> Brest Cancer Wisconsin データセット：（csvフォーマット）: https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
-
-悪性腫瘍細胞と良性腫瘍細胞の 569 個のサンプルが含まれている。1 列目は固有の ID 、2 列目は悪性 [malignant] or 良性 [belign] を表すラベル、3 ~ 32 列目には、細胞核のデジタル画像から算出された 30 個の実数値の特徴量が含まれれいる。
-
+> Brest Cancer Wisconsin データセット（csvフォーマット）: https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
+>>悪性腫瘍細胞と良性腫瘍細胞の 569 個のサンプルが含まれている。1 列目は固有の ID 、2 列目は悪性 [malignant] or 良性 [belign] を表すラベル、3 ~ 32 列目には、細胞核のデジタル画像から算出された 30 個の実数値の特徴量が含まれれいる。
 
 |行番号|ID|悪性（M）/良性（B）|1|2|3|4|5|6|7|8|...|22|23|24|25|26|27|28|29|30|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -31,7 +34,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 
 ## コードの実行結果
 
-### `main1().py`
+### クロスバディゲーションを用いた、モデルの汎化能力の評価 : `main1().py`
 
 - Brest Cancer Wisconsin データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
@@ -54,6 +57,32 @@ CV accuracy :
 |平均値|分散値|
 |---|---|
 |0.963|+/- 0.028|
+
+### 学習曲線, 検証曲線よるモデルの汎化性能の評価 : `main2().py`
+
+- Brest Cancer Wisconsin データセットを使用
+- トレーニングデータ 80% 、テストデータ 20%の割合で分割
+- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各プロセスを実施
+  - パイプラインの１つ目の推定器は、スケーリング処理 : `("scl", StandardScaler())`
+  - パイプラインの予想器は、ロジスティクス回帰 : `( "clf", LogisticRegression( random_state=1 )`
+- 学習曲線で汎化性能（バイアス・バリアントトレードオフ）を評価 : 
+- 検証曲線で汎化性能（過学習、学習不足）を評価 : 
+
+> 学習曲線
+
+コード実施中...
+
+> 検証曲線
+
+コード実施中...
+
+### グリッドサーチによるモデルのハイパーパラメータのチューニング : `main3().py`
+
+コード実施中...
+
+### ROC 曲線よるモデルの汎化性能の評価 : `main4().py`
+
+コード実施中...
 
 ---
 
@@ -100,12 +129,12 @@ CV accuracy :
 ![twitter_ 11-1_161005](https://user-images.githubusercontent.com/25688193/29446161-a1383a9a-8425-11e7-86b0-c23fe22e0039.png)
 ![twitter_ 11-3_161005](https://user-images.githubusercontent.com/25688193/29446158-a134fe98-8425-11e7-9cda-37a0585357e8.png)
 ![twitter_ 12-1_161004](https://user-images.githubusercontent.com/25688193/29446157-a1336a06-8425-11e7-9f16-d66eb9bb9927.png)
-![twitter_ 13-1_161227](https://user-images.githubusercontent.com/25688193/29446164-a15b0ab6-8425-11e7-97e0-dc557c10ce99.png)
-![twitter_ 13-2_161227](https://user-images.githubusercontent.com/25688193/29446162-a15952c0-8425-11e7-99c4-13c679b7a3d3.png)
-![twitter_ 13-3_161229](https://user-images.githubusercontent.com/25688193/29446163-a15b0912-8425-11e7-972e-0a8ddc9c2097.png)
 
 ---
 
+![twitter_ 13-1_161227](https://user-images.githubusercontent.com/25688193/29446164-a15b0ab6-8425-11e7-97e0-dc557c10ce99.png)
+![twitter_ 13-2_161227](https://user-images.githubusercontent.com/25688193/29446162-a15952c0-8425-11e7-99c4-13c679b7a3d3.png)
+![twitter_ 13-3_161229](https://user-images.githubusercontent.com/25688193/29446163-a15b0912-8425-11e7-972e-0a8ddc9c2097.png)
 ![twitter_ 13-5_170101](https://user-images.githubusercontent.com/25688193/29446165-a15b9f76-8425-11e7-9e1c-aa9e70f7ddc1.png)
 ![twitter_ 13-8_170102](https://user-images.githubusercontent.com/25688193/29446167-a167e70e-8425-11e7-81db-502156d96cfd.png)
 ![twitter_ 13-9_170102](https://user-images.githubusercontent.com/25688193/29446166-a164b598-8425-11e7-9de7-ec1d8f7e9fc1.png)
