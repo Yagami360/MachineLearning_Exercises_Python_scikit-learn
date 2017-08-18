@@ -5,12 +5,13 @@ import numpy
 import pandas
 import matplotlib.pyplot as plt
 
-
 # scikit-learn ライブラリ関連
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
 
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
+from sklearn.model_selection import StratifiedKFold     #
+from sklearn.model_selection import cross_val_score     #
 
 from sklearn.pipeline import Pipeline
 
@@ -95,8 +96,18 @@ def main():
     #===========================================
     
     #-------------------------------------------
-    # クロスバディゲーション
+    # クロスバディゲーション : CV
     #-------------------------------------------
+    scores = cross_val_score(
+                estimator = pipe_logReg,  # 推定器 [estimator]
+                X = X_train,              #
+                y = y_train,              #
+                cv = 10,                  # 交差検証の回数（分割数）
+                n_jobs = -1               # 全てのCPUで並列処理
+             )
+
+    print( 'CV accuracy scores: %s' % scores )
+    print( 'CV accuracy: %.3f +/- %.3f' % ( numpy.mean(scores), numpy.std(scores) ) )
 
 
     print("Finish main()")
