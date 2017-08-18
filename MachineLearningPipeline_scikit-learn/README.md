@@ -89,6 +89,8 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 
 > 広義な意味でのモデル選択
 
+![twitter_ 20-1_170108](https://user-images.githubusercontent.com/25688193/29448075-e4d5dda2-842f-11e7-931c-7e861643466b.png)
+
 ![twitter_ _ _10-1_170625](https://user-images.githubusercontent.com/25688193/29447595-98f797a6-842d-11e7-9eaf-c228479483d7.png)
 ![twitter_ _ _10-2_170625](https://user-images.githubusercontent.com/25688193/29447597-9919f56c-842d-11e7-8251-e9c6e846c292.png)
 
