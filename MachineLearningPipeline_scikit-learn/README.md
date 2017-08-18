@@ -14,7 +14,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 
 > 学習曲線、検証曲線
 >> `sklearn.model_selection.learning_curve` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html
->> `sklearn.model_selection.validation_curve` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.Validation_curve.html
+>> `sklearn.model_selection.validation_curve` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validation_curve.html
 
 
 ### 使用するデータセット
