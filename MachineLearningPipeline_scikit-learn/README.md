@@ -35,15 +35,15 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 
 ## コードの実行結果
 
-### クロスバディゲーションを用いた、モデルの汎化能力の評価 : `main1().py`
+### クロスバディゲーションを用いた、モデルの汎化能力の評価 : </br>`main1().py`
 
 - Brest Cancer Wisconsin データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
 - scikit -learn ライブラリ の `Pipeline` クラスを使用して、各プロセスを実施
-  - パイプラインの１つ目の変換器は、スケーリング処理 : `("scl", StandardScaler())`
-  - パイプラインの２つ目の変換器は、PCA による次元削除（ 30 → 2 次元 ） : `( "pca", PCA( n_components=2 ) )`
-  - パイプラインの推定器は、ロジスティクス回帰 : `( "clf", LogisticRegression( random_state=1 )`
-- クロス・バディゲーションで汎化性能を評価 : `sklearn.model_selection.cross_val_score()` を使用
+  - パイプラインの１つ目の変換器は、スケーリング処理 : </br>`("scl", StandardScaler())`
+  - パイプラインの２つ目の変換器は、PCA による次元削除（ 30 → 2 次元 ） : </br>`( "pca", PCA( n_components=2 ) )`
+  - パイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( random_state=1 )`
+- クロス・バディゲーションで汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
 
 > クロス・バディゲーションでの汎化性能の検証結果
 >> CV accuracy scores :
@@ -58,34 +58,34 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 |---|---|
 |0.963|+/- 0.028|
 
-### 学習曲線, 検証曲線よるモデルの汎化性能の評価 : `main2().py`
+### 学習曲線, 検証曲線よるモデルの汎化性能の評価 : </br>`main2().py`
 
 - Brest Cancer Wisconsin データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
 - scikit -learn ライブラリ の `Pipeline` クラスを使用して、各プロセスを実施
-  - パイプラインの１つ目の変換器は、スケーリング処理 : `("scl", StandardScaler())`
-  - パイプラインの推定器は、ロジスティクス回帰（L2正則化） : `( "clf", LogisticRegressionLogisticRegression(penalty='l2', random_state=0)`
+  - パイプラインの１つ目の変換器は、スケーリング処理 : </br> `("scl", StandardScaler())`
+  - パイプラインの推定器は、ロジスティクス回帰（L2正則化） : </br> `( "clf", LogisticRegressionLogisticRegression(penalty='l2', random_state=0)`
   - このロジスティクス回帰は、交差エントロピー関数（評価関数）を L2 正則化する。（過学習対策）
-- 学習曲線で汎化性能（バイアス・バリアントトレードオフ関係）を評価 : `learning_curve()`
-- 検証曲線で汎化性能（過学習、学習不足）を評価 : `validation_curve()`
+- 学習曲線で汎化性能（バイアス・バリアントトレードオフ関係）を評価 :</br> `learning_curve()`
+- 検証曲線で汎化性能（過学習、学習不足）を評価 : </br>`validation_curve()`
 
-> 学習曲線
+> 学習曲線 [Learning Curve]
 >>図より、トレーニングサンプル数が、325 個程度を超えたあたりから僅かな過学習が発生しているのが見て取れるが、全体的にバイアス・バリアントトレードオフがちょうどいいバランスになっていることが分かる。
 
 ![machinelearningpipeline_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29451212-c7290d4e-843c-11e7-9103-d33cc5aa1b6e.png)
 
-> 検証曲線
+> 検証曲線 [Validation Curve]
 >> 横軸は、パイプラインの予想器に使用したこのロジスティクス回帰の交差エントロピー関数（評価関数）を L2 正則化するための、逆正則化パラメータ C の値（log スケール）。C 値を小さくして、正則化の強さを上げる（図中の右から左方向）ほど、過学習傾向が下がっていることが見て取れる。つまり、L２正則化による過学習対策がうまく出来ていることが分かる。
 
 ![machinelearningpipeline_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29456506-ec919114-8450-11e7-99f7-b20f0c230a57.png)
 
 
-### グリッドサーチによるモデルのハイパーパラメータのチューニング : `main3().py`
+### グリッドサーチに [grid search] よるモデルのハイパーパラメータのチューニング : </br>`main3().py`
 
->> グリッドサーチが対象とするパラメータのヒートマップ : `matshow()`
->>> コード実施中....
+> グリッドサーチが対象とするパラメータのヒートマップ : `matshow()`
+>> コード実施中....
 
->> `GridSearchCV()` によるグリッドサーチの結果
+> `GridSearchCV()` によるグリッドサーチの結果
 
 |グリッドサーチの結果|values|
 |---|---|
@@ -93,9 +93,9 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 |最もよいスコアを出したモデルのパラメータ | liner C-SVM の C 値 : 10.0 </br> {'clf__C': 10.0, 'clf__gamma': 0.01, 'clf__kernel': 'rbf'}|
 |最もよいスコアを出したモデルでのテストデータでの正解率| 0.982|
 
-### ROC 曲線よるモデルの汎化性能の評価 : `main4().py`
+### ROC 曲線よるモデルの汎化性能の評価 : </br> `main4().py`
 
->> コード実施中...
+> コード実施中...
 
 ---
 
