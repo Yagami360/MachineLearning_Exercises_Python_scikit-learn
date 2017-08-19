@@ -4,11 +4,18 @@
     更新情報
     [17/08/18] : 学習曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawLearningCurve() を追加
                : 検証曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawValidationCurve() を追加
+    [17/08/18] : ヒートマップの描写関数 drawHeapMap() を追加
+
 """
 
-import matplotlib.pyplot as plt
 import numpy
+import pandas
+
+import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+
+import seaborn
+
 
 class Plot2D(object):
     """
@@ -238,4 +245,35 @@ class Plot2D(object):
 
         plt.grid()
         
+        return
+
+    @ staticmethod
+    def drawHeapMap( dat_x, dat_y, dat_z, xlabel = "", ylabel = "", input_cmap = "Blues" ):
+        """
+        ヒートマップを作図する.
+
+        [Input]
+            dat_x : list
+            dat_y : list
+
+        """
+
+        # Pivot形式に変換
+        df_heapMap = pandas.pivot_table(
+                        data = [dat_x, dat_y],    # x,y 軸値
+                        values  = dat_z,             # 
+                        columns = xlabel,
+                        index   = ylabel,            
+                        aggfunc = numpy.mean         #
+                     )
+
+        # ヒートマップを作図する
+        seaborn.heatmap(
+            df_heapMap, 
+            annot = True,       # True に設定すると、セルに値を出力
+            fmt = 'g',          # 数値の桁の調整
+            cmap = input_cmap,  # Colour_map
+            center = 250        # olormap の 中心とする値。(デフォルト値: None)
+        )
+
         return

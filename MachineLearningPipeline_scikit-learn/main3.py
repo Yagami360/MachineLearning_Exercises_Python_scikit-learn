@@ -64,9 +64,13 @@ def main():
     #pipe_csvm.fit( X_train, y_train )
 
     # 
+    # pipeline オブジェクトの内容確認
+    print( "Pipeline.get_params() : \n", pipe_csvm.get_params( deep = True ) )
+    print( "Pipeline.get_params() : \n", pipe_csvm.get_params( deep = False ) )
+
     #print( "Test Accuracy: %.3f" % pipe_csvm.score( X_test, y_test ) )
 
-    # グリッドサーチの対象パラメータ : 今の場合 C=SVM の正規化パラメータ C 値
+    # グリッドサーチの対象パラメータ : 今の場合 C=SVM の正規化パラメータ C 値とガンマ値
     param_range = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
 
     # グリッドサーチでチューニングしたいパラメータ : ディクショナリ（辞書）のリストで指定
@@ -97,18 +101,29 @@ def main():
 
 
     # グリッドサーチの結果を print
-    print( "GridSearchCV.best_score_ :\n", gs.best_score_ )         # 指定したモデルの内, 最もよいスコアを出したモデルのスコア
-    print( "GridSearchCV.best_params_ : \n", gs.best_params_ )      # 最もよいスコアを出したモデルのパラメータ
+    print( "sklearn.model_selection.GridSearchCV.best_score_ : \n", gs.best_score_ )        # 指定したモデルの内, 最もよいスコアを出したモデルのスコア
+    print( "sklearn.model_selection.GridSearchCV.best_params_ : \n", gs.best_params_ )      # 最もよいスコアを出したモデルのパラメータ
+    #print( "sklearn.model_selection.GridSearchCV.grid_scores_ : \n",gs.grid_scores_ )       # 全ての情報
+    
 
     # 最もよいスコアを出したモデルを抽出し, テストデータを評価
     clf = gs.best_estimator_
     clf.fit( X_train, y_train )     # 抽出したモデルをトレーニングデータで学習
-    print('Test accuracy: %.3f' % clf.score( X_test, y_test ) )     # 最もよいスコアを出したモデルでのテストデータ
+    print('sklearn.model_selection.GridSearchCV.best_estimator_ in Test accuracy: %.3f' % clf.score( X_test, y_test ) )     # 最もよいスコアを出したモデルでのテストデータ
 
     #-----------------------------------------------
     # グリッドサーチのためのヒートマップ図の plot
     #-----------------------------------------------
+    # ヒートマップのためのデータ
 
+    # ヒートマップを作図
+    """
+    Plot2D.Plot2D.drawHeapMap(
+        dat_x = param_range,        # C-SVM のパラメータ C 値
+        dat_y = param_range,        # C-SVM のパラメータ ガンマ 値
+        dat_z = gs.grid_scores_     # ! C-SVM での正解率
+    )
+    """
 
     plt.savefig("./MachineLearningPipeline_scikit-learn_3.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()

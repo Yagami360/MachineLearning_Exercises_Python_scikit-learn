@@ -95,8 +95,8 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
   - パイプラインの推定器は、サポートベクターマシン（C-SVM） : </br> `( "clf", 'clf', SVC( random_state = 1 )`
 - scikit -learn ライブラリ の `GridSearchCV()` 関数を使用して、ハイパーパラメータのグリッドサーチを実行
 
-> グリッドサーチが対象とするパラメータのヒートマップ : `matshow()`
->> コード実施中....
+> グリッドサーチが対象とするパラメータのヒートマップ : 作図に `seaborn.heatmap()` を使用
+>> コード実装中....
 
 > `GridSearchCV()` によるグリッドサーチの結果
 
@@ -109,7 +109,7 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 ### ROC 曲線よるモデルの汎化性能の評価 : </br> `main4().py`
 
-> コード実施中...
+> コード実装中...
 
 ---
 
