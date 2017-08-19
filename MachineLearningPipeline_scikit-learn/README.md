@@ -18,6 +18,9 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learnin
 >> `sklearn.model_selection.validation_curve` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validation_curve.html
 
+> グリッドサーチ
+>> `sklearn.model_selection.GridSearchCV` : </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html
 
 ### 使用するデータセット
 
@@ -92,9 +95,10 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 |グリッドサーチの結果|values|
 |---|---|
-|最もよいスコアを出したモデルの正解率 |0.98021978022|
-|最もよいスコアを出したモデルのパラメータ | liner C-SVM の C 値 : 10.0 </br> {'clf__C': 10.0, 'clf__gamma': 0.01, 'clf__kernel': 'rbf'}|
-|最もよいスコアを出したモデルでのテストデータでの正解率| 0.982|
+|最もよいスコアを出したモデルの正解率 </br> `sklearn.model_selection.GridSearchCV.best_score_`|0.980|
+|最もよいスコアを出したモデルのパラメータ </br> `sklearn.model_selection.GridSearchCV.best_params_`| liner C-SVM の C 値 : 10.0 </br> {'clf__C': 10.0, 'clf__gamma': 0.01, 'clf__kernel': 'rbf'}|
+|`sklearn.model_selection.GridSearchCV.grid_scores_`||
+|最もよいスコアを出したモデルでのテストデータでの正解率 </br> `sklearn.model_selection.GridSearchCV.best_estimator_`| 0.982|
 
 ### ROC 曲線よるモデルの汎化性能の評価 : </br> `main4().py`
 
