@@ -1,26 +1,29 @@
-## scikit-learn パイプライン（`Pipeline` クラス）による機械学習処理フローの効率化、及び、モデルの汎化性能の各種評価方法
+## scikit-learn パイプライン（`Pipeline` クラス）による機械学習処理フローの効率化、</br> 及び、モデルの汎化性能の各種評価方法
 
 
 ### 使用する scikit-learn ライブラリ：
 
 > パイプライン
->> `sklearn.pipeline.Pipeline` :
+>> `sklearn.pipeline.Pipeline` :</br>
   http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 > クロスバディゲーション
->> `sklearn.model_selection.StratifiedKFold` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
-> `sklearn.model_selection.cross_val_score` : 
+>> `sklearn.model_selection.StratifiedKFold` :</br> http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
+> `sklearn.model_selection.cross_val_score` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html
 
 > 学習曲線、検証曲線
->> `sklearn.model_selection.learning_curve` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html
->> `sklearn.model_selection.validation_curve` : http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validation_curve.html
+>> `sklearn.model_selection.learning_curve` :</br>
+http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html
+>> `sklearn.model_selection.validation_curve` :</br>
+http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validation_curve.html
 
 
 ### 使用するデータセット
 
-> Brest Cancer Wisconsin データセット（csvフォーマット）: https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
->>悪性腫瘍細胞と良性腫瘍細胞の 569 個のサンプルが含まれている。1 列目は固有の ID 、2 列目は悪性 [malignant] or 良性 [belign] を表すラベル、3 ~ 32 列目には、細胞核のデジタル画像から算出された 30 個の実数値の特徴量が含まれれいる。
+> Brest Cancer Wisconsin データセット（csvフォーマット）:</br>
+https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
+>>悪性腫瘍細胞と良性腫瘍細胞の 569 個のサンプルが含まれている。</br> 1 列目は固有の ID 、2 列目は悪性 [malignant] or 良性 [belign] を表すラベル、3 ~ 32 列目には、細胞核のデジタル画像から算出された 30 個の実数値の特徴量が含まれれいる。
 
 |行番号|ID|悪性（M）/良性（B）|1|2|3|4|5|6|7|8|...|22|23|24|25|26|27|28|29|30|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -75,7 +78,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_v
 ![machinelearningpipeline_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29451212-c7290d4e-843c-11e7-9103-d33cc5aa1b6e.png)
 
 > 検証曲線 [Validation Curve]
->> 横軸は、パイプラインの予想器に使用したこのロジスティクス回帰の交差エントロピー関数（評価関数）を L2 正則化するための、逆正則化パラメータ C の値（log スケール）。C 値を小さくして、正則化の強さを上げる（図中の右から左方向）ほど、過学習傾向が下がっていることが見て取れる。つまり、L２正則化による過学習対策がうまく出来ていることが分かる。
+>> 横軸は、パイプラインの予想器に使用したこのロジスティクス回帰の交差エントロピー関数（評価関数）を L2 正則化するための、逆正則化パラメータ C の値（log スケール）。</br> C 値を小さくして、正則化の強さを上げる（図中の右から左方向）ほど、過学習傾向が下がっていることが見て取れる。つまり、L２正則化による過学習対策がうまく出来ていることが分かる。
 
 ![machinelearningpipeline_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29456506-ec919114-8450-11e7-99f7-b20f0c230a57.png)
 
