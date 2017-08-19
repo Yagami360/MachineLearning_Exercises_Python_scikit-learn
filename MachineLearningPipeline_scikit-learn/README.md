@@ -45,8 +45,8 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 - Brest Cancer Wisconsin データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
-- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各プロセスを実施
-  - パイプラインの１つ目の変換器は、スケーリング処理 : </br>`("scl", StandardScaler())`
+- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各機械学習プロセスを実施
+  - パイプラインの１つ目の変換器は、正規化処理 : </br>`("scl", StandardScaler())`
   - パイプラインの２つ目の変換器は、PCA による次元削除（ 30 → 2 次元 ） : </br>`( "pca", PCA( n_components=2 ) )`
   - パイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( random_state=1 )`
 - クロス・バディゲーションで汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
@@ -68,8 +68,8 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 - Brest Cancer Wisconsin データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
-- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各プロセスを実施
-  - パイプラインの１つ目の変換器は、スケーリング処理 : </br> `("scl", StandardScaler())`
+- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各機械学習プロセスを実施
+  - パイプラインの１つ目の変換器は、正規化処理 : </br> `("scl", StandardScaler())`
   - パイプラインの推定器は、ロジスティクス回帰（L2正則化） : </br> `( "clf", LogisticRegressionLogisticRegression(penalty='l2', random_state=0)`
   - このロジスティクス回帰は、交差エントロピー関数（評価関数）を L2 正則化する。（過学習対策）
 - 学習曲線で汎化性能（バイアス・バリアントトレードオフ関係）を評価 :</br> `learning_curve()`
@@ -87,6 +87,13 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 
 ### グリッドサーチに [grid search] よるモデルのハイパーパラメータのチューニング : </br>`main3().py`
+
+- Brest Cancer Wisconsin データセットを使用
+- トレーニングデータ 80% 、テストデータ 20%の割合で分割
+- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各機械学習プロセスを実施
+  - パイプラインの１つ目の変換器は、正規化処理 : </br> `("scl", StandardScaler())`
+  - パイプラインの推定器は、サポートベクターマシン（C-SVM） : </br> `( "clf", 'clf', SVC( random_state = 1 )`
+- scikit -learn ライブラリ の `GridSearchCV()` 関数を使用して、ハイパーパラメータのグリッドサーチを実行
 
 > グリッドサーチが対象とするパラメータのヒートマップ : `matshow()`
 >> コード実施中....
