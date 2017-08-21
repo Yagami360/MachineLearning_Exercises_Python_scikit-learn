@@ -21,7 +21,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validat
 > グリッドサーチ
 >> `sklearn.model_selection.GridSearchCV` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html
->> ＜補足＞ヒートマップ `seaborn.heatma` : </br> 
+</br> ＜補足＞ ヒートマップ `seaborn.heatma` : </br> 
 https://seaborn.pydata.org/generated/seaborn.heatmap.html </br> http://pythondatascience.plavox.info/seaborn/heatmap
 
 ### 使用するデータセット
