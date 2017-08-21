@@ -1,4 +1,4 @@
-## scikit-learn パイプライン（`Pipeline` クラス）による機械学習処理フローの効率化、</br> 及び、モデルの汎化性能の各種評価方法
+## scikit-learn パイプライン（`Pipeline` クラス）による機械学習処理フローの効率化、</br> 及び、モデルの汎化性能の各種評価方法（２クラスの識別問題を対象）
 
 
 ### 使用する scikit-learn ライブラリ：
@@ -105,18 +105,41 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 ![machinelearningpipeline_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29512943-bc59e370-869e-11e7-8c4c-e4bac940d390.png)
 
 
-> `GridSearchCV()` によるグリッドサーチの結果
+> `sklearn.model_selection.GridSearchCV` を使用したグリッドサーチの結果
 
 |グリッドサーチの結果|values|
 |---|---|
-|最もよいスコアを出したモデルの正解率 </br> `sklearn.model_selection.GridSearchCV.best_score_`|0.980|
+|最もよいスコアを出したモデルの正解率 [平均値 +/- 分散値] </br> `sklearn.model_selection.GridSearchCV.best_score_`|0.980 (+/-0.021)|
 |最もよいスコアを出したモデルのパラメータ </br> `sklearn.model_selection.GridSearchCV.best_params_`| RBF-kernel SVM の C 値 : 10.0, ガンマ値 : 0.01 </br> {'clf__C': 10.0, 'clf__gamma': 0.01, 'clf__kernel': 'rbf'}|
-|最もよいスコアを出したモデルでのテストデータでの正解率 </br> `sklearn.model_selection.GridSearchCV.best_estimator_`| 0.982|
-|`sklearn.model_selection.GridSearchCV.grid_scores_`||
+|最もよいスコアを出したモデルでのテストデータでの正解率 [平均値 +/- 分散値] </br> `sklearn.model_selection.GridSearchCV.best_estimator_`| 0.982 (+/- 0.000)|
+|最もよいスコアを出したモデルでの</br>ハイパーパラメータの全組み合わせでの正解率の平均値 +/- 分散値</br>`sklearn.model_selection.GridSearchCV.grid_scores_`||
 
-### ROC 曲線よるモデルの汎化性能の評価 : </br> `main4().py`
+### 混同行列と ROC 曲線よるモデルの汎化性能の評価 : </br> `main4().py`
 
-> コード実装中...
+- Brest Cancer Wisconsin データセットを使用
+- トレーニングデータ 80% 、テストデータ 20%の割合で分割
+- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各機械学習プロセスを実施
+  - パイプラインの１つ目の変換器は、正規化処理 : </br> `("scl", StandardScaler())`
+  - パイプラインの推定器は、サポートベクターマシン（C-SVM） : </br> `( "clf", 'clf', SVC( random_state = 1 )`
+- クロス・バディゲーション（k=10）で汎化性能を評価 : 
+- 
+
+> 混同行列 [confusion matrix] のヒートマップ
+>>コード実装中...
+
+> 適合率、再現率、F1 スコア
+>>コード実装中...
+
+|各種性能指標|values|
+|---|---|
+|適合率 [Precision]||
+|再現率 [Recall]||
+|F1 スコア||
+
+
+
+> ROC 曲線 [Receiver Operator Characteristic Curve]
+>>コード実装中...
 
 ---
 
