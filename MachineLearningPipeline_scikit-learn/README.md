@@ -98,7 +98,7 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 > グリッドサーチが対象とするパラメータのヒートマップ : 作図に `seaborn.heatmap()` を使用
 >> 以下のヒートマップ図より、推定器として、RBF-kernel SVM を使用した場合、最も正解率が高くなるパラメータ（ハイパーパラメータ）は、C = 10, gamma = 0.01 (Accuracy = 0.980) となることが分かる。
 
-![machinelearningpipeline_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29507896-243adec0-868d-11e7-9f5e-5ccbb8531eff.png)
+![machinelearningpipeline_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29512943-bc59e370-869e-11e7-8c4c-e4bac940d390.png)
 
 
 > `GridSearchCV()` によるグリッドサーチの結果
@@ -106,9 +106,9 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 |グリッドサーチの結果|values|
 |---|---|
 |最もよいスコアを出したモデルの正解率 </br> `sklearn.model_selection.GridSearchCV.best_score_`|0.980|
-|最もよいスコアを出したモデルのパラメータ </br> `sklearn.model_selection.GridSearchCV.best_params_`| liner C-SVM の C 値 : 10.0 </br> {'clf__C': 10.0, 'clf__gamma': 0.01, 'clf__kernel': 'rbf'}|
-|`sklearn.model_selection.GridSearchCV.grid_scores_`||
+|最もよいスコアを出したモデルのパラメータ </br> `sklearn.model_selection.GridSearchCV.best_params_`| RBF-kernel SVM の C 値 : 10.0, ガンマ値 : 0.01 </br> {'clf__C': 10.0, 'clf__gamma': 0.01, 'clf__kernel': 'rbf'}|
 |最もよいスコアを出したモデルでのテストデータでの正解率 </br> `sklearn.model_selection.GridSearchCV.best_estimator_`| 0.982|
+|`sklearn.model_selection.GridSearchCV.grid_scores_`||
 
 ### ROC 曲線よるモデルの汎化性能の評価 : </br> `main4().py`
 

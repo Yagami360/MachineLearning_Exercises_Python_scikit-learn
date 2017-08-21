@@ -70,7 +70,6 @@ def main():
 
     #print( "Test Accuracy: %.3f" % pipe_csvm.score( X_test, y_test ) )
 
-
     
     #==============================
     # grid search
@@ -79,10 +78,10 @@ def main():
     param_range_C = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
     param_range_gamma = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
 
-    # グリッドサーチでチューニングしたいパラメータ : ディクショナリ（辞書）のリストで指定
+    # グリッドサーチでチューニングしたいモデルとそのパラメータ : ディクショナリ（辞書）のリストで指定
     param_grid = [
-        { 'clf__C': param_range_C, 'clf__kernel': ['linear'] },                           # liner C-SVM
-        { 'clf__C': param_range_C, 'clf__gamma': param_range_gamma, 'clf__kernel': ['rbf'] }    # RBF-kernel C-SVM
+        { 'clf__C': param_range_C, 'clf__kernel': ['linear'] },                                # liner C-SVM
+        { 'clf__C': param_range_C, 'clf__gamma': param_range_gamma, 'clf__kernel': ['rbf'] }   # RBF-kernel C-SVM
     ]
 
     # グリッドサーチを行う,GridSearchCV クラスのオブジェクト作成
@@ -127,7 +126,7 @@ def main():
     # グリッドサーチを行う
     gs = gs.fit( X_train, y_train )
 
-    # 
+    # grid_scores_ 属性から正解率を抽出
     gs_params = []
     gs_mean_scores = []
     gs_scores = []
@@ -157,8 +156,8 @@ def main():
         dat_y = heatmap_y         # y 軸の目盛り
     )
     
-    plt.title("Heat Map (Grid Serch) \n values : acuuracy , classifiler : RBF-kernel SVM")
-    plt.ylabel( "C : RBF-kernel parametor" )
+    plt.title("Heat Map (Grid Serch) \n values : Accuracy , classifiler : RBF-kernel SVM")
+    plt.ylabel( "C : RBF-kernel SVM parametor" )
     plt.xlabel( "gamma : RBF-kernel parametor" )
 
     plt.savefig("./MachineLearningPipeline_scikit-learn_3.png", dpi = 300, bbox_inches = 'tight' )
