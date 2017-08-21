@@ -5,6 +5,7 @@
     [17/08/18] : 学習曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawLearningCurve() を追加
                : 検証曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawValidationCurve() を追加
     [17/08/18] : ヒートマップの描写関数 drawHeapMap() を追加
+    [17/08/21] : ヒートマップの描写関数を改名＆修正（drawHeatMapFromGridSearch()）
 
 """
 
@@ -248,32 +249,33 @@ class Plot2D(object):
         return
 
     @ staticmethod
-    def drawHeapMap( dat_x, dat_y, dat_z, xlabel = "", ylabel = "", input_cmap = "Blues" ):
+    def drawHeatMapFromGridSearch( dat_Z, dat_x, dat_y, input_cmap = "Blues" ):
         """
         ヒートマップを作図する.
 
         [Input]
-            dat_x : list
-            dat_y : list
-
+            dat_Z : 2 次元 list
+                ヒートマップの各グリッドの値（Matrix）
+            dat_x : 1 次元 list
+                ヒートマップの x 軸の目盛りのリスト
+            dat_y : 1 次元list
+                ヒートマップの y 軸の目盛りのリスト
+            input_cmap : Colour_map
+                ヒートマップのカラーマップ
         """
-
-        # Pivot形式に変換
-        df_heapMap = pandas.pivot_table(
-                        data = [dat_x, dat_y],    # x,y 軸値
-                        values  = dat_z,             # 
-                        columns = xlabel,
-                        index   = ylabel,            
-                        aggfunc = numpy.mean         #
-                     )
+        df_heapMap = dat_Z
 
         # ヒートマップを作図する
         seaborn.heatmap(
-            df_heapMap, 
-            annot = True,       # True に設定すると、セルに値を出力
-            fmt = 'g',          # 数値の桁の調整
-            cmap = input_cmap,  # Colour_map
-            center = 250        # olormap の 中心とする値。(デフォルト値: None)
+            data = df_heapMap,          # ndarray 形式に変換可能な 2 次元のデータセット指定
+            vmin = 0.0, vmax = 1.0,     # カラーマップと値の範囲を関連付ける必要がある際に最小値、最大値を指定し
+            cmap = input_cmap,          # Colour_map
+            center = 0.5,               # olormap の 中心とする値。(デフォルト値: None)
+            annot = True,               # True に設定すると、セルに値を出力
+            fmt = '.3g',                # 数値の桁の調整
+            xticklabels = dat_x,        # x 軸目盛り
+            yticklabels = dat_y         # y 軸目盛り
         )
 
+        
         return

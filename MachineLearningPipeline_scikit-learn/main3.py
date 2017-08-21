@@ -70,24 +70,21 @@ def main():
 
     #print( "Test Accuracy: %.3f" % pipe_csvm.score( X_test, y_test ) )
 
+
+    
+    #==============================
+    # grid search
+    #==============================
     # グリッドサーチの対象パラメータ : 今の場合 C=SVM の正規化パラメータ C 値とガンマ値
-    param_range = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
+    param_range_C = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
+    param_range_gamma = [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
 
     # グリッドサーチでチューニングしたいパラメータ : ディクショナリ（辞書）のリストで指定
     param_grid = [
-        { 'clf__C': param_range, 'clf__kernel': ['linear'] },                           # liner C-SVM
-        { 'clf__C': param_range, 'clf__gamma': param_range, 'clf__kernel': ['rbf'] }    # RBF-kernel C-SVM
+        { 'clf__C': param_range_C, 'clf__kernel': ['linear'] },                           # liner C-SVM
+        { 'clf__C': param_range_C, 'clf__gamma': param_range_gamma, 'clf__kernel': ['rbf'] }    # RBF-kernel C-SVM
     ]
 
-
-    #============================================
-    # Learning Process
-    #===========================================
-    
-
-    #============================================
-    # 汎化能力の評価
-    #===========================================   
     # グリッドサーチを行う,GridSearchCV クラスのオブジェクト作成
     gs = GridSearchCV(
             estimator = pipe_csvm,      # 推定器
@@ -105,7 +102,6 @@ def main():
     print( "sklearn.model_selection.GridSearchCV.best_params_ : \n", gs.best_params_ )      # 最もよいスコアを出したモデルのパラメータ
     #print( "sklearn.model_selection.GridSearchCV.grid_scores_ : \n",gs.grid_scores_ )       # 全ての情報
     
-
     # 最もよいスコアを出したモデルを抽出し, テストデータを評価
     clf = gs.best_estimator_
     clf.fit( X_train, y_train )     # 抽出したモデルをトレーニングデータで学習
@@ -114,16 +110,56 @@ def main():
     #-----------------------------------------------
     # グリッドサーチのためのヒートマップ図の plot
     #-----------------------------------------------
-    # ヒートマップのためのデータ
+    # 再設定：RBF-kernel SVM
+    param_grid = [
+        { 'clf__C': param_range_C, 'clf__gamma': param_range_gamma, 'clf__kernel': ['rbf'] }    # RBF-kernel C-SVM
+    ]
 
+    # グリッドサーチを行う,GridSearchCV クラスのオブジェクト作成
+    gs = GridSearchCV(
+            estimator = pipe_csvm,      # 推定器
+            param_grid = param_grid,    # グリッドサーチの対象パラメータ
+            scoring = 'accuracy',       # 
+            cv = 10,                    # クロスバディゲーションの回数
+            n_jobs = -1                 # 全てのCPUで並列処理
+         )
+
+    # グリッドサーチを行う
+    gs = gs.fit( X_train, y_train )
+
+    # 
+    gs_params = []
+    gs_mean_scores = []
+    gs_scores = []
+
+    for parames, mean_score, scores in gs.grid_scores_:
+        gs_params.append( parames )
+        gs_mean_scores.append( mean_score )
+        gs_scores.append( scores )
+    
+    
+    gs_mean_scores = numpy.reshape( gs_mean_scores , ( len(param_range_C), len(param_range_gamma) ) )
+    #gs_scores = numpy.reshape( gs_scores , (8,8) )
+
+    print( "sklearn.model_selection.GridSearchCV.grid_scores_.parmes : \n", gs_params )
+    print( "sklearn.model_selection.GridSearchCV.grid_scores_.mean_scores : \n", gs_mean_scores )
+    print( "sklearn.model_selection.GridSearchCV.grid_scores_.scores : \n", gs_scores )
+
+    # ヒートマップのためのデータ
+    heatmap_Z = gs_mean_scores
+    heatmap_x = param_range_gamma
+    heatmap_y = param_range_C
+    
     # ヒートマップを作図
-    """
-    Plot2D.Plot2D.drawHeapMap(
-        dat_x = param_range,        # C-SVM のパラメータ C 値
-        dat_y = param_range,        # C-SVM のパラメータ ガンマ 値
-        dat_z = gs.grid_scores_     # ! C-SVM での正解率
+    Plot2D.Plot2D.drawHeatMapFromGridSearch(
+        dat_Z = heatmap_Z,        # ヒートマップの値 : RBF-kernel SVM での正解率
+        dat_x = heatmap_x,        # x 軸の目盛り
+        dat_y = heatmap_y         # y 軸の目盛り
     )
-    """
+    
+    plt.title("Heat Map (Grid Serch) \n values : acuuracy , classifiler : RBF-kernel SVM")
+    plt.ylabel( "C : RBF-kernel parametor" )
+    plt.xlabel( "gamma : RBF-kernel parametor" )
 
     plt.savefig("./MachineLearningPipeline_scikit-learn_3.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()
