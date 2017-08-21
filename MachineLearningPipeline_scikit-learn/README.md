@@ -96,7 +96,10 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 - scikit -learn ライブラリ の `GridSearchCV()` 関数を使用して、ハイパーパラメータのグリッドサーチを実行
 
 > グリッドサーチが対象とするパラメータのヒートマップ : 作図に `seaborn.heatmap()` を使用
->> コード実装中....
+>> 以下のヒートマップ図より、推定器として、RBF-kernel SVM を使用した場合、最も正解率が高くなるパラメータ（ハイパーパラメータ）は、C = 10, gamma = 0.01 (Accuracy = 0.980) となることが分かる。
+
+![machinelearningpipeline_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29507896-243adec0-868d-11e7-9f5e-5ccbb8531eff.png)
+
 
 > `GridSearchCV()` によるグリッドサーチの結果
 
