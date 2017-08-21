@@ -6,6 +6,7 @@
                : 検証曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawValidationCurve() を追加
     [17/08/18] : ヒートマップの描写関数 drawHeapMap() を追加
     [17/08/21] : ヒートマップの描写関数を改名＆修正（drawHeatMapFromGridSearch()）
+    []
 
 """
 
@@ -16,6 +17,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
 import seaborn
+from sklearn.metrics import confusion_matrix
 
 
 class Plot2D(object):
@@ -251,7 +253,7 @@ class Plot2D(object):
     @ staticmethod
     def drawHeatMapFromGridSearch( dat_Z, dat_x, dat_y, input_cmap = "Blues" ):
         """
-        ヒートマップを作図する.
+        グリッドサーチのヒートマップを作図する.
 
         [Input]
             dat_Z : 2 次元 list
@@ -277,5 +279,42 @@ class Plot2D(object):
             yticklabels = dat_y         # y 軸目盛り
         )
 
+        return
+
+    @ staticmethod
+    def drawHeatMapFromConfusionMatrix( mat_confusion, input_vmin = 0, input_vmax = 100, input_cmap = "Blues" ):
+        """
+        混同行列のヒートマップを作図する.
+
+        [Input]
+            mat_confusion : 
+                混同行列
+
+        """
         
+        """
+        # 文字列に変換し, 文字を付加
+        mat_confusion[0,0].append("TP [true positive]")
+        mat_confusion[0,1].append("FN [false negative]")
+        mat_confusion[1,0].append("FP [false positive]")
+        mat_confusion[1,1].append("TN [true negative]")
+        """
+
+        # ヒートマップを作図する
+        seaborn.heatmap(
+            data = mat_confusion,       # ndarray 形式に変換可能な 2 次元のデータセット指定
+            vmin = input_vmin,          # カラーマップと値の範囲を関連付ける必要がある際の最小値
+            vmax = input_vmax,          # カラーマップと値の範囲を関連付ける必要がある際の最大値
+            cmap = input_cmap,          # Colour_map
+            center = None,              # olormap の 中心とする値。(デフォルト値: None)
+            annot = True,               # True に設定すると、セルに値を出力
+            fmt = 'd',                  # テキストで出力
+            xticklabels = ["P","N"],    # x 軸目盛り
+            yticklabels = ["P","N"]     # y 軸目盛り
+        )
+        
+        plt.title( "heat map of confusion matrix" )
+        plt.xlabel( "predicted label" )
+        plt.ylabel( "true label" )
+
         return

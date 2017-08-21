@@ -24,6 +24,23 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSea
 </br> ＜補足＞ ヒートマップ `seaborn.heatma` : </br> 
 https://seaborn.pydata.org/generated/seaborn.heatmap.html </br> http://pythondatascience.plavox.info/seaborn/heatmap
 
+> 混同行列、適合率、再現率、F1スコア
+>> `sklearn.metrics.confusion_matrix` : </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html
+>> `sklearn.metrics.precision_score` : </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html
+>> `sklearn.metrics.recall_score` : </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html
+>> `sklearn.metrics.f1_score` : </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
+
+> ROC 曲線
+>> `sklearn.metrics.roc_curve` : </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html
+>> `sklearn.metrics.auc` : </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.metrics.auc.html
+
+
 ### 使用するデータセット
 
 > Brest Cancer Wisconsin データセット（csvフォーマット）:</br>
@@ -122,10 +139,21 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
   - パイプラインの１つ目の変換器は、正規化処理 : </br> `("scl", StandardScaler())`
   - パイプラインの推定器は、サポートベクターマシン（C-SVM） : </br> `( "clf", 'clf', SVC( random_state = 1 )`
 - クロス・バディゲーション（k=10）で汎化性能を評価 : 
-- 
+- 混同行列 [confusion matrix] のヒートマップを作図し、性能評価 : </br> `sklearn.metrics.confusion_matrix`
+- 適合率、再現率、F1 スコアで性能評価 : </br> `sklearn.metrics.precision_score` , `precision_score.recall_score` , `sklearn.metrics.f1_score` 
+- ROC 曲線を作図し、性能評価 : </br> `sklearn.metrics.roc_curve` , `sklearn.metrics.auc`
 
 > 混同行列 [confusion matrix] のヒートマップ
->>コード実装中...
+>> `sklearn.metrics.confusion_matrix` 関数で作成した混同行列を元に作図したヒートマップ図。</br>クラス０（悪性）を P（陽性クラス）、クラス１（陰性）を N（陰性クラス）とする。</br> 
+このモデル（RBF-kernel SVM）は、</br> 
+・真陰性：TN [true negative]：（左上）悪性クラス（P）に属しているデータ 66 個を正しく識別 </br> 
+・真陽性：TP [true positive]：（右下）陽性クラス（N）に属しているデータ 46 個を正しく識別 </br> 
+・偽陽性 : FP [false positive]（右上）悪性クラス（P）に属しているデータ 1 個を誤分類 </br> 
+・偽陰性: FN [false negative] : （左下）陽性クラス（N）に属しているデータ 1 個を誤分類 </br> 
+尚、このデータの場合は、悪性であるものを陽性と誤分類するのが一番大きなリスクを伴うことに注意。</br>（つまり、単純に誤サンプル数では比較できない）
+
+![machinelearningpipeline_scikit-learn_4](https://user-images.githubusercontent.com/25688193/29524147-fdc49eb0-86c9-11e7-97c6-e767c21f27d3.png)
+
 
 > 適合率、再現率、F1 スコア
 >>コード実装中...
