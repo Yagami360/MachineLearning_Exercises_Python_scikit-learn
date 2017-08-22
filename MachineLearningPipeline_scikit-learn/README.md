@@ -5,16 +5,18 @@
 
 > パイプライン
 >> `sklearn.pipeline.Pipeline` :</br>
-  http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
+http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 > クロスバディゲーション
 >> `sklearn.model_selection.StratifiedKFold` :</br> http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
-> `sklearn.model_selection.cross_val_score` :</br>
+</br> 
+>> `sklearn.model_selection.cross_val_score` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html
 
 > 学習曲線、検証曲線
 >> `sklearn.model_selection.learning_curve` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html
+</br> 
 >> `sklearn.model_selection.validation_curve` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validation_curve.html
 
@@ -27,16 +29,20 @@ https://seaborn.pydata.org/generated/seaborn.heatmap.html </br> http://pythondat
 > 混同行列、適合率、再現率、F1スコア
 >> `sklearn.metrics.confusion_matrix` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html
+</br> 
 >> `sklearn.metrics.precision_score` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html
+</br> 
 >> `sklearn.metrics.recall_score` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html
+</br> 
 >> `sklearn.metrics.f1_score` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
 
 > ROC 曲線
 >> `sklearn.metrics.roc_curve` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html
+</br>
 >> `sklearn.metrics.auc` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.auc.html
 
@@ -146,23 +152,22 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 > 混同行列 [confusion matrix] のヒートマップ
 >> `sklearn.metrics.confusion_matrix` 関数で作成した混同行列を元に作図したヒートマップ図。</br>クラス０（悪性）を P（陽性クラス）、クラス１（陰性）を N（陰性クラス）とする。</br> 
 このモデル（RBF-kernel SVM）は、</br> 
-・真陰性：TN [true negative]：（左上）悪性クラス（P）に属しているデータ 66 個を正しく識別 </br> 
-・真陽性：TP [true positive]：（右下）陽性クラス（N）に属しているデータ 46 個を正しく識別 </br> 
-・偽陽性 : FP [false positive]（右上）悪性クラス（P）に属しているデータ 1 個を誤分類 </br> 
-・偽陰性: FN [false negative] : （左下）陽性クラス（N）に属しているデータ 1 個を誤分類 </br> 
+・ 真陰性 : TN [true negative]：（左上）悪性クラス（P）に属しているデータ 66 個を正しく識別 </br> 
+・ 真陽性 : TP [true positive]：（右下）陽性クラス（N）に属しているデータ 46 個を正しく識別 </br> 
+・ 偽陽性 : FP [false positive]（右上）悪性クラス（P）に属しているデータ 1 個を誤分類 </br> 
+・ 偽陰性 : FN [false negative] : （左下）陽性クラス（N）に属しているデータ 1 個を誤分類 </br> 
 尚、このデータの場合は、悪性であるものを陽性と誤分類するのが一番大きなリスクを伴うことに注意。</br>（つまり、単純に誤サンプル数では比較できない）
 
 ![machinelearningpipeline_scikit-learn_4](https://user-images.githubusercontent.com/25688193/29524147-fdc49eb0-86c9-11e7-97c6-e767c21f27d3.png)
 
 
 > 適合率、再現率、F1 スコア
->>コード実装中...
 
 |各種性能指標|values|
 |---|---|
-|適合率 [Precision]||
-|再現率 [Recall]||
-|F1 スコア||
+|適合率 [Precision] <PRE = TP/(TP+FP)> </br> `sklearn.metrics.precision_score()`|0.979|
+|再現率 [Recall] <REC = TP/(TP+FN)> </br> `sklearn.metrics.recall_score()`|0.979|
+|F1 スコア <2×PRE×( REC/(PRE+REC) )> </br> `sklearn.metrics.f1_score()`|0.979|
 
 
 
@@ -216,15 +221,6 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 *    *    *
 
 ### ROC 曲線による汎化能力の検証
-
-![twitter_ 10-1_161005](https://user-images.githubusercontent.com/25688193/29446156-a1324964-8425-11e7-9555-da0dc49f132c.png)
-![twitter_ 10-2_161005](https://user-images.githubusercontent.com/25688193/29446159-a13575da-8425-11e7-97bc-277d49f09136.png)
-![twitter_ 10-3_161005](https://user-images.githubusercontent.com/25688193/29446160-a136d20e-8425-11e7-8451-cb0440cc4d5a.png)
-![twitter_ 11-1_161005](https://user-images.githubusercontent.com/25688193/29446161-a1383a9a-8425-11e7-86b0-c23fe22e0039.png)
-![twitter_ 11-3_161005](https://user-images.githubusercontent.com/25688193/29446158-a134fe98-8425-11e7-9cda-37a0585357e8.png)
-![twitter_ 12-1_161004](https://user-images.githubusercontent.com/25688193/29446157-a1336a06-8425-11e7-9f16-d66eb9bb9927.png)
-
----
 
 ![twitter_ 13-1_161227](https://user-images.githubusercontent.com/25688193/29446164-a15b0ab6-8425-11e7-97e0-dc557c10ce99.png)
 ![twitter_ 13-2_161227](https://user-images.githubusercontent.com/25688193/29446162-a15952c0-8425-11e7-99c4-13c679b7a3d3.png)

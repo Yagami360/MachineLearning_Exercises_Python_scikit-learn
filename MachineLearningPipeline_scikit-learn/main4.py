@@ -9,10 +9,16 @@ import matplotlib.pyplot as plt
 from sklearn.svm import SVC                             # 
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
 
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.metrics import confusion_matrix            # 混同行列
+
+from sklearn.metrics import precision_score             # 適合率
+from sklearn.metrics import recall_score                # 再現率
+from sklearn.metrics import f1_score                    # F1スコア
 from sklearn.metrics import make_scorer
-from sklearn.metrics import roc_curve, auc
+
+from sklearn.metrics import roc_curve                   # ROC曲線
+from sklearn.metrics import auc                         # AUC
+
 from scipy import interp
 
 from sklearn.pipeline import Pipeline
@@ -45,8 +51,17 @@ def main():
     # 欠損データへの対応
     #prePro.meanImputationNaN()
 
+    """
     # ラベルデータをエンコード
-    prePro.encodeClassLabelByLabelEncoder( colum = 1 )
+    prePro.setColumns( ['ID', 'B/M'] )
+    map_encode = {
+        'B': 0,
+        'M': 1
+    }
+
+    prePro.encodeClassLabelByLabelEncoder( key = "B/M" )
+    """
+    prePro.encodeClassLabelByLabelEncoder( colum = 0 )
     prePro.print( "Breast Cancer Wisconsin dataset" )
 
     # データをトレードオフデータとテストデータに分割
@@ -76,6 +91,9 @@ def main():
     print( "Pipeline.get_params( deep = False ) : \n", pipe_csvm.get_params( deep = False ) )
 
     print( "Pipeline.predict( X_test ) : \n", y_predict )
+    print( "Pipeline.predict( X_test )[0] : \n", y_predict[0] )
+    print( "Pipeline.predict( X_test )[1] : \n", y_predict[1] )
+    print( "Pipeline.predict( X_test )[2] : \n", y_predict[2] )
     print( "Test Accuracy: %.3f" % pipe_csvm.score( X_test, y_test ) )
 
     
@@ -91,15 +109,40 @@ def main():
     plt.title("Heat Map of Confusion Matrix \n classifiler : RBF-kernel SVM (C = 10.0, gamma = 0.01)")
 
     plt.savefig("./MachineLearningPipeline_scikit-learn_4.png", dpi = 300, bbox_inches = 'tight' )
-    plt.show()
+    #plt.show()
 
     #-------------------------------------------
     # 適合率、再現率、F1 スコア
     #-------------------------------------------
-    #print( 'Precision: %.3f' % precision_score(y_true = y_test, y_pred = y_predict) )
-    #print( 'Recall: %.3f' % recall_score(y_true = y_test, y_pred = y_predict) )
-    #print( 'F1: %.3f' % f1_score(y_true=y_test, y_pred=y_predict) )
+    """
+    for pred in range(0, len(y_predict)):
+        if( y_predict[pred] == "M"):
+            y_predict[pred] = 1
+        else:
+            y_predict[pred] = 0
 
+    print( "Pipeline.predict( X_test ) : \n", y_predict )
+    
+    # UnboundLocalError: local variable 'precision_score' referenced before assignment
+    # ValueError("pos_label=1 is not a valid label: array(['B', 'M'], \n      dtype='<U1')",)
+    # ValueError: Can't handle mix of binary and unknown
+    score_precision = precision_score( y_true = y_test, y_pred = y_predict )
+
+    score_recall    = recall_score( y_true = y_test, y_pred = y_predict )
+    score_f1        = f1_score( y_true = y_test, y_pred = y_predict )
+    """
+    # PRE = TP/(TP+FP)
+    score_precision = mat_confusion[1,1]/( mat_confusion[1,1] + mat_confusion[0,1] )
+
+    # REC = TP/(TP+FN)
+    score_recall    = mat_confusion[1,1]/( mat_confusion[1,1] + mat_confusion[1,0] )
+    
+    # F1 = 2*PRE*( REC/(PRE+REC)
+    score_f1 = 2*score_precision*( score_recall/(score_precision+score_recall) )
+    
+    print( 'Precision: %.3f' % score_precision )
+    print( 'Recall: %.3f' % score_recall )
+    print( 'F1: %.3f' % score_f1 )
 
     #-------------------------------------------
     # ROC 曲線
