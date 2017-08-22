@@ -334,11 +334,17 @@ class Plot2D(object):
             iterator : list
                 イテレータ
         [Output]
-            figure : 
+            figure : matplotlib.figure クラスのオブジェクト
+                描画される部品を納めるコンテナクラス ( Artist の派生クラス )
 
         """
-        # 
+        # Figure クラスのオブジェクト作成＆グラフサイズを設定
         figure = plt.figure( figsize = (7, 5) )
+
+        # ROC 曲線を構成する偽陽性率 [FPR] と真陽性率 [TPR] の初期化
+        means_tpr = 0.0                         # 
+        means_fpr = numpy.linspace(0, 1, 100)   # [0,1] の範囲（確率）を 100 個で分割
+        all_tpr   = []                          # 空のリストで初期化 
 
         #---------------------------------------------------------------------------------------
         # iterator 内の分割された ( train, test ) のペアでループ処理 (enumerate で並列ループ)
@@ -349,17 +355,53 @@ class Plot2D(object):
             print("y_train[train] : \n", y_train[train] )
 
             # トレーニングデータで推定器 classifiler を学習 fit()
-            predict = classifiler.fit( X_train[train], y_train[train])
+            predict = classifiler.fit( X_train[train], y_train[train] )
             print("predict : \n", predict )
 
             # test データで推定 predict_proba
             proba = predict.predict_proba( X_train[test] )
-            print("predict_proba : \n", proba )
+            #print("predict_proba : \n", proba )
 
             # roc_curve() 関数で ROC 曲線の性能を計算
+            fpr, tpr, thresholds = roc_curve( 
+                                       y_true = y_train[test],  # True binary labels in range {0, 1} or {-1, 1} 
+                                       y_score = proba[:, 1],   # Target scores, can either be probability estimates of the positive class, confidence values, or non-thresholded measure of decisions 
+                                       pos_label = 1            # positive と見なすラベルの値
+                                   )
+            print("roc_curve() retrun FPR : \n", fpr )
+            print("roc_curve() retrun TPR : \n", tpr )
+            #print("roc_curve() retrun thresholds : \n", thresholds )
+
+            # 得られた fpr (x軸値) と tpr (y軸値) の線形補間処理
+            means_tpr += interp( means_fpr, fpr, tpr )          # 
+            
+            #print("means_tpr : \n", means_tpr )
+            means_tpr[0] = 0.0                                  # ?
+            #print("means_tpr : \n", means_tpr )
+
+            # AUC 値を計算
+            roc_auc = auc( fpr, tpr )
+            #print("roc_auc : \n", roc_auc )
 
             # 計算したROC 曲線の性能を plot
+            plt.plot(
+                fpr, tpr,   # 偽陽性率 [FPR] と真陽性率 [TPR]
+                lw = 1,
+                label = 'ROC k=%d fold CV (AUC = %0.2f)' % ( it+1, roc_auc )
+            )
 
+        # ROC の平均を plot
+        means_tpr /= len(iterator)
+        means_tpr[-1] = 1.0
+        mean_auc = auc( means_fpr, means_tpr )
+        #print("means_tpr : \n", means_tpr )
+        
+        plt.plot(
+            means_fpr, means_tpr, 
+            'k--',
+            label = 'mean ROC (AUC = %0.2f)' % mean_auc, 
+            lw = 2
+        )
 
         # perfect performance 時の ROC 曲線 plot
         plt.plot(
@@ -387,7 +429,7 @@ class Plot2D(object):
         plt.ylim( [-0.05, 1.05] )
         plt.legend( loc = 'best' )
 
-        plt.grid()
-        plt.tight_layout()
+        #plt.grid()
+        #plt.tight_layout()
 
         return figure
