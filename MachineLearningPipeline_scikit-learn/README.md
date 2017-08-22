@@ -9,14 +9,12 @@ http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 > クロスバディゲーション
 >> `sklearn.model_selection.StratifiedKFold` :</br> http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
-</br> 
 >> `sklearn.model_selection.cross_val_score` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html
 
 > 学習曲線、検証曲線
 >> `sklearn.model_selection.learning_curve` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html
-</br> 
 >> `sklearn.model_selection.validation_curve` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validation_curve.html
 
@@ -29,20 +27,16 @@ https://seaborn.pydata.org/generated/seaborn.heatmap.html </br> http://pythondat
 > 混同行列、適合率、再現率、F1スコア
 >> `sklearn.metrics.confusion_matrix` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html
-</br> 
 >> `sklearn.metrics.precision_score` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html
-</br> 
 >> `sklearn.metrics.recall_score` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html
-</br> 
 >> `sklearn.metrics.f1_score` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
 
 > ROC 曲線
 >> `sklearn.metrics.roc_curve` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html
-</br>
 >> `sklearn.metrics.auc` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.auc.html
 
