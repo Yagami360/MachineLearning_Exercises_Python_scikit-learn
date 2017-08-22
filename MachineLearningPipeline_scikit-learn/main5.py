@@ -106,14 +106,22 @@ def main():
     #------------------------------------
     # ROC 曲線
     #------------------------------------
+
+    Plot2D.Plot2D.drawROCCurveFromTrainTestIterator(
+        classifiler = pipe_logReg,  # 推定器 : fit() 関数, predict() 関数を持つ
+        iterator = list_cv,         #
+        X_train = X_train,
+        y_train = y_train,
+        X_test = X_test,
+        y_test = y_test
+    )
     
-
-
-
-
-
     plt.savefig("./MachineLearningPipeline_scikit-learn_5.png", dpi = 300, bbox_inches = 'tight' )
-    #plt.show()
+    plt.show()
+
+
+
+
 
     print("Finish main()")
     return

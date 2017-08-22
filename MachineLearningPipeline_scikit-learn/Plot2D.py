@@ -6,7 +6,7 @@
                : 検証曲線を標準偏差のバラツキで塗りつぶして描写する関数 drawValidationCurve() を追加
     [17/08/18] : ヒートマップの描写関数 drawHeapMap() を追加
     [17/08/21] : ヒートマップの描写関数を改名＆修正（drawHeatMapFromGridSearch()）
-    []
+    [17/08/22] : ROC曲線の描写関数 `drawROCCurveFromTrainTestIterator()` 追加
 
 """
 
@@ -18,6 +18,10 @@ from matplotlib.colors import ListedColormap
 
 import seaborn
 from sklearn.metrics import confusion_matrix
+
+from sklearn.metrics import roc_curve                   # ROC曲線
+from sklearn.metrics import auc                         # AUC
+from scipy import interp                                # （AUCを計算するための）補間処理
 
 
 class Plot2D(object):
@@ -318,3 +322,72 @@ class Plot2D(object):
         plt.ylabel( "true label" )
 
         return
+
+    @ staticmethod
+    def drawROCCurveFromTrainTestIterator( classifiler, iterator, X_train, y_train, X_test, y_test ):
+        """
+        トレーニングデータとテストデータを分割するイテレータから、ROC曲線を描写する.
+
+        [Input]
+            classifiler : 推定器クラスのオブジェクト
+                fit() 関数と predict() 関数が実装されたクラスのオブジェクト
+            iterator : list
+                イテレータ
+        [Output]
+            figure : 
+
+        """
+        # 
+        figure = plt.figure( figsize = (7, 5) )
+
+        #---------------------------------------------------------------------------------------
+        # iterator 内の分割された ( train, test ) のペアでループ処理 (enumerate で並列ループ)
+        # イテレータ毎に ROC曲線 & AUC の描写処理
+        #---------------------------------------------------------------------------------------
+        for it, (train, test) in enumerate( iterator ):
+            print("X_train[train] : \n", X_train[train] )
+            print("y_train[train] : \n", y_train[train] )
+
+            # トレーニングデータで推定器 classifiler を学習 fit()
+            predict = classifiler.fit( X_train[train], y_train[train])
+            print("predict : \n", predict )
+
+            # test データで推定 predict_proba
+            proba = predict.predict_proba( X_train[test] )
+            print("predict_proba : \n", proba )
+
+            # roc_curve() 関数で ROC 曲線の性能を計算
+
+            # 計算したROC 曲線の性能を plot
+
+
+        # perfect performance 時の ROC 曲線 plot
+        plt.plot(
+            [0, 0, 1], [0, 1, 1],
+            lw=2,
+            linestyle=':',
+            color='black',
+            label='perfect performance (AUC = 1.00)'
+        )
+
+        # 当て推量時の ROC 曲線 & AUC値 plot
+        plt.plot(
+            [0, 1], [0, 1],
+            linestyle='--',
+            color = (0.6, 0.6, 0.6),
+            label='random guessing (AUC =0.50)'
+        )
+
+        #
+        plt.title( "ROC Curve [Receiver Operator Characteristic Curve]" )
+        plt.xlabel( "FPR : false positive rate" )
+        plt.ylabel( "TPR : true positive rate" )
+        
+        plt.xlim( [-0.05, 1.05] )
+        plt.ylim( [-0.05, 1.05] )
+        plt.legend( loc = 'best' )
+
+        plt.grid()
+        plt.tight_layout()
+
+        return figure
