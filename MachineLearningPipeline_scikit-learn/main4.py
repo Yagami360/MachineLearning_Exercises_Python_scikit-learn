@@ -16,9 +16,6 @@ from sklearn.metrics import recall_score                # 再現率
 from sklearn.metrics import f1_score                    # F1スコア
 from sklearn.metrics import make_scorer
 
-from sklearn.metrics import roc_curve                   # ROC曲線
-from sklearn.metrics import auc                         # AUC
-
 from scipy import interp
 
 from sklearn.pipeline import Pipeline
@@ -31,7 +28,7 @@ import DataPreProcess
 def main():
     """
     機械学習パイプラインによる、機械学習処理フロー（scikit-learn ライブラリの Pipeline クラスを使用）
-    混同行列とROC曲線によるモデルの汎化能力の評価
+    混同行列と適合率、再現率、F1スコアによるモデルの汎化能力の評価
     """
     print("Enter main()")
     
@@ -142,13 +139,7 @@ def main():
     
     print( 'Precision: %.3f' % score_precision )
     print( 'Recall: %.3f' % score_recall )
-    print( 'F1: %.3f' % score_f1 )
-
-    #-------------------------------------------
-    # ROC 曲線
-    #-------------------------------------------
-    
-    
+    print( 'F1: %.3f' % score_f1 )    
     
     print("Finish main()")
     return

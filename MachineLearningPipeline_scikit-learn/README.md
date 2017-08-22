@@ -131,7 +131,7 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 |最もよいスコアを出したモデルでのテストデータでの正解率 [平均値 +/- 分散値] </br> `sklearn.model_selection.GridSearchCV.best_estimator_`| 0.982 (+/- 0.000)|
 |最もよいスコアを出したモデルでの</br>ハイパーパラメータの全組み合わせでの正解率の平均値 +/- 分散値</br>`sklearn.model_selection.GridSearchCV.grid_scores_`||
 
-### 混同行列と ROC 曲線よるモデルの汎化性能の評価 : </br> `main4().py`
+### 混同行列と適合率、再現率、F1スコアによるモデルの汎化性能の評価 : </br> `main4().py`
 
 - Brest Cancer Wisconsin データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
@@ -141,7 +141,6 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 - クロス・バディゲーション（k=10）で汎化性能を評価 : 
 - 混同行列 [confusion matrix] のヒートマップを作図し、性能評価 : </br> `sklearn.metrics.confusion_matrix`
 - 適合率、再現率、F1 スコアで性能評価 : </br> `sklearn.metrics.precision_score` , `precision_score.recall_score` , `sklearn.metrics.f1_score` 
-- ROC 曲線を作図し、性能評価 : </br> `sklearn.metrics.roc_curve` , `sklearn.metrics.auc`
 
 > 混同行列 [confusion matrix] のヒートマップ
 >> `sklearn.metrics.confusion_matrix` 関数で作成した混同行列を元に作図したヒートマップ図。</br>クラス０（悪性）を P（陽性クラス）、クラス１（陰性）を N（陰性クラス）とする。</br> 
@@ -154,7 +153,6 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 ![machinelearningpipeline_scikit-learn_4](https://user-images.githubusercontent.com/25688193/29524147-fdc49eb0-86c9-11e7-97c6-e767c21f27d3.png)
 
-
 > 適合率、再現率、F1 スコア
 
 |各種性能指標|values|
@@ -164,6 +162,18 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 |F1 スコア <2×PRE×( REC/(PRE+REC) )> </br> `sklearn.metrics.f1_score()`|0.979|
 
 
+### ROC 曲線よるモデルの汎化性能の評価 : </br> `main5().py`
+
+- Brest Cancer Wisconsin データセットを使用
+- トレーニングデータ 80% 、テストデータ 20%の割合で分割
+- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各機械学習プロセスを実施
+  - パイプラインの１つ目の変換器は、正規化処理 : </br> `("scl", StandardScaler())`
+  - パイプラインの２つ目の変換器は、PCA による次元削除（ 32 → 2 次元 ） : </br>`( "pca", PCA( n_components=2 ) )`
+  - パイプラインの推定器は、ロジスティクス回帰（L2正則化） : </br> `( "clf", LogisticRegressionLogisticRegression(penalty='l2', C=100.0, random_state=0)`
+  - このロジスティクス回帰は、交差エントロピー関数（評価関数）を L2 正則化する。逆正則化パラメータ C は C=100.0 で固定（過学習対策）
+- クロス・バディゲーション（k=3）で汎化性能を評価 :</br> `sklearn.model_selection.StratifiedKFold`
+  - 得られる ROC 曲線が検証に適した形状になるように、分割数を 10 回から 3 回に減らす。
+- ROC 曲線を作図し、性能評価 : </br> `sklearn.metrics.roc_curve` , `sklearn.metrics.auc`
 
 > ROC 曲線 [Receiver Operator Characteristic Curve]
 >>コード実装中...
