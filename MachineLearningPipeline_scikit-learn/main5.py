@@ -8,18 +8,15 @@ import matplotlib.pyplot as plt
 # scikit-learn ライブラリ関連
 from sklearn.svm import SVC                             # 
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
+from sklearn.decomposition import PCA
+from sklearn.model_selection import StratifiedKFold     #
 
-from sklearn.metrics import confusion_matrix            # 混同行列
-
-from sklearn.metrics import precision_score             # 適合率
-from sklearn.metrics import recall_score                # 再現率
-from sklearn.metrics import f1_score                    # F1スコア
-from sklearn.metrics import make_scorer
+from sklearn.linear_model import LogisticRegression
 
 from sklearn.metrics import roc_curve                   # ROC曲線
 from sklearn.metrics import auc                         # AUC
 
-from scipy import interp
+from scipy import interp                                # （AUCを計算するための）補間処理
 
 from sklearn.pipeline import Pipeline
 
@@ -67,11 +64,29 @@ def main():
                                   ( "scl", StandardScaler() ),      # 正規化 : 変換器のクラス（fit() 関数を持つ）
                                   ('pca', PCA(n_components=2)),     # PCA で２次元に削除（特徴抽出）
                                   ('clf', LogisticRegression(penalty='l2', random_state=0, C=100.0) )  # ロジスティクス回帰（L2正則化） 
-                                                                                                       # :推定器のクラス（predict()関数を持つ）
+                                                                                                       # 推定器のクラス（predict()関数を持つ）
                               ]
                   )
 
-    
+    # ? 使用するデータ（特徴量）
+    #X_train2 = X_train[:, [4, 14]]
+
+    #-------------------------------------------
+    # クロスバリデーションの設定
+    #-------------------------------------------
+    # クロスバディゲーションの回数毎の ROC 曲線を描写するため、
+    # クラスのオブジェクト作成（分割数：３）を作成.
+    cv = StratifiedKFold( n_splits=3, random_state=1 )
+
+    # クラスのオブジェクトをイテレータ化するために split() して list 化
+    list_cv = list( cv.split( X_train, y_train ) )
+
+    print( "StratifiedKFold() : \n", cv )
+    print( "list( StratifiedKFold().split() ) : \n", list_cv )
+
+    #-------------------------------------------
+    # 
+    #-------------------------------------------
     # パイプラインに設定した変換器の fit() 関数を実行
     #pipe_logReg.fit( X_train, y_train )
 
@@ -92,6 +107,13 @@ def main():
     # ROC 曲線
     #------------------------------------
     
+
+
+
+
+
+    plt.savefig("./MachineLearningPipeline_scikit-learn_5.png", dpi = 300, bbox_inches = 'tight' )
+    #plt.show()
 
     print("Finish main()")
     return

@@ -1,5 +1,25 @@
 ## scikit-learn パイプライン（`Pipeline` クラス）による機械学習処理フローの効率化、</br> 及び、モデルの汎化性能の各種評価方法（２クラスの識別問題を対象）
 
+### 目次 [Contents]
+
+1. [使用する scikit-learn ライブラリ](#使用するscikit-learnライブラリ)
+1. [使用するデータセット](#使用するデータセット)
+1. [コードの実行結果](#コードの実行結果)
+    1. [クロスバディゲーションを用いた、モデルの汎化能力の評価 : `main1().py`](#クロスバディゲーションを用いた、モデルの汎化能力の評価)
+    1. [学習曲線, 検証曲線よるモデルの汎化性能の評価 : `main2().py`](#学習曲線,検証曲線よるモデルの汎化性能の評価)
+    1. [グリッドサーチに [grid search] よるモデルのハイパーパラメータのチューニング : `main3().py`](#グリッドサーチによるモデルのハイパーパラメータのチューニング)
+    1. [混同行列と適合率、再現率、F1スコアによるモデルの汎化性能の評価 : `main4().py`](#混同行列と適合率、再現率、F1スコアによるモデルの汎化性能の評価)
+    1. [ROC 曲線よるモデルの汎化性能の評価 : `main5().py`](#ROC曲線よるモデルの汎化性能の評価 )
+1. [Theory](#Theory)
+    1. [モデル選択とチューニングパラメータ（ハイパーパラメータ）](#モデル選択とチューニングパラメータ（ハイパーパラメータ）)
+    1. [トレーニングデータ、テストデータへのデータの分割](#トレーニングデータ、テストデータへのデータの分割)
+    1. [ホールドアウト法による汎化能力の検証](#ホールドアウト法による汎化能力の検証)
+    1. [クロスバディゲーション法による汎化能力の検証](#クロスバディゲーション法による汎化能力の検証)
+    1. [学習曲線、検証曲線による汎化能力の検証とバイアス・バリアントトレードオフ](#学習曲線、検証曲線による汎化能力の検証とバイアス・バリアントトレードオフ)
+    1. [グリッドサーチによるハイパーパラメータのチューニング](#グリッドサーチによるハイパーパラメータのチューニング)
+    1. [ROC 曲線による汎化能力の検証](#ROC曲線による汎化能力の検証)
+
+<a name="#使用するscikit-learnライブラリ"></a>
 
 ### 使用する scikit-learn ライブラリ：
 
@@ -40,6 +60,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html
 >> `sklearn.metrics.auc` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.auc.html
 
+<a name="#使用するデータセット"></a>
 
 ### 使用するデータセット
 
@@ -58,7 +79,11 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 ---
 
+<a name="#コードの実行結果"></a>
+
 ## コードの実行結果
+
+<a name="#クロスバディゲーションを用いた、モデルの汎化能力の評価"></a>
 
 ### クロスバディゲーションを用いた、モデルの汎化能力の評価 : </br>`main1().py`
 
@@ -83,6 +108,9 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 |---|---|
 |0.963|+/- 0.028|
 
+
+<a name="#学習曲線,検証曲線よるモデルの汎化性能の評価"></a>
+
 ### 学習曲線, 検証曲線よるモデルの汎化性能の評価 : </br>`main2().py`
 
 - Brest Cancer Wisconsin データセットを使用
@@ -105,6 +133,8 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 ![machinelearningpipeline_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29456506-ec919114-8450-11e7-99f7-b20f0c230a57.png)
 
+
+<a name="#グリッドサーチによるモデルのハイパーパラメータのチューニング"></a>
 
 ### グリッドサーチに [grid search] よるモデルのハイパーパラメータのチューニング : </br>`main3().py`
 
@@ -130,6 +160,9 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 |最もよいスコアを出したモデルのパラメータ </br> `sklearn.model_selection.GridSearchCV.best_params_`| RBF-kernel SVM の C 値 : 10.0, ガンマ値 : 0.01 </br> {'clf__C': 10.0, 'clf__gamma': 0.01, 'clf__kernel': 'rbf'}|
 |最もよいスコアを出したモデルでのテストデータでの正解率 [平均値 +/- 分散値] </br> `sklearn.model_selection.GridSearchCV.best_estimator_`| 0.982 (+/- 0.000)|
 |最もよいスコアを出したモデルでの</br>ハイパーパラメータの全組み合わせでの正解率の平均値 +/- 分散値</br>`sklearn.model_selection.GridSearchCV.grid_scores_`||
+
+
+<a name="#混同行列と適合率、再現率、F1スコアによるモデルの汎化性能の評価"></a>
 
 ### 混同行列と適合率、再現率、F1スコアによるモデルの汎化性能の評価 : </br> `main4().py`
 
@@ -162,6 +195,8 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 |F1 スコア <2×PRE×( REC/(PRE+REC) )> </br> `sklearn.metrics.f1_score()`|0.979|
 
 
+<a name="#ROC曲線よるモデルの汎化性能の評価"></a>
+
 ### ROC 曲線よるモデルの汎化性能の評価 : </br> `main5().py`
 
 - Brest Cancer Wisconsin データセットを使用
@@ -180,7 +215,11 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 ---
 
+<a name="#Theory"></a>
+
 ## Theory
+
+<a name="#モデル選択とチューニングパラメータ（ハイパーパラメータ）"></a>
 
 ### モデル選択とチューニングパラメータ（ハイパーパラメータ）
 
@@ -198,20 +237,27 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 *    *    *
 
+<a name="#トレーニングデータ、テストデータへのデータの分割"></a>
+
 ### トレーニングデータ、テストデータへのデータの分割
 
 ![twitter_ 4-1_160918](https://user-images.githubusercontent.com/25688193/29446101-65b4cfb0-8425-11e7-8b7b-b481ad353160.png)
 
+<a name="#ホールドアウト法による汎化能力の検証"></a>
 
 ### ホールドアウト法による汎化能力の検証
 
 ![twitter_ 5-1_160918](https://user-images.githubusercontent.com/25688193/29446118-7719d1d8-8425-11e7-9282-0de039e5ac43.png)
+
+<a name="#クロスバディゲーション法による汎化能力の検証"></a>
 
 ### クロスバディゲーション法による汎化能力の検証
 
 ![twitter_ 5-2_160919](https://user-images.githubusercontent.com/25688193/29446124-7bb14b86-8425-11e7-901a-8817811bea17.png)
 
 *    *    *
+
+<a name="#学習曲線、検証曲線による汎化能力の検証とバイアス・バリアントトレードオフ"></a>
 
 ### 学習曲線、検証曲線による汎化能力の検証とバイアス・バリアントトレードオフ
 
@@ -220,9 +266,13 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 
 *    *    *
 
+<a name="#グリッドサーチによるハイパーパラメータのチューニング"></a>
+
 ### グリッドサーチによるハイパーパラメータのチューニング
 
 *    *    *
+
+<a name="#ROC曲線による汎化能力の検証"></a>
 
 ### ROC 曲線による汎化能力の検証
 
