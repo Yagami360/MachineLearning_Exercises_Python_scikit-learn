@@ -217,6 +217,11 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 ![machinelearningpipeline_scikit-learn_5_2](https://user-images.githubusercontent.com/25688193/29600941-c05e1e84-8813-11e7-855b-3dec5e20318b.png)
 ![machinelearningpipeline_scikit-learn_5_1](https://user-images.githubusercontent.com/25688193/29600935-ba7115d0-8813-11e7-968e-c69ba600753c.png)
 
+>> 先の図は、ROC曲線の結果が検証用に適した形状となるように、特徴量の意図的な一部抽出 `X_train2 = X_train[:, [4, 14]]` を行なっていたが、こちらの図が、抽出を行っていない本来のケース。図から分かるように、AUC 値がほぼ 1.0 となりうまく識別出来ていることが分かる。
+
+![machinelearningpipeline_scikit-learn_5_4](https://user-images.githubusercontent.com/25688193/29601282-ae1d7bc8-8815-11e7-9cd4-483ce4da01e2.png)
+![machinelearningpipeline_scikit-learn_5_3](https://user-images.githubusercontent.com/25688193/29601281-ae1957fa-8815-11e7-84ff-4088410d2882.png)
+ 
 ---
 
 <a name="#背景理論"></a>
