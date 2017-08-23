@@ -1,28 +1,25 @@
 # MachineLearning_Samples_Python
 機械学習のサンプルコード集（Python使用）。機械学習とPython＆機械学習ライブラリの使い方のお練習
 
-README.md：コード実行結果の解説と合わせて、理論の解説も記載してます。
+README.md : コード実行結果の解説と合わせて、理論の解説も記載してます。
 
 
 ### 機械学習ライブラリ
 
-scikit-learn ライブラリ チートシート：http://scikit-learn.org/stable/tutorial/machine_learning_map/
+> scikit-learn ライブラリ チートシート：
+>> http://scikit-learn.org/stable/tutorial/machine_learning_map/
 
 
 ### 検証用データセット
 
-MNIST：（手書き数字文字画像データ）
+> MNIST：（手書き数字文字画像データ）</br>
+>> http://yann.lecun.com/exdb/mnist/
 
-http://yann.lecun.com/exdb/mnist/
+> ワインデータセット：（csvフォーマット）</br>
+>> https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
 
-ワインデータセット：（csvフォーマット）
-
-https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
-
-Brest Cancer Wisconsin データセット：（csvフォーマット）
-
-https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
-
+> Brest Cancer Wisconsin データセット：（csvフォーマット）</br>
+>> https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
 
 ## 項目（フォルダ別）
 
@@ -39,6 +36,7 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
 1. [./PCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/PCA_scikit-learn)
 1. [./kernelPCA_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/kernelPCA_scikit-learn)
 1. [./MachineLearningPipeline_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/MachineLearningPipeline_scikit-learn)
+1. [./EnsembleLearning_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/EnsembleLearning_scikit-learn)
 
 
 <a name="Perceptron"></a>
