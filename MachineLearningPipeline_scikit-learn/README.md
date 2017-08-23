@@ -207,12 +207,15 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsi
   - パイプラインの２つ目の変換器は、PCA による次元削除（ 32 → 2 次元 ） : </br>`( "pca", PCA( n_components=2 ) )`
   - パイプラインの推定器は、ロジスティクス回帰（L2正則化） : </br> `( "clf", LogisticRegressionLogisticRegression(penalty='l2', C=100.0, random_state=0)`
   - このロジスティクス回帰は、交差エントロピー関数（評価関数）を L2 正則化する。逆正則化パラメータ C は C=100.0 で固定（過学習対策）
-- クロス・バディゲーション（k=3）で汎化性能を評価 :</br> `sklearn.model_selection.StratifiedKFold`
-  - 得られる ROC 曲線が検証に適した形状になるように、分割数を 10 回から 3 回に減らす。
+- クロス・バディゲーションの分割値（k値）毎に汎化性能を評価 :</br> `sklearn.model_selection.StratifiedKFold`
+- ROC曲線の結果が検証用に適した形状となるように、特徴量の意図的な一部抽出を行なっていることに注意。（AUC 値がほぼ 1.0 の結果のみになってしまうため。）</br> `X_train2 = X_train[:, [4, 14]]`
 - ROC 曲線を作図し、性能評価 : </br> `sklearn.metrics.roc_curve` , `sklearn.metrics.auc`
 
 > ROC 曲線 [Receiver Operator Characteristic Curve]
->>コード実装中...
+>>1 つ目の図は、分割回数10回 (k=10) としたの時の k-fold CV での ROC 曲線 ＆ AUC 値の図。</br> 2つ目の図は、見やすいように分割回数 3 回 (k=3) としたの時の k-fold CV での ROC 曲線 ＆ AUC 値の図。</br> k-Fold の k 値に対する ROC 曲線の平均（mean ROC）の AUC 値が 0.75 となっている。これは、ちょうど AUC の最大値 1.0（完全な識別器のケース）と 最小値 0.5（ランダムな識別器のケース）の間の値となっている。
+
+![machinelearningpipeline_scikit-learn_5_2](https://user-images.githubusercontent.com/25688193/29600941-c05e1e84-8813-11e7-855b-3dec5e20318b.png)
+![machinelearningpipeline_scikit-learn_5_1](https://user-images.githubusercontent.com/25688193/29600935-ba7115d0-8813-11e7-968e-c69ba600753c.png)
 
 ---
 

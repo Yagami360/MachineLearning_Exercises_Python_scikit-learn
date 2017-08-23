@@ -248,7 +248,7 @@ class DataPreProcess( object ):
             エンコード対象を print するか否か
         """
         encoder = LabelEncoder()
-        encoder.fit_transform( self.df_.loc[:, colum].values )
+        encoder.fit_transform( self.df_.loc[:, colum].values )  # ? fit_transform() の結果の再代入が必要？
         encoder.transform( encoder.classes_ )
 
         if ( bPrint == True):

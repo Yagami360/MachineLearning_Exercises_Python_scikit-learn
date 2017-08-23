@@ -324,7 +324,7 @@ class Plot2D(object):
         return
 
     @ staticmethod
-    def drawROCCurveFromTrainTestIterator( classifiler, iterator, X_train, y_train, X_test, y_test ):
+    def drawROCCurveFromTrainTestIterator( classifiler, iterator, X_train, y_train, X_test, y_test, positiveLabel = 1 ):
         """
         トレーニングデータとテストデータを分割するイテレータから、ROC曲線を描写する.
 
@@ -344,39 +344,39 @@ class Plot2D(object):
         # ROC 曲線を構成する偽陽性率 [FPR] と真陽性率 [TPR] の初期化
         means_tpr = 0.0                         # 
         means_fpr = numpy.linspace(0, 1, 100)   # [0,1] の範囲（確率）を 100 個で分割
-        all_tpr   = []                          # 空のリストで初期化 
+        #all_tpr   = []                          # 空のリストで初期化 
 
         #---------------------------------------------------------------------------------------
         # iterator 内の分割された ( train, test ) のペアでループ処理 (enumerate で並列ループ)
         # イテレータ毎に ROC曲線 & AUC の描写処理
         #---------------------------------------------------------------------------------------
         for it, (train, test) in enumerate( iterator ):
-            print("X_train[train] : \n", X_train[train] )
-            print("y_train[train] : \n", y_train[train] )
+            #print("X_train[train] : \n", X_train[train] )
+            #print("y_train[train] : \n", y_train[train] )
 
             # トレーニングデータで推定器 classifiler を学習 fit()
             predict = classifiler.fit( X_train[train], y_train[train] )
-            print("predict : \n", predict )
+            #print("predict : \n", predict )
 
-            # test データで推定 predict_proba
+            # test データの予想所属確率を predict_proba() で算出
             proba = predict.predict_proba( X_train[test] )
             #print("predict_proba : \n", proba )
 
-            # roc_curve() 関数で ROC 曲線の性能を計算
+            # 実際の所属確率と予想の所属確率から roc_curve() 関数で ROC 曲線の性能値（FPR,TPR）を計算
             fpr, tpr, thresholds = roc_curve( 
-                                       y_true = y_train[test],  # True binary labels in range {0, 1} or {-1, 1} 
-                                       y_score = proba[:, 1],   # Target scores, can either be probability estimates of the positive class, confidence values, or non-thresholded measure of decisions 
-                                       pos_label = 1            # positive と見なすラベルの値
+                                       y_true = y_train[test],      # True binary labels in range {0, 1} or {-1, 1} 
+                                       y_score = proba[:, 1],       # Target scores, can either be probability estimates of the positive class, confidence values, or non-thresholded measure of decisions 
+                                       pos_label = positiveLabel    # positive と見なすラベルの値
                                    )
-            print("roc_curve() retrun FPR : \n", fpr )
-            print("roc_curve() retrun TPR : \n", tpr )
+            #print("roc_curve() retrun FPR : \n", fpr )
+            #print("roc_curve() retrun TPR : \n", tpr )
             #print("roc_curve() retrun thresholds : \n", thresholds )
 
             # 得られた fpr (x軸値) と tpr (y軸値) の線形補間処理
-            means_tpr += interp( means_fpr, fpr, tpr )          # 
+            means_tpr += interp( means_fpr, fpr, tpr ) 
             
             #print("means_tpr : \n", means_tpr )
-            means_tpr[0] = 0.0                                  # ?
+            means_tpr[0] = 0.0          # ?
             #print("means_tpr : \n", means_tpr )
 
             # AUC 値を計算
