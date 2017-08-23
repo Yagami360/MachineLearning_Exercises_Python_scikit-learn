@@ -4,7 +4,7 @@
 
 ### 目次 [Contents]
 
-1. [使用する scikit-learn ライブラリ](#使用するライブラリ)
+1. [使用するライブラリ](#使用するライブラリ)
 1. [使用するデータセット](#使用するデータセット)
 1. [コードの実行結果](#コードの実行結果)
     1. [ : `main1().py`](#)
@@ -13,17 +13,28 @@
     1. [混合モデルとアンサンブル学習](#混合モデルとアンサンブル学習)
     1. [決定木](#決定木)
     1. [アダブースト](#アダブースト)
-    1. [バギング](#)
+    1. [バギング](#バギング)
     1. [ランダムフォレスト](#ランダムフォレスト)
     1. [EMアルゴリズム](#EMアルゴリズム)
 
 <a name="#使用するライブラリ"></a>
 
-### 使用する scikit-learn ライブラリ：
+### 使用するライブラリ：
 
-> パイプライン
->> `sklearn.pipeline.Pipeline` :</br>
-http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
+> scikit-learn ライブラリ</br>
+>> 開発者向け情報 : </br>
+http://scikit-learn.org/stable/developers/contributing.html#rolling-your-own-estimator
+>> `sklearn.base` モジュールの API Reference
+>>> `sklearn.base` :</br>
+http://scikit-learn.org/stable/modules/classes.html#module-sklearn.base
+>>> `sklearn.base.BaseEstimator` :</br>
+http://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator
+
+> その他ライブラリ
+>> `math` :</br>
+https://docs.python.org/2/library/math.html
+>> `scipy.misc.comb` :</br>
+https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 
 <a name="#使用するデータセット"></a>
@@ -67,7 +78,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 <a name="#混合モデルとアンサンブル学習"></a>
 
-### 混合モデルとアンサンブル学習
+## 混合モデルとアンサンブル学習
 
 ![twitter_ _ _11-1_170626](https://user-images.githubusercontent.com/25688193/29602474-4747a2b0-881b-11e7-9881-f79b0d22a1f2.png)
 ![twitter_ _ _11-2_170630](https://user-images.githubusercontent.com/25688193/29602475-4747ec34-881b-11e7-841a-bf69defa1311.png)
@@ -77,7 +88,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 <a name="#決定木"></a>
 
-### 決定木
+## 決定木
 
 ![twitter_ 21-1_170730](https://user-images.githubusercontent.com/25688193/29602731-5f1cc8b0-881c-11e7-89ae-bdc9d923d3a8.png)
 ![twitter_ 21-2_170730](https://user-images.githubusercontent.com/25688193/29602727-5f08c57c-881c-11e7-9e3c-f2c4736d4ed4.png)
@@ -97,7 +108,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 <a name="#アダブースト"></a>
 
-### アダブースト
+## アダブースト
 
 ![twitter_ _ _11-11_170702](https://user-images.githubusercontent.com/25688193/29602479-476bbe66-881b-11e7-9927-231b8268982a.png)
 ![twitter_ _ _11-12_170703](https://user-images.githubusercontent.com/25688193/29602484-478cfc48-881b-11e7-88b0-fecbc07b4ab7.png)
@@ -109,14 +120,14 @@ http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 <a name="#バギング"></a>
 
-### バギング
+## バギング
 
 ![twitter_ _ _11-18_170705](https://user-images.githubusercontent.com/25688193/29602489-47b34c9a-881b-11e7-80d7-b34afe348feb.png)
 ![twitter_ _ _11-19_170707](https://user-images.githubusercontent.com/25688193/29602491-47c72a08-881b-11e7-82df-71b94ae2dfc2.png)
 
 <a name="#ランダムフォレスト"></a>
 
-### ランダムフォレスト
+## ランダムフォレスト
 
 ![twitter_ 22-1_170802](https://user-images.githubusercontent.com/25688193/29602642-f67869f4-881b-11e7-9752-d37b693461e6.png)
 ![twitter_ 22-2_170802](https://user-images.githubusercontent.com/25688193/29602644-f69bf234-881b-11e7-9142-976f7294ee28.png)
@@ -131,7 +142,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 <a name="#EMアルゴリズム"></a>
 
-### EMアルゴリズム
+## EMアルゴリズム
 
 ![twitter_ _ _11-6_170701](https://user-images.githubusercontent.com/25688193/29602472-4746aeb4-881b-11e7-96c2-9c55d6a5bcbd.png)
 ![twitter_ _ _11-7_170701](https://user-images.githubusercontent.com/25688193/29602478-4768b040-881b-11e7-83fb-aa882a5a42fe.png)
