@@ -57,9 +57,15 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 <a name="#"></a>
 
-###  : </br> `main1().py`
+### アンサンブル法と、単体での分類器での誤分類率の比較 : </br> `main1().py`
 
-> コード実装中...
+>最終的な識別結果を複数の分類器での多数決で決めるアンサンブル法（２項分布の累積に従う）と、単体での分類器での誤分類率の比較図。</br>
+分類器の個数が奇数で、ランダムな結果（0.5）より識別性能が高い（＝図では 0.5 より小さい領域）場合、アンサンブルな手法のほうが、単体での分類器より、より誤識別が常に勝っていることが分かる。</br>
+分類器の個数が偶数個の場合は、必ずしもこれが成り立つとは限らないことに注意（アンサンブル法では多数決で最終予想を決めているため。）
+
+![ensemblelearning_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29705020-33fd8704-89b7-11e7-9760-5d04bca26af6.png)
+
+
 
 - Iris データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
@@ -69,7 +75,8 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
   - パイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( random_state=1 )`
 - クロス・バディゲーション（k=10）で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
 
- 
+> コード実装中...
+
 ---
 
 <a name="#背景理論"></a>
