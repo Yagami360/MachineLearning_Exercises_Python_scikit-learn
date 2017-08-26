@@ -122,28 +122,40 @@ def main():
     #-----------------------------------------------------------
     ensemble_clf1 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
                         classifiers = [ pipe1, clf2, pipe3 ],
-                        class_labels = [ 'Logistic Regression', 'Decision Tree', 'KNN' ]
+                        class_labels = [ "Logistic Regression", "Decision Tree", "k-NN" ]
                     )
 
         
-    ensemble_clf2 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
-    ensemble_clf3 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
-    ensemble_clf4 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
+    #ensemble_clf2 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
+    #ensemble_clf3 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
+    #ensemble_clf4 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
 
     ensemble_clf1.print( "ensemble_clf1" )
+
+    # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
+    all_clf = []
+    all_clf = ensemble_clf1.get_classiflers()
+    all_clf.append( ensemble_clf1 )
+    print( "all_clf :", all_clf )
+
+    # 各種スコア計算時に使用するクラスラベルのリスト ( for 文の in で使用を想定)
+    all_clf_labels = []
+    all_clf_labels = ensemble_clf1.get_class_labels()
+    all_clf_labels.append( "Ensemble Model 1" )
+    print( "all_clf_labels :", all_clf_labels )
 
     #============================================
     # Learning Process
     #===========================================
     # 設定した推定器をトレーニングデータで fitting
-    ensemble_clf1.fit( X_train, y_train )
+    #ensemble_clf1.fit( X_train, y_train )
 
     #===========================================
     # 汎化性能の確認
     #===========================================
     # テストデータ X_test でクラスラベルを予想
-    y_predict = ensemble_clf1.predict( X_test )
-    print( "ensemble_clf1.predict() : " , y_predict )
+    #y_predict = ensemble_clf1.predict( X_test )
+    #print( "ensemble_clf1.predict() : " , y_predict )
 
 
     #-------------------------------------------
@@ -151,7 +163,7 @@ def main():
     #-------------------------------------------
     # k-fold CV を行い, cross_val_score( scoring = 'accuracy' ) で 正解率を算出
     print( "[Accuracy]")
-    for clf, label in zip( ensemble_clf1.get_classiflers(), ensemble_clf1.get_class_labels() ):
+    for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
                      X = X_train,
@@ -161,10 +173,7 @@ def main():
                  )
         print( "Accuracy : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )    
 
-    # ? ensemble_clf1.fit() 関数が 再 call される
-    #scores_accuracy = ensemble_clf1.score( X_test, y_test )
-    #print( "Test Accuracy : %0.2f (+/- %0.2f) [%s]" % ( scores_accuracy.mean(), scores_accuracy.std(), "Ensemble") )
-
+    #scores_accuracy = cross_val_score( estimator = ensemble_clf1
     #-------------------------------------------
     # 識別境界
     #-------------------------------------------
@@ -175,7 +184,7 @@ def main():
     #-------------------------------------------
     # k-fold CV を行い, cross_val_score( scoring = 'roc_auc' ) で AUC を算出
     print( "[AUC]")
-    for clf, label in zip( ensemble_clf1.get_classiflers(), ensemble_clf1.get_class_labels() ):
+    for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
                      X = X_train,
@@ -186,7 +195,7 @@ def main():
         print( "AUC : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )
 
     #-------------------------------------------
-    # ROC 境界
+    # ROC 曲線
     #-------------------------------------------
     
     

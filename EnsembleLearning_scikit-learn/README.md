@@ -1,4 +1,4 @@
-## アンサンブル学習 [Ensemble Learning]
+## アンサンブルモデルとアンサンブル学習 [Ensemble Learning]
 
 コード実装中...
 
@@ -64,7 +64,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 >多数決方式のアンサンブル法（最終的な識別結果を複数の分類器での多数決で決め、２項分布の累積に従う）と、単体での分類器での誤分類率の比較図、及び多数決方式のアンサンブル法における分類器の個数に応じた比較図。</br>
 分類器の個数が奇数で、ランダムな結果（0.5）より識別性能が高い（＝図では 0.5 より小さい領域）場合、多数決方式でのアンサンブルな手法のほうが、単体での分類器より、常に誤識別が低い（識別性能が高い）ことが分かる。</br>
-尚、分類器の個数が偶数個の場合は、必ずしもこれが成り立つとは限らないことに注意（この多数決方式のアンサンブル方では多数決により最終予想を決めるため。）
+尚、分類器の個数が偶数個の場合は、必ずしもこれが成り立つとは限らないことに注意（この多数決方式のアンサンブル法では多数決により最終予想を決めるため。）
 
 ![ensemblelearning_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29705020-33fd8704-89b7-11e7-9760-5d04bca26af6.png)
 
@@ -76,16 +76,16 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 - 検証用データとして、Iris データセットを使用
   - トレーニングデータ 50% 、テストデータ 50%の割合で分割 :</br> `sklearn.model_selection.train_test_split()` を使用
 - アンサンブル法による分類器の自作クラス `EnsembleLearningClassifier` を使用
-  - この自作クラスに scikit -learn ライブラリ の `Pipeline` クラスを設定
+  - この自作クラス `EnsembleLearningClassifier` に scikit -learn ライブラリ の `Pipeline` クラスを設定
     - １つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
     - １つ目のパイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( penalty = 'l2', C = 0.001, random_state = 0 )`
     - ２つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
     - ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", DecisionTreeClassifier( max_depth = 1,  criterion = 'entropy', random_state = 0 )`
-    - ２つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
-    - ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 1, p = 2, metric = 'minkowski' )`
+    - ３つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
+    - ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 1, p = 2, metric = 'minkowski' )`
 - クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
 
-#### Iris データセット
+#### Iris データセットでの検証結果
 
 > 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`
 
@@ -99,6 +99,23 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 |Ensemble 2</br> [LogisticRegression, DecisionTree, SVM]|||
 
 > 各モデルでの識別境界
+>> コード実施中...
+
+#### 同心円状データセットでの検証結果
+
+> 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`
+>> コード実施中...
+
+|Model|Accuracy|AUC|
+|---|---|---|
+|Logistic Regression|||
+|Decision Tree|||
+|k-NN|||
+|SVM|||
+|Ensemble 1</br> [LogisticRegression, DecisionTree, k-NN]|||
+
+> 各モデルでの識別境界
+>> コード実施中...
 
 ---
 
