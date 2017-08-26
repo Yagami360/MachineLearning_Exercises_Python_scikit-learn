@@ -7,8 +7,8 @@
 1. [使用するライブラリ](#使用するライブラリ)
 1. [使用するデータセット](#使用するデータセット)
 1. [コードの実行結果](#コードの実行結果)
-    1. [ : `main1().py`](#)
-    1. [ : `main2().py`](#)
+    1. [多数決方式のアンサンブル法と、単体での分類器での誤分類率。及び多数決方式のアンサンブル法における分類器の個数に応じた比較 : `main1.py`](#main1.py)
+    1. [多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : `main2.py`](#main2.py)
 1. [背景理論](#背景理論)
     1. [混合モデルとアンサンブル学習](#混合モデルとアンサンブル学習)
     1. [決定木](#決定木)
@@ -58,9 +58,9 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ## コードの実行結果
 
-<a name="#"></a>
+<a name="#main1.py"></a>
 
-### 多数決方式のアンサンブル法と、単体での分類器での誤分類率。及び多数決方式のアンサンブル法における分類器の個数に応じた比較 : </br> `main1().py`
+### 多数決方式のアンサンブル法と、単体での分類器での誤分類率。及び多数決方式のアンサンブル法における分類器の個数に応じた比較 : </br> `main1.py`
 
 >多数決方式のアンサンブル法（最終的な識別結果を複数の分類器での多数決で決め、２項分布の累積に従う）と、単体での分類器での誤分類率の比較図、及び多数決方式のアンサンブル法における分類器の個数に応じた比較図。</br>
 分類器の個数が奇数で、ランダムな結果（0.5）より識別性能が高い（＝図では 0.5 より小さい領域）場合、多数決方式でのアンサンブルな手法のほうが、単体での分類器より、常に誤識別が低い（識別性能が高い）ことが分かる。</br>
@@ -68,7 +68,10 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ![ensemblelearning_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29705020-33fd8704-89b7-11e7-9760-5d04bca26af6.png)
 
-### 多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : </br> `main2().py`
+
+<a name="#main2.py"></a>
+
+### 多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : </br> `main2.py`
 
 - 検証用データとして、Iris データセットを使用
   - トレーニングデータ 50% 、テストデータ 50%の割合で分割 :</br> `sklearn.model_selection.train_test_split()` を使用
@@ -82,7 +85,8 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
     - ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 1, p = 2, metric = 'minkowski' )`
 - クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
 
-- Iris データセット
+#### Iris データセット
+
 > 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`
 
 |Model|Accuracy|AUC|
