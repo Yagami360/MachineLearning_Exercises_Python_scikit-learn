@@ -290,7 +290,7 @@ class DataPreProcess( object ):
     # データセットの分割を行う関数群
     #---------------------------------------------------------
     @staticmethod
-    def dataTrainTestSplit( X_input, y_input, ratio_test = 0.3 ):
+    def dataTrainTestSplit( X_input, y_input, ratio_test = 0.3, input_random_state = 0 ):
         """
         データをトレーニングデータとテストデータに分割する。
         分割は, ランダムサンプリングで行う.
@@ -315,7 +315,7 @@ class DataPreProcess( object ):
         = train_test_split(
             X_input,  y_input, 
             test_size = ratio_test, 
-            random_state = 0             # 
+            random_state = input_random_state             # 
           )
         
         return X_train, X_test, y_train, y_test

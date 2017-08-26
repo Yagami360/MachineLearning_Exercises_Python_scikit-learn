@@ -69,7 +69,8 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 > コード実装中...
 
-- Iris データセットを使用
+- アンサンブル法による分類器の自作クラス `EnsembleLearningClassifier` を使用
+- 検証用データとして、Iris データセットを使用
 - トレーニングデータ 80% 、テストデータ 20%の割合で分割
 - scikit -learn ライブラリ の `Pipeline` クラスを使用して、各機械学習プロセスを実施
   - パイプラインの１つ目の変換器は、正規化処理 : </br>`("scl", StandardScaler())`
