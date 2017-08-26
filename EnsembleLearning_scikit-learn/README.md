@@ -41,13 +41,16 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ### 使用するデータセット
 
-> Iris データ:</br>
+> Iris データ : `sklearn.datasets.load_iris()`</br>
 >>
 
 |行番号|1|2|3|4|5|
 |---|---|---|---|---|---|
 |0||||||
 |1||||||
+
+> 同心円状のデータセット : `sklearn.datasets.make_circles()` </br>
+> 半月状のデータセット : `sklearn.datasets.make_moons()` </br>
 
 ---
 
@@ -67,18 +70,31 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ### 多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : </br> `main2().py`
 
-> コード実装中...
-
-- アンサンブル法による分類器の自作クラス `EnsembleLearningClassifier` を使用
 - 検証用データとして、Iris データセットを使用
-- トレーニングデータ 80% 、テストデータ 20%の割合で分割
-- scikit -learn ライブラリ の `Pipeline` クラスを使用して、各機械学習プロセスを実施
-  - パイプラインの１つ目の変換器は、正規化処理 : </br>`("scl", StandardScaler())`
-  - パイプラインの２つ目の変換器は、PCA による次元削除（ 30 → 2 次元 ） : </br>`( "pca", PCA( n_components=2 ) )`
-  - パイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( random_state=1 )`
-- クロス・バディゲーション（k=10）で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
+  - トレーニングデータ 50% 、テストデータ 50%の割合で分割 :</br> `sklearn.model_selection.train_test_split()` を使用
+- アンサンブル法による分類器の自作クラス `EnsembleLearningClassifier` を使用
+  - この自作クラスに scikit -learn ライブラリ の `Pipeline` クラスを設定
+    - １つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
+    - １つ目のパイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( penalty = 'l2', C = 0.001, random_state = 0 )`
+    - ２つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
+    - ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", DecisionTreeClassifier( max_depth = 1,  criterion = 'entropy', random_state = 0 )`
+    - ２つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
+    - ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 1, p = 2, metric = 'minkowski' )`
+- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
 
+- Iris データセット
+> 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`
 
+|Model|Accuracy|AUC|
+|---|---|---|
+|Logistic Regression|0.84 (+/- 0.23)|0.92 (+/- 0.20)|
+|Decision Tree|0.92 (+/- 0.13)|0.92 (+/- 0.15)|
+|k-NN|0.94 (+/- 0.09)|0.93 (+/- 0.10)|
+|SVM|||
+|Ensemble 1</br> [LogisticRegression, DecisionTree, k-NN]|||
+|Ensemble 2</br> [LogisticRegression, DecisionTree, SVM]|||
+
+> 各モデルでの識別境界
 
 ---
 

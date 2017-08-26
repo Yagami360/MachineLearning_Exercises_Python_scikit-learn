@@ -45,9 +45,11 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
 
         __encoder : sklearn.preprocessing.LabelEncoder のオブジェクト
 
+        __class_labels : list <str>
+            __classifiers のラベル名のリスト
     """
     
-    def __init__( self , classifiers, vote = "majority_vote", weights = None ):
+    def __init__( self , classifiers, class_labels = [], vote = "majority_vote", weights = None ):
         """
         コンストラクタ（厳密にはイニシャライザ）
 
@@ -62,6 +64,13 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
 
         self.__encoder = LabelEncoder()
 
+        self.__class_labels = class_labels
+        """
+        self.__class_labels = []
+        for clf in self.__classifiers:
+            self.__class_labels.append( clf.classes_ )
+        """
+
         return
 
     def print( self, str = "" ):
@@ -74,10 +83,11 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         print( "[Attributes]" )
 
         print( "__classifiers :" )
-        for cls in self.__classifiers:
-            print( cls )
+        for clf in self.__classifiers:
+            print( clf )
 
         print( "__n_classifier : ", self.__n_classifier )
+        print( "__class_labels : ", self.__class_labels )
         print( "__weights : \n", self.__weights )
         print( "__vote_method : ", self.__vote_method )
         #print( "__encoder : \n", self.__encoder )
@@ -198,6 +208,16 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         """
         #return super().get_params(deep)()
 
+    
+    def get_classiflers( self ):
+        """
+        """
+        return self.__classifiers
+
+    def get_class_labels( self ):
+        """
+        """
+        return self.__class_labels
 
     def CalcplotEnsenbleError( self, error ):
         """

@@ -57,7 +57,7 @@ def main():
 
     # ラベルデータをエンコード
     #prePro.encodeClassLabelByLabelEncoder( colum = 1 )
-    #prePro.print( "Breast Cancer Wisconsin dataset" )
+    #prePro.print( "" )
     encoder = LabelEncoder()
     dat_y = encoder.fit_transform( dat_y )
 
@@ -116,23 +116,16 @@ def main():
                     ( "clf", clf3 )              # classifer 3
                 ]
             )
-
-    clf_labels = [ 'Logistic Regression', 'Decision Tree', 'KNN' ]
-
-    # パイプラインに設定した変換器の fit() 関数を実行
-    #pipe1.fit( X_train, y_train )
-
-    # 
-    #print( "Test Accuracy: %.3f" % pipe1.score( X_test, y_test ) )
-
+    
     #-----------------------------------------------------------
     # アンサンブル識別器 EnsembleLearningClassifier の設定
     #-----------------------------------------------------------
     ensemble_clf1 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
-                        classifiers = [ pipe1, clf2, pipe3 ] 
+                        classifiers = [ pipe1, clf2, pipe3 ],
+                        class_labels = [ 'Logistic Regression', 'Decision Tree', 'KNN' ]
                     )
-    clf_labels += ['EnsembleLearningClassifier']
 
+        
     ensemble_clf2 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
     ensemble_clf3 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
     ensemble_clf4 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
@@ -142,22 +135,67 @@ def main():
     #============================================
     # Learning Process
     #===========================================
-    # パイプラインに設定した推定器の predict() 実行
-    #y_predict = pipe1.predict(X_test)
-    #print("predict : ", y_predict )
-    
-    # pipeline オブジェクトの内容確認
-    #print( "pipe_logReg.get_params() : \n", pipe1.get_params( deep = True ) )
-    #print( "pipe_logReg.get_params() : \n", pipe1.get_params( deep = False ) )
-
+    # 設定した推定器をトレーニングデータで fitting
     ensemble_clf1.fit( X_train, y_train )
-    
+
     #===========================================
     # 汎化性能の確認
     #===========================================
-    predict = ensemble_clf1.predict( X_train )
-    print( "ensemble_clf1.predict() : " , predict )
+    # テストデータ X_test でクラスラベルを予想
+    y_predict = ensemble_clf1.predict( X_test )
+    print( "ensemble_clf1.predict() : " , y_predict )
+
+
+    #-------------------------------------------
+    # 正解率, 誤識率
+    #-------------------------------------------
+    # k-fold CV を行い, cross_val_score( scoring = 'accuracy' ) で 正解率を算出
+    print( "[Accuracy]")
+    for clf, label in zip( ensemble_clf1.get_classiflers(), ensemble_clf1.get_class_labels() ):
+        scores = cross_val_score(
+                     estimator = clf,
+                     X = X_train,
+                     y = y_train,
+                     cv = 10,
+                     scoring = 'accuracy'    # 正解率
+                 )
+        print( "Accuracy : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )    
+
+    # ? ensemble_clf1.fit() 関数が 再 call される
+    #scores_accuracy = ensemble_clf1.score( X_test, y_test )
+    #print( "Test Accuracy : %0.2f (+/- %0.2f) [%s]" % ( scores_accuracy.mean(), scores_accuracy.std(), "Ensemble") )
+
+    #-------------------------------------------
+    # 識別境界
+    #-------------------------------------------
+
+
+    #-------------------------------------------
+    # AUC 値
+    #-------------------------------------------
+    # k-fold CV を行い, cross_val_score( scoring = 'roc_auc' ) で AUC を算出
+    print( "[AUC]")
+    for clf, label in zip( ensemble_clf1.get_classiflers(), ensemble_clf1.get_class_labels() ):
+        scores = cross_val_score(
+                     estimator = clf,
+                     X = X_train,
+                     y = y_train,
+                     cv = 10,
+                     scoring = 'roc_auc'    # AUC
+                 )
+        print( "AUC : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )
+
+    #-------------------------------------------
+    # ROC 境界
+    #-------------------------------------------
     
+    
+    
+    #-------------------------------------------
+    # グリッドサーチ with ヒートマップ
+    #-------------------------------------------
+
+
     """
     plt.subplot(2,2,1)
     ensemble_clf1.plotEnsenbleErrorAndBaseError()
