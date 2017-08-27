@@ -68,29 +68,34 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ![ensemblelearning_scikit-learn_1](https://user-images.githubusercontent.com/25688193/29705020-33fd8704-89b7-11e7-9760-5d04bca26af6.png)
 
+</br>
 
 <a name="#main2.py"></a>
 
 ### 多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : </br> `main2.py`
 
-- 検証用データとして、Iris データセットを使用
-  - トレーニングデータ 50% 、テストデータ 50%の割合で分割 :</br> `sklearn.model_selection.train_test_split()` を使用
 - アンサンブル法による分類器の自作クラス `EnsembleLearningClassifier` を使用
-  - この自作クラス `EnsembleLearningClassifier` に scikit -learn ライブラリ の `Pipeline` クラスを設定
-    - １つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
-    - １つ目のパイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( penalty = 'l2', C = 0.001, random_state = 0 )`
-    - ２つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
-    - ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", DecisionTreeClassifier( max_depth = 3,  criterion = 'entropy', random_state = 0 )`
-    - ３つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
-    - ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 3, p = 2, metric = 'minkowski' )`
+- この自作クラス `EnsembleLearningClassifier` に scikit -learn ライブラリ の `Pipeline` クラスを設定 : </br> 
+`EnsembleLearningClassifier( classifiers  = [ pipe1, pipe2, pipe3 ], class_lebels = [...] )`</br>
+`pipe1 = Pipeline( steps =[ ( "sc", StandardScaler() ), ( "clf", clf1 ) ] )`
+    > 以下、パイプラインの構成例    
+    >> １つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`</br>
+    >> １つ目のパイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( penalty = 'l2', C = 0.001, random_state = 0 )`</br>
+
+    >> ２つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`</br>
+    >> ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", DecisionTreeClassifier( max_depth = 3,  criterion = 'entropy', random_state = 0 )`
+    
+    >>３つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`</br>
+    >> ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 3, p = 2, metric = 'minkowski' )`</br>
 - クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
 
 #### Iris データセットでの検証結果
 
-> Iris データ : `datasets.load_iris()`</br>
->>・特徴行列（特徴量2個×50個のサンプル） : `iris.data[ 50:, [1, 2] ]`</br>
->>・教師データ（50個のサンプル） : `iris.target[50:]`</br>
->>・トレーニングデータ 50% 、テストデータ 50%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.5, random_state = 1 )`
+- Iris データ : `datasets.load_iris()`
+- 特徴行列（特徴量2個×50個のサンプル） : `iris.data[ 50:, [1, 2] ]`
+- 教師データ（50個のサンプル） : `iris.target[50:]`
+- トレーニングデータ 50% 、テストデータ 50%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.5, random_state = 1 )`
+- パイプラインの変換器で正規化処理実施 :</br>`("sc", StandardScaler())`
 
 >各種スコア値 by k-fold CV (cv=10) :（チューニング前）
 
@@ -106,25 +111,17 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 </br>
 
 > 識別結果＆識別境界（チューニング前）
->> チューニング前の適当なハイパーパラメータでの各弱識別器＆これらのアンサンブルモデルでの識別結果＆識別境界の図。上段の図がトレーニングデータでの結果。下段がテストデータでの結果。アンサンブルモデルでは、これを構成する個々の弱識別器の識別境界を混ぜ合わせた形状になっていることが分かる。
-
+>> チューニング前の適当なハイパーパラメータでの各弱識別器＆これらのアンサンブルモデルでの識別結果＆識別境界の図。１枚目の図は、弱識別器として｛ロジスティクス回帰、決定木、k-NN法｝からなるアンサンブルモデル。２枚目の図は、弱識別器として｛ロジスティクス回帰、決定木、SVM｝からなるアンサンブルモデル。図より、アンサンブルモデルでは、これを構成する個々の弱識別器の識別境界を混ぜ合わせた形状になっていることが分かる。
 ![ensemblelearning_scikit-learn_2-1](https://user-images.githubusercontent.com/25688193/29752697-1f7f2f1a-8b9e-11e7-9972-308010923fd3.png)
 ![ensemblelearning_scikit-learn_2-2](https://user-images.githubusercontent.com/25688193/29752701-21eadbb4-8b9e-11e7-8c7a-ff738e6d9f5f.png)
 
-</br>
-
 > 学習曲線（チューニング前）
-
 ![ensemblelearning_scikit-learn_3-1](https://user-images.githubusercontent.com/25688193/29752710-3388f900-8b9e-11e7-9d3c-d1f89aa11031.png)
 ![ensemblelearning_scikit-learn_3-2](https://user-images.githubusercontent.com/25688193/29752711-360c57da-8b9e-11e7-8427-a8b5604812cc.png)
 
-</br>
-
 > ROC 曲線（チューニング前）
-
 ![ensemblelearning_scikit-learn_4-1](https://user-images.githubusercontent.com/25688193/29752717-43e7f7ba-8b9e-11e7-868c-52a35e7831b3.png)
 ![ensemblelearning_scikit-learn_4-1](https://user-images.githubusercontent.com/25688193/29752718-44fe507c-8b9e-11e7-947a-bc2ee3099d47.png)
-
 ![ensemblelearning_scikit-learn_4-2](https://user-images.githubusercontent.com/25688193/29752724-504f6c54-8b9e-11e7-9b27-b2cf0703a01e.png)
 ![ensemblelearning_scikit-learn_4-2](https://user-images.githubusercontent.com/25688193/29752725-5242df14-8b9e-11e7-8544-a8cdb0229eff.png)
 
@@ -132,28 +129,41 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 > グリッドサーチによる各弱識別器のチューニング
 
-</br>
-
-> 各モデルでの識別境界
->> コード実施中...
 
 </br>
 
 #### 同心円状データセットでの検証結果
 
-> 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`
->> コード実施中...
+- 検証用データとして、同心円状データセットを使用 : </br> 
+`sklearn.datasets.make_circles( n_samples = 1000, random_state = 123, noize = 0.1, factor = 0.2 )`
+- トレーニングデータ 70% 、テストデータ 30%の割合で分割 :</br> `sklearn.model_selection.train_test_split()` を使用
+- パイプライン経由で正規化処理実施 :</br>
 
-|Model|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
-|---|---|---|---|---|
-|Logistic Regression </br> `penalty = 'l2', C = 0.001`|||
-|Decision Tree </br> `criterion = 'entropy', max_depth = 3`|||
-|k-NN </br> `n_neighbors = 3, metric='minkowski'`|||
-|SVM </br> ``|||
-|Ensemble 1</br>[LogisticRegression, DecisionTree, k-NN]|||
+> 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`</br>
 
 > 各モデルでの識別境界
->> コード実施中...
+![ensemblelearning_scikit-learn_2-3](https://user-images.githubusercontent.com/25688193/29753047-34f346e6-8ba4-11e7-8eab-1b9fa91b2141.png)
+
+> 学習曲線
+![ensemblelearning_scikit-learn_3-3](https://user-images.githubusercontent.com/25688193/29753048-36aaec78-8ba4-11e7-80d8-11e9f1027c81.png)
+
+> ROC 曲線、AUC 値
+![ensemblelearning_scikit-learn_4-3](https://user-images.githubusercontent.com/25688193/29753052-3a43c4ae-8ba4-11e7-93bc-d5ecd6119c6a.png)
+
+#### 半月形のデータセットでの検証結果
+
+- 検証用データとして、同心円状データセットを使用 : </br> 
+`sklearn.datasets.make_moons( n_samples = 1000, random_state = 123 )`
+  - トレーニングデータ 70% 、テストデータ 30%の割合で分割 :</br> `sklearn.model_selection.train_test_split()` を使用
+
+> 各モデルでの識別境界
+![ensemblelearning_scikit-learn_2-4](https://user-images.githubusercontent.com/25688193/29753081-ed99328c-8ba4-11e7-9818-d47ded5ae6e0.png)
+
+> 学習曲線
+![ensemblelearning_scikit-learn_3-4](https://user-images.githubusercontent.com/25688193/29753083-f1664486-8ba4-11e7-80fb-b8f22a032629.png)
+
+> ROC 曲線、AUC 値
+![ensemblelearning_scikit-learn_4-4](https://user-images.githubusercontent.com/25688193/29753084-f31ef610-8ba4-11e7-8dbb-5b547718c77d.png)
 
 ---
 

@@ -49,8 +49,15 @@ def main():
 
     dat_X = iris.data[ 50:, [1, 2] ]    # 
     dat_y = iris.target[50:]            # 
+
+    dat_X, dat_y = DataPreProcess.DataPreProcess.generateCirclesDataSet()
+    dat_X, dat_y = DataPreProcess.DataPreProcess.generateMoonsDataSet()
+    
+    ratio_test = 0.3
+
     #print(dat_X)
     #print(dat_y)
+
 
     #===========================================
     # 前処理 [PreProcessing]
@@ -66,7 +73,7 @@ def main():
 
     # データをトレードオフデータとテストデータに分割
     X_train, X_test, y_train, y_test \
-    = DataPreProcess.DataPreProcess.dataTrainTestSplit( X_input = dat_X, y_input = dat_y, ratio_test = 0.5, input_random_state = 1 )
+    = DataPreProcess.DataPreProcess.dataTrainTestSplit( X_input = dat_X, y_input = dat_y, ratio_test = ratio_test, input_random_state = 1 )
 
     test_idx = []
     #test_idx = range( 26,50 )
@@ -375,7 +382,7 @@ def main():
         plt.xlabel('Number of training samples')
         plt.ylabel('Accuracy')
         plt.legend(loc='best')
-        plt.ylim( [0.5, 1.01] )
+        plt.ylim( [0.25, 1.01] )
         plt.tight_layout()
         
     
