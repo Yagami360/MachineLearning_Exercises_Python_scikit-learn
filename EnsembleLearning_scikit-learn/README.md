@@ -80,42 +80,55 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
     - １つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
     - １つ目のパイプラインの推定器は、ロジスティクス回帰 : </br>`( "clf", LogisticRegression( penalty = 'l2', C = 0.001, random_state = 0 )`
     - ２つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
-    - ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", DecisionTreeClassifier( max_depth = 1,  criterion = 'entropy', random_state = 0 )`
+    - ２つ目のパイプラインの推定器は、決定木 : </br>`( "clf", DecisionTreeClassifier( max_depth = 3,  criterion = 'entropy', random_state = 0 )`
     - ３つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`
-    - ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 1, p = 2, metric = 'minkowski' )`
+    - ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 3, p = 2, metric = 'minkowski' )`
 - クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
 
-#### Iris データセットでの検証結果
+#### Iris データセット（トレーニングデータ 50% 、テストデータ 50%の割合で分割）での検証結果
 
-> 各種スコア値 by k-fold CV (cv=10):
+> 各種スコア値 by k-fold CV (cv=10) :（チューニング前）
 
 |Model (classifiers)|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
 |---|---|---|---|---|
 |Logistic Regression </br> `penalty = 'l2', C = 0.001`|0.84 (+/- 0.23)|0.83 (+/- 0.18)|0.92 (+/- 0.20)|0.95 (+/- 0.11)|
-|Decision Tree </br> `criterion = 'entropy', max_depth = 3`|0.92 (+/- 0.13)|0.79 (+/- 0.17)|0.92 (+/- 0.15)|0.82 (+/- 0.16)|
-|k-NN </br> `n_neighbors = 3, metric='minkowski'`|0.92 (+/- 0.13)|0.83 (+/- 0.14)|0.93 (+/- 0.12)|0.89 (+/- 0.11)|
-|SVM</br> `rbf, C=0.001`|...|...|...|...|
+|Decision Tree </br> `criterion = 'entropy', max_depth = 3`|0.92 (+/- 0.13)|0.81 (+/- 0.16)|0.92 (+/- 0.15)|0.85 (+/- 0.14)|
+|k-NN </br> `n_neighbors = 3, metric = 'minkowski'`|0.92 (+/- 0.13)|0.83 (+/- 0.14)|0.93 (+/- 0.12)|0.89 (+/- 0.11)|
+|SVM</br> ` kernel = 'rbf', C = 0.50, gamma = 0.10 `|0.88 (+/- 0.14)|0.90 (+/- 0.10)|0.95 (+/- 0.15)|0.98 (+/- 0.05)|
 |Ensemble Model 1</br> [LogisticRegression, DecisionTree, k-NN]|...|...|...|...|
 |Ensemble Model 2</br> [LogisticRegression, DecisionTree, SVM]|...|...|...|...|
 
-> 識別結果＆識別境界
->> 上段が、トレーニングデータでの識別結果＆識別境界の図。下段がテストデータでの識別結果＆識別境界の図。アンサンブルモデルでは、これを構成する個々の弱識別器の識別境界を混ぜ合わせた形状になっていることが分かる。
+</br>
 
-![ensemblelearning_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29747951-dddd30a0-8b45-11e7-9854-8aea7e78207c.png)
+> 識別結果＆識別境界（チューニング前）
+>> チューニング前の適当なハイパーパラメータでの各弱識別器＆これらのアンサンブルモデルでの識別結果＆識別境界の図。上段の図がトレーニングデータでの結果。下段がテストデータでの結果。アンサンブルモデルでは、これを構成する個々の弱識別器の識別境界を混ぜ合わせた形状になっていることが分かる。
 
-> 学習曲線
+![ensemblelearning_scikit-learn_2-1](https://user-images.githubusercontent.com/25688193/29748312-3d019e96-8b4f-11e7-9ee1-845eba6df331.png)
 
-![ensemblelearning_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29747966-49b3a520-8b46-11e7-955b-82965f59be2d.png)
+![ensemblelearning_scikit-learn_2-2](https://user-images.githubusercontent.com/25688193/29748309-2e737764-8b4f-11e7-8bc6-e62332dd0c8b.png)
 
+</br>
 
-> 検証曲線
+> 学習曲線（チューニング前）
 
-> ROC 曲線
+![ensemblelearning_scikit-learn_3-1](https://user-images.githubusercontent.com/25688193/29748314-4b14c260-8b4f-11e7-9ee5-4bcc9ce98ece.png)
+
+![ensemblelearning_scikit-learn_3-2](https://user-images.githubusercontent.com/25688193/29748316-549b23c4-8b4f-11e7-9542-6c3484487bdf.png)
+
+</br>
+
+> ROC 曲線（チューニング前）
+
+</br>
+
+> グリッドサーチによる各弱識別器のチューニング
 
 </br>
 
 > 各モデルでの識別境界
 >> コード実施中...
+
+</br>
 
 #### 同心円状データセットでの検証結果
 

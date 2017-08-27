@@ -16,9 +16,11 @@ from sklearn.preprocessing import StandardScaler        # scikit-learn の prepr
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier 
+from sklearn.svm import SVC                             # 
 
 from sklearn.model_selection import learning_curve      # 学習曲線用
 from sklearn.model_selection import validation_curve    # 検証曲線用
+from sklearn.model_selection import GridSearchCV        # 
 
 from sklearn.pipeline import Pipeline
 
@@ -109,6 +111,14 @@ def main():
                metric = 'minkowski'
            )
 
+    clf4 = SVC( 
+        kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
+        gamma = 0.10,       # RFBカーネル関数のγ値
+        C = 0.5,            # C-SVM の C 値
+        random_state = 0,   #
+        probability = True  # 学習後の predict_proba method による予想確率を有効にする
+    )
+
     #-------------------------------------------
     # 各 Pipeline の設定
     #-------------------------------------------
@@ -134,17 +144,27 @@ def main():
                     ( "clf", clf3 )              # classifer 3
                 ]
             )
+
+    pipe4 = Pipeline(
+                [                                   
+                    ( "sc", StandardScaler() ),  # スケーリング：　変換器のクラス（fit() 関数を持つ）
+                    ( "clf", clf4 )              # classifer 4
+                ]
+            )
     
     #-----------------------------------------------------------
     # アンサンブル識別器 EnsembleLearningClassifier の設定
     #-----------------------------------------------------------
     ensemble_clf1 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
-                        classifiers = [ pipe1, clf2, pipe3 ],
-                        class_labels = [ "Logistic Regression", "Decision Tree", "k-NN" ]
+                        classifiers = [ pipe1, pipe2, pipe4 ],
+                        class_labels = [ "Logistic Regression", "Decision Tree", "SVM" ]
                     )
 
         
-    #ensemble_clf2 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
+    ensemble_clf2 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
+                        classifiers = [ pipe1, pipe2, pipe4 ],
+                        class_labels = [ "Logistic Regression", "Decision Tree", "SVM" ]
+                    )
     #ensemble_clf3 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
     #ensemble_clf4 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
 
@@ -184,10 +204,10 @@ def main():
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
-                     X = X_train_std,
+                     X = X_train,
                      y = y_train,
                      cv = 10,
-                     n_jobs = -1,
+#                     n_jobs = -1,
                      scoring = 'accuracy'    # 正解率
                  )
         print( "Accuracy <train data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )    
@@ -195,10 +215,10 @@ def main():
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
-                     X = X_test_std,
+                     X = X_test,
                      y = y_test,
                      cv = 10,
-                     n_jobs = -1,
+#                     n_jobs = -1,
                      scoring = 'accuracy'    # 正解率
                  )
         print( "Accuracy <test data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )    
@@ -213,10 +233,10 @@ def main():
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
-                     X = X_train_std,
+                     X = X_train,
                      y = y_train,
                      cv = 10,
-                     n_jobs = -1,
+#                     n_jobs = -1,
                      scoring = 'roc_auc'    # AUC
                  )
         print( "AUC <train data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )
@@ -224,10 +244,10 @@ def main():
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
-                     X = X_test_std,
+                     X = X_test,
                      y = y_test,
                      cv = 10,
-                     n_jobs = -1,
+#                     n_jobs = -1,
                      scoring = 'roc_auc'    # AUC
                  )
         print( "AUC <test data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )
@@ -254,14 +274,16 @@ def main():
 
     plt.subplot( 2, 4, 3 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = ensemble_clf1.classifiers_[2] )
-    plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
+    #plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
+    plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
 
     plt.subplot( 2, 4, 4 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = ensemble_clf1 )
-    plt.title( "Ensemble Model 1"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
+    #plt.title( "Ensemble Model 1"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
+    plt.title( "Ensemble Model 2"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, SVM)")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
@@ -284,14 +306,16 @@ def main():
 
     plt.subplot( 2, 4, 7 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier = ensemble_clf1.classifiers_[2] )
-    plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
+    #plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
+    plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
 
     plt.subplot( 2, 4, 8 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier = ensemble_clf1 )
-    plt.title( "Ensemble Model 1"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
+    #plt.title( "Ensemble Model 1"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
+    plt.title( "Ensemble Model 2"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, SVM)")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
@@ -305,16 +329,19 @@ def main():
     #-------------------------------------------
     plt.clf()
 
-    for (idx, clf) in zip( range(1,3), ensemble_clf1.classifiers_):
+    for (idx, clf) in zip( range(1,4), ensemble_clf1.classifiers_):
+        #print(idx)
+        #print(clf)
+
         train_sizes, train_scores, test_scores \
         = learning_curve(
               estimator = clf,    # 推定器 
               X = X_train_std,                              # 
               y = y_train,                                  # 
               train_sizes = numpy.linspace(0.1, 1.0, 10),   # トレードオフサンプルの絶対数 or 相対数
-                                                        # トレーニングデータサイズに応じた, 等間隔の10 個の相対的な値を設定
-              cv = 10,                                      # 交差検証の回数（分割数）
-              n_jobs = -1                                   # 全てのCPUで並列処理
+                                                            # トレーニングデータサイズに応じた, 等間隔の10 個の相対的な値を設定
+#              n_jobs = -1,                                  # 全てのCPUで並列処理
+              cv = 10                                       # 交差検証の回数（分割数）
         )
 
         # 平均値、分散値を算出
@@ -343,19 +370,15 @@ def main():
     plt.savefig("./EnsembleLearning_scikit-learn_3.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()
 
+  
     #-------------------------------------------
-    # 検証曲線
+    # ROC 曲線
     #-------------------------------------------
     plt.clf()
 
 
     plt.savefig("./EnsembleLearning_scikit-learn_4.png", dpi = 300, bbox_inches = 'tight' )
-    plt.show()
-    
-    #-------------------------------------------
-    # ROC 曲線
-    #-------------------------------------------
-    
+    plt.show()    
     
     
     #-------------------------------------------
