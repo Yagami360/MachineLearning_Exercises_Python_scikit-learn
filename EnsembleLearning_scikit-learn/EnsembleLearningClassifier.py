@@ -30,62 +30,47 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
     """
     アンサンブルモデルの識別器 classifier の自作クラス.
     scikit-learn ライブラリの推定器 estimator の基本クラス BaseEstimator, ClassifierMixin を継承している.
-    
-    [public] public アクセス可能なインスタスンス変数には, 便宜上変数名の最後にアンダースコア _ を付ける.
-        
+    コンストラクタ __init()__ の引数と同名のオブジェクトの属性を設定する必要あり（上位クラスの BaseEstimator仕様） 
+
         classifiers : list <classifier オブジェクト>        
-            
+            分類器のクラスのオブジェクトのリスト : __init()__ の引数と同名のオブジェクトの属性
 
-
-        vote_method : str
-
-        weights : list <float>
-
-        named_classifier :
-
-        ---------------------------------
-
-        classifiers_ :
-
-
-        encoder_ : 
-
-        classes_ :
-
-
-
-    [private] 変数名の前にダブルアンダースコア __ を付ける（Pythonルール）
-        __classifiers : list <classifier オブジェクト>
-            分類器のクラスのオブジェクトのリスト
-
-        __fitted_classifiers : list <classifier オブジェクト>
-            fitting 処理後の分類器のクラスのオブジェクトのリスト
-
-        __n_classifier : int
-            アンサンブル分類器を構成する分類器の個数
-
-        __class_labels : list <str>
-            __classifiers のラベル名のリスト
-            
-        __weights : list <float>
-            各分類器の対する重みの値のリスト
-
-        __vote_method : str ( "majority_vote" or "probability_vote" )
-            アンサンブルによる最終的な判断判断手法
+        class_labels : list<str>
+            分類器のクラスのラベル名のリスト : __init()__ の引数と同名のオブジェクトの属性
+        vote_method : str ( "majority_vote" or "probability_vote" )
+            アンサンブルによる最終的な判断判断手法 : __init()__ の引数と同名のオブジェクトの属性
             "majority_vote"    : 弱識別器の多数決で決定する.多数決方式 (＝クラスラベルの argmax() 結果）
             "probability_vote" : 弱識別器の重み付け結果で決定する.（＝クラスの所属確率の argmax() 結果）
 
-        __encoder : sklearn.preprocessing.LabelEncoder のオブジェクト
-        
+        weights : list <float>
+            各分類器の対する重みの値のリスト : __init()__ の引数と同名のオブジェクトの属性
 
-        __named_classifiers : dict
+        named_classifier :
+            
+
+    [public] public アクセス可能なインスタスンス変数には, 便宜上変数名の最後にアンダースコア _ を付ける.
+
+        classifiers_ : list <classifier オブジェクト>
+            classifiers の public アクセスを想定
+        class_labels : list<str>
+            class_labels の public アクセスを想定
+
+        encoder_ : sklearn.preprocessing.LabelEncoder のオブジェクト
+
+        classes_ : dict
+
+
+    [private] 変数名の前にダブルアンダースコア __ を付ける（Pythonルール）
+
+        __n_classifier : int
+            アンサンブル分類器を構成する分類器の個数
             
     """
     
     def __init__( self , classifiers, class_labels = [], vote_method = "majority_vote", weights = None ):
         """
         コンストラクタ（厳密にはイニシャライザ）
-        引数と同名のオブジェクトの属性を設定する必要あり（上位クラスの BaseEstima仕様）
+        引数と同名のオブジェクトの属性を設定する必要あり（上位クラスの BaseEstimator仕様）
         
         [Input]
             classifiers_ : list
