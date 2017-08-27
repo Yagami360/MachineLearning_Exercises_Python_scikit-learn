@@ -98,6 +98,20 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 |Ensemble Model 1</br> [LogisticRegression, DecisionTree, k-NN]|...|...|...|...|
 |Ensemble Model 2</br> [LogisticRegression, DecisionTree, SVM]|...|...|...|...|
 
+> 識別結果＆識別境界
+>> 上段が、トレーニングデータでの識別結果＆識別境界の図。下段がテストデータでの識別結果＆識別境界の図。アンサンブルモデルでは、これを構成する個々の弱識別器の識別境界を混ぜ合わせた形状になっていることが分かる。
+
+![ensemblelearning_scikit-learn_2](https://user-images.githubusercontent.com/25688193/29747951-dddd30a0-8b45-11e7-9854-8aea7e78207c.png)
+
+> 学習曲線
+
+![ensemblelearning_scikit-learn_3](https://user-images.githubusercontent.com/25688193/29747966-49b3a520-8b46-11e7-955b-82965f59be2d.png)
+
+
+> 検証曲線
+
+> ROC 曲線
+
 </br>
 
 > 各モデルでの識別境界
