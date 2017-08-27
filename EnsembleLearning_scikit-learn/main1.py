@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 # 自作クラス
-import EnsembleLearningClassifier
+import EnsembleModelClassifier
 import DataPreProcess
 import Plot2D
 
@@ -22,10 +22,10 @@ def main():
     """
     print("Enter main()")
     
-    ensemble_clf1 = EnsembleLearningClassifier.EnsembleLearningClassifier( n_classifier = 2 )
-    ensemble_clf2 = EnsembleLearningClassifier.EnsembleLearningClassifier( n_classifier = 3 )
-    ensemble_clf3 = EnsembleLearningClassifier.EnsembleLearningClassifier( n_classifier = 5 )
-    ensemble_clf4 = EnsembleLearningClassifier.EnsembleLearningClassifier( n_classifier = 10 )
+    ensemble_clf1 = EnsembleModelClassifier.EnsembleModelClassifier( classifiers = range(1,2) )
+    ensemble_clf2 = EnsembleModelClassifier.EnsembleModelClassifier( classifiers = range(1,4) )
+    ensemble_clf3 = EnsembleModelClassifier.EnsembleModelClassifier( classifiers = range(1,5) )
+    ensemble_clf4 = EnsembleModelClassifier.EnsembleModelClassifier( classifiers = range(1,11) )
 
     # データの読み込み
 

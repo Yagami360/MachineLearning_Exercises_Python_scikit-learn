@@ -48,6 +48,8 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 |---|---|---|---|---|---|
 |0||||||
 |1||||||
+|...|
+|150|
 
 > 同心円状のデータセット : `sklearn.datasets.make_circles()` </br>
 > 半月状のデータセット : `sklearn.datasets.make_moons()` </br>
@@ -74,9 +76,9 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ### 多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : </br> `main2.py`
 
-- アンサンブル法による分類器の自作クラス `EnsembleLearningClassifier` を使用
-- この自作クラス `EnsembleLearningClassifier` に scikit -learn ライブラリ の `Pipeline` クラスを設定 : </br> 
-`EnsembleLearningClassifier( classifiers  = [ pipe1, pipe2, pipe3 ], class_lebels = [...] )`</br>
+- アンサンブル法による分類器の自作クラス `EnsembleModelClassifier` を使用
+- この自作クラス `EnsembleModelClassifier` に scikit -learn ライブラリ の `Pipeline` クラスを設定 : </br> 
+`EnsembleModelClassifier( classifiers  = [ pipe1, pipe2, pipe3 ], class_lebels = [...] )`</br>
 `pipe1 = Pipeline( steps =[ ( "sc", StandardScaler() ), ( "clf", clf1 ) ] )`
     > 以下、パイプラインの構成例    
     >> １つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`</br>
@@ -87,7 +89,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
     
     >>３つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`</br>
     >> ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 3, p = 2, metric = 'minkowski' )`</br>
-- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
+- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
 #### Iris データセットでの検証結果
 
@@ -96,8 +98,9 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 - 教師データ（50個のサンプル） : `iris.target[50:]`
 - トレーニングデータ 50% 、テストデータ 50%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.5, random_state = 1 )`
 - パイプラインの変換器で正規化処理実施 :</br>`("sc", StandardScaler())`
+- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
->各種スコア値 by k-fold CV (cv=10) :（チューニング前）
+>各種スコア値の表 by k-fold CV (cv=10) :（チューニング前）
 
 |Model (classifiers)|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
 |---|---|---|---|---|
@@ -127,8 +130,8 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 </br>
 
-> グリッドサーチによる各弱識別器のチューニング
-
+> グリッドサーチによる各弱識別器のチューニング</br>
+...
 
 </br>
 
@@ -136,10 +139,12 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 - 検証用データとして、同心円状データセットを使用 : </br> 
 `sklearn.datasets.make_circles( n_samples = 1000, random_state = 123, noize = 0.1, factor = 0.2 )`
-- トレーニングデータ 70% 、テストデータ 30%の割合で分割 :</br> `sklearn.model_selection.train_test_split()` を使用
+- トレーニングデータ 70% 、テストデータ 30%の割合で分割 :</br> `sklearn.model_selection.train_test_split()`
 - パイプライン経由で正規化処理実施 :</br>
+- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
-> 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`</br>
+> 各種スコア値の表 by k-fold CV : `cross_val_score( cv = 10 )`</br>
+...
 
 > 各モデルでの識別境界
 ![ensemblelearning_scikit-learn_2-3](https://user-images.githubusercontent.com/25688193/29753047-34f346e6-8ba4-11e7-8eab-1b9fa91b2141.png)
@@ -154,7 +159,9 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 - 検証用データとして、同心円状データセットを使用 : </br> 
 `sklearn.datasets.make_moons( n_samples = 1000, random_state = 123 )`
-  - トレーニングデータ 70% 、テストデータ 30%の割合で分割 :</br> `sklearn.model_selection.train_test_split()` を使用
+- トレーニングデータ 70% 、テストデータ 30%の割合で分割 :</br> `sklearn.model_selection.train_test_split()`
+- パイプライン経由で正規化処理実施 :</br>
+- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
 > 各モデルでの識別境界
 ![ensemblelearning_scikit-learn_2-4](https://user-images.githubusercontent.com/25688193/29753081-ed99328c-8ba4-11e7-9818-d47ded5ae6e0.png)

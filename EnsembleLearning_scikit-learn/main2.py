@@ -30,7 +30,7 @@ from sklearn.model_selection import GridSearchCV        #
 from sklearn.pipeline import Pipeline
 
 # 自作クラス
-import EnsembleLearningClassifier
+import EnsembleModelClassifier
 import DataPreProcess
 import Plot2D
 
@@ -163,7 +163,7 @@ def main():
     #-----------------------------------------------------------
     # アンサンブル識別器 EnsembleLearningClassifier の設定
     #-----------------------------------------------------------
-    ensemble_clf1 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
+    ensemble_clf1 = EnsembleModelClassifier.EnsembleModelClassifier( 
                         classifiers  = [ pipe1, pipe2, pipe3 ],
                         class_labels = [ 
                                          "Logistic Regression ( penalty = 'l2', C = 0.001 )", 
@@ -173,7 +173,7 @@ def main():
                     )
 
         
-    ensemble_clf2 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
+    ensemble_clf2 = EnsembleModelClassifier.EnsembleModelClassifier( 
                         classifiers = [ pipe1, pipe2, pipe4 ],
                         class_labels = [ 
                                          "Logistic Regression ( penalty = 'l2', C = 0.001 )", 
@@ -181,8 +181,8 @@ def main():
                                          "SVM ( kernel = 'rbf', C = 10.0, gamma = 0.50 )" 
                                        ]
                     )
-    #ensemble_clf3 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
-    #ensemble_clf4 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
+    #ensemble_clf3 = EnsembleModelClassifier.EnsembleModelClassifier( classifiers = [] )
+    #ensemble_clf4 = EnsembleModelClassifier.EnsembleModelClassifier( classifiers = [] )
 
     ensemble_clf1.print( "ensemble_clf1" )
     ensemble_clf2.print( "ensemble_clf2" )
