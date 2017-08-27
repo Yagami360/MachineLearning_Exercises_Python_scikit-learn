@@ -184,18 +184,18 @@ def main():
 
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
     all_clf = []
-    #all_clf = ensemble_clf1.classifiers_
-    all_clf = ensemble_clf2.classifiers_
+    all_clf = ensemble_clf1.classifiers_
+    #all_clf = ensemble_clf2.classifiers_
 
-    #all_clf.append( ensemble_clf1 )
+    all_clf.append( ensemble_clf1 )
     #print( "all_clf :", all_clf )
 
     # 各種スコア計算時に使用するクラスラベルのリスト ( for 文の in で使用を想定)
     all_clf_labels = []
-    #all_clf_labels = ensemble_clf1.get_class_labels()
-    all_clf_labels = ensemble_clf2.get_class_labels()
+    all_clf_labels = ensemble_clf1.get_class_labels()
+    #all_clf_labels = ensemble_clf2.get_class_labels()
     
-    #all_clf_labels.append( "Ensemble Model 1" )
+    all_clf_labels.append( "Ensemble Model 1" )
     #print( "all_clf_labels :", all_clf_labels )
 
     #---------------------------------------------------------------
@@ -328,8 +328,8 @@ def main():
 
     plt.subplot( 2, 2, 3 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier =  all_clf[2] )
-    #plt.title( ensemble_clf1.get_class_labels()[2]  + "\n ( n_neighbors = 3, metric='minkowski' )")
-    plt.title( ensemble_clf2.get_class_labels()[2] + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
+    plt.title( ensemble_clf1.get_class_labels()[2]  + "\n ( n_neighbors = 3, metric='minkowski' )")
+    #plt.title( ensemble_clf2.get_class_labels()[2] + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.legend(loc = "best")
@@ -337,8 +337,8 @@ def main():
 
     plt.subplot( 2, 2, 4 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = ensemble_clf1 )
-    #plt.title( "Ensemble Model 1"  + "\n ( LogisticRegression, DecisionTree, k-NN)")
-    plt.title( "Ensemble Model 2"+ "\n ( LogisticRegression, DecisionTree, SVM)")
+    plt.title( "Ensemble Model 1"  + "\n ( LogisticRegression, DecisionTree, k-NN)")
+    #plt.title( "Ensemble Model 2"+ "\n ( LogisticRegression, DecisionTree, SVM)")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.legend(loc = "best")
