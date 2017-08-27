@@ -111,9 +111,8 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 > 学習曲線（チューニング前）
 
-![ensemblelearning_scikit-learn_3-1](https://user-images.githubusercontent.com/25688193/29748314-4b14c260-8b4f-11e7-9ee5-4bcc9ce98ece.png)
-
-![ensemblelearning_scikit-learn_3-2](https://user-images.githubusercontent.com/25688193/29748316-549b23c4-8b4f-11e7-9542-6c3484487bdf.png)
+![ensemblelearning_scikit-learn_3-1](https://user-images.githubusercontent.com/25688193/29749051-9e1eca50-8b5e-11e7-95a1-22a31b9f4c56.png)
+![ensemblelearning_scikit-learn_3-2](https://user-images.githubusercontent.com/25688193/29749052-a18c359c-8b5e-11e7-9510-11746dab1431.png)
 
 </br>
 
