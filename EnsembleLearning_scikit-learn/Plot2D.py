@@ -7,6 +7,7 @@
     [17/08/18] : ヒートマップの描写関数 drawHeapMap() を追加
     [17/08/21] : ヒートマップの描写関数を改名＆修正（drawHeatMapFromGridSearch()）
     [17/08/22] : ROC曲線の描写関数 `drawROCCurveFromTrainTestIterator()` 追加
+    [17/08/27] : ROC曲線の描写関数 `drawROCCurveFromClassifiers()` 追加
 
 """
 
@@ -433,3 +434,78 @@ class Plot2D(object):
         #plt.tight_layout()
 
         return figure
+
+
+    @staticmethod
+    def drawROCCurveFromClassifiers(  classifilers, class_labels, X_train, y_train, X_test, y_test, positiveLabel = 1  ):
+        """
+        トレーニングデータとテストデータを分割するイテレータから、ROC曲線を描写する.
+
+        [Input]
+            classifilers : 推定器クラスのオブジェクト
+                fit() 関数と predict() 関数が実装されたクラスのオブジェクト
+            
+            class_labels : list <str>
+
+        """
+        # 分類器 classifers に対応したMAPの作成（最大５クラス対応）
+        #tuple_makers = ( "s","x","+","^","v" )                          # タプル（定数リスト）
+        #tuple_colors = ( "red","blue","lightgreen", "gray", "cyan" )    # 塗りつぶす色を表すタプル（定数リスト）
+        #tuple_linestyle = ( 'k--', '-', '-.', '--', "---" )
+        
+        # classifilers 内の各弱識別器 clf の ROC 曲線を作図
+        for ( clf, label ) in zip( classifilers, class_labels ):
+            # トレーニングデータで推定器 classifiler を学習 fit()
+            predict = clf.fit( X_train, y_train )
+            #print("predict : \n", predict )
+
+            # test データの予想所属確率を predict_proba() で算出
+            proba = predict.predict_proba( X_test )
+            #print("predict_proba : \n", proba )
+
+            # 実際の所属確率と予想の所属確率から roc_curve() 関数で ROC 曲線の性能値（FPR,TPR）を計算
+            fpr, tpr, thresholds = roc_curve( 
+                                       y_true = y_test,            # True binary labels in range {0, 1} or {-1, 1} 
+                                       y_score = proba[:, 1],       # Target scores, can either be probability estimates of the positive class, confidence values, or non-thresholded measure of decisions 
+                                       pos_label = positiveLabel    # positive と見なすラベルの値
+                                   )
+            
+            # AUC 値を計算
+            roc_auc = auc( fpr, tpr )
+            #print("roc_auc : \n", roc_auc )
+
+            # 計算したROC 曲線の性能を plot
+            plt.plot(
+                fpr, tpr,   # 偽陽性率 [FPR] と真陽性率 [TPR]
+                lw = 2,
+                label = '%s (AUC = %0.2f)' % (label, roc_auc)
+            )
+
+        # perfect performance 時の ROC 曲線 plot
+        plt.plot(
+            [0, 0, 1], [0, 1, 1],
+            lw=1,
+            linestyle=':',
+            color='black',
+            label='perfect performance (AUC = 1.00)'
+        )
+
+        # 当て推量時の ROC 曲線 & AUC値 plot
+        plt.plot(
+            [0, 1], [0, 1],
+            lw=1,
+            linestyle='--',
+            color = (0.6, 0.6, 0.6),
+            label='random guessing (AUC =0.50)'
+        )
+
+        #
+        plt.title( "ROC Curve [Receiver Operator Characteristic Curve]" )
+        plt.xlabel( "FPR : false positive rate" )
+        plt.ylabel( "TPR : true positive rate" )
+        
+        plt.xlim( [-0.05, 1.05] )
+        plt.ylim( [-0.05, 1.05] )
+        plt.legend( loc = 'best' )
+
+        return

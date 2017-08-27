@@ -156,8 +156,8 @@ def main():
     # アンサンブル識別器 EnsembleLearningClassifier の設定
     #-----------------------------------------------------------
     ensemble_clf1 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
-                        classifiers = [ pipe1, pipe2, pipe4 ],
-                        class_labels = [ "Logistic Regression", "Decision Tree", "SVM" ]
+                        classifiers = [ pipe1, pipe2, pipe3 ],
+                        class_labels = [ "Logistic Regression", "Decision Tree", "k-NN" ]
                     )
 
         
@@ -170,9 +170,16 @@ def main():
 
     ensemble_clf1.print( "ensemble_clf1" )
 
+    #============================================
+    # Learning Process
+    #===========================================
+    # 設定した推定器をトレーニングデータで fitting
+    ensemble_clf1.fit( X_train_std, y_train )
+    ensemble_clf2.fit( X_train_std, y_train )
+
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
     all_clf = []
-    all_clf = ensemble_clf1.get_classiflers()
+    all_clf = ensemble_clf1.classifiers_
     #all_clf.append( ensemble_clf1 )
     #print( "all_clf :", all_clf )
 
@@ -181,12 +188,6 @@ def main():
     all_clf_labels = ensemble_clf1.get_class_labels()
     #all_clf_labels.append( "Ensemble Model 1" )
     #print( "all_clf_labels :", all_clf_labels )
-
-    #============================================
-    # Learning Process
-    #===========================================
-    # 設定した推定器をトレーニングデータで fitting
-    ensemble_clf1.fit( X_train_std, y_train )
 
     #===========================================
     # 汎化性能の確認
@@ -259,31 +260,31 @@ def main():
 
     # train data
     plt.subplot( 2, 4, 1 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = ensemble_clf1.classifiers_[0] )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = all_clf[0] )
     plt.title( ensemble_clf1.get_class_labels()[0] + " [train data]" +"\n ( penalty = 'l2', C = 0.001 )" )
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
 
     plt.subplot( 2, 4, 2 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = ensemble_clf1.classifiers_[1] )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier =  all_clf[1] )
     plt.title( ensemble_clf1.get_class_labels()[1]  + " [train data]" + "\n ( criterion = 'entropy', max_depth = 3 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
 
     plt.subplot( 2, 4, 3 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = ensemble_clf1.classifiers_[2] )
-    #plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
-    plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
+    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier =  all_clf[2] )
+    plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
+    #plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
 
     plt.subplot( 2, 4, 4 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = ensemble_clf1 )
-    #plt.title( "Ensemble Model 1"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
-    plt.title( "Ensemble Model 2"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, SVM)")
+    plt.title( "Ensemble Model 1"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
+    #plt.title( "Ensemble Model 2"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, SVM)")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
@@ -291,31 +292,31 @@ def main():
 
     # test data
     plt.subplot( 2, 4, 5 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier = ensemble_clf1.classifiers_[0] )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier =  all_clf[0] )
     plt.title( ensemble_clf1.get_class_labels()[0] + " [test data]" +"\n ( penalty = 'l2', C = 0.001 )" )
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
 
     plt.subplot( 2, 4, 6 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier = ensemble_clf1.classifiers_[1] )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier =  all_clf[1] )
     plt.title( ensemble_clf1.get_class_labels()[1]  + " [test data]" + "\n ( criterion = 'entropy', max_depth = 3 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
 
     plt.subplot( 2, 4, 7 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier = ensemble_clf1.classifiers_[2] )
-    #plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
-    plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
+    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier =  all_clf[2] )
+    plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
+    #plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
 
     plt.subplot( 2, 4, 8 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier = ensemble_clf1 )
-    #plt.title( "Ensemble Model 1"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
-    plt.title( "Ensemble Model 2"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, SVM)")
+    plt.title( "Ensemble Model 1"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
+    #plt.title( "Ensemble Model 2"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, SVM)")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.tight_layout()
@@ -329,7 +330,7 @@ def main():
     #-------------------------------------------
     plt.clf()
 
-    for (idx, clf) in zip( range(1,4), ensemble_clf1.classifiers_):
+    for (idx, clf) in zip( range(1,4),  all_clf ):
         #print(idx)
         #print(clf)
 
@@ -340,7 +341,7 @@ def main():
               y = y_train,                                  # 
               train_sizes = numpy.linspace(0.1, 1.0, 10),   # トレードオフサンプルの絶対数 or 相対数
                                                             # トレーニングデータサイズに応じた, 等間隔の10 個の相対的な値を設定
-#              n_jobs = -1,                                  # 全てのCPUで並列処理
+              n_jobs = -1,                                  # 全てのCPUで並列処理
               cv = 10                                       # 交差検証の回数（分割数）
         )
 
@@ -359,7 +360,7 @@ def main():
             test_means = test_means,
             test_stds = test_stds
         )
-        plt.title( "Learning Curve \n" + ensemble_clf1.get_class_labels()[idx-1] )
+        plt.title( "Learning Curve \n" + all_clf_labels[idx-1] )
         plt.xlabel('Number of training samples')
         plt.ylabel('Accuracy')
         plt.legend(loc='best')
@@ -376,14 +377,20 @@ def main():
     #-------------------------------------------
     plt.clf()
 
+    Plot2D.Plot2D.drawROCCurveFromClassifiers( 
+        classifilers = all_clf, 
+        class_labels = all_clf_labels, 
+        X_train = X_train_std, y_train = y_train,
+        X_test = X_test_std, y_test = y_test
+    )
 
     plt.savefig("./EnsembleLearning_scikit-learn_4.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()    
     
     
-    #-------------------------------------------
-    # グリッドサーチ with ヒートマップ
-    #-------------------------------------------
+    #------------------------------------------------------------
+    # グリッドサーチによる各弱識別器のパラメータのチューニング
+    #------------------------------------------------------------
 
 
     

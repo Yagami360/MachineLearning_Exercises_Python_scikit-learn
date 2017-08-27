@@ -119,6 +119,12 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 > ROC 曲線（チューニング前）
 
+![ensemblelearning_scikit-learn_4-1](https://user-images.githubusercontent.com/25688193/29748646-4c52665e-8b55-11e7-9d18-02db91cb7a52.png)
+![ensemblelearning_scikit-learn_4-1](https://user-images.githubusercontent.com/25688193/29748640-37374a00-8b55-11e7-8c95-34a389fa79c6.png)
+
+![ensemblelearning_scikit-learn_4-2](https://user-images.githubusercontent.com/25688193/29748749-9d731e96-8b57-11e7-979e-46dea44d6daf.png)
+![ensemblelearning_scikit-learn_4-2](https://user-images.githubusercontent.com/25688193/29748750-a087a75a-8b57-11e7-894a-46e74dd8472c.png)
+
 </br>
 
 > グリッドサーチによる各弱識別器のチューニング

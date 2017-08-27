@@ -11,30 +11,43 @@ import numpy
 import pandas
 import matplotlib.pyplot as plt
 
-from scipy.misc import comb             # 
-import math
+from scipy.misc import comb             # 組み合わせの計算 
+import math                             #
+
+import operator                         # ?
 
 # scikit-learn ライブラリ関連
-from sklearn.base import BaseEstimator                  # 推定器 Estimator の上位クラス
-from sklearn.base import ClassifierMixin    
-from sklearn.preprocessing import LabelEncoder          # 
+from sklearn.base import BaseEstimator              # 推定器 Estimator の上位クラス. get_params(), set_params() 関数が定義されている.
+from sklearn.base import ClassifierMixin            # 推定器 Estimator の上位クラス. score() 関数が定義されている.
+from sklearn.preprocessing import LabelEncoder      # 
+ 
+from sklearn.externals import six                   # ?           
+from sklearn.base import clone                      # ?
+from sklearn.pipeline import _name_estimators       # ?
 
 
 class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
     """
-    アンサンブル学習による識別器 : classifier の自作クラス.
-    scikit-learn ライブラリの推定器 : estimator の基本クラス BaseEstimator, ClassifierMixin を継承している.
+    アンサンブルモデルの識別器 classifier の自作クラス.
+    scikit-learn ライブラリの推定器 estimator の基本クラス BaseEstimator, ClassifierMixin を継承している.
     
     [public] public アクセス可能なインスタスンス変数には, 便宜上変数名の最後にアンダースコア _ を付ける.
-        
-    
+        classifiers_ : list <classifier オブジェクト>        
+            public アクセス可能にした __classifiers のコピー
+
     [private] 変数名の前にダブルアンダースコア __ を付ける（Pythonルール）
-        __classifiers : list
+        __classifiers : list <classifier オブジェクト>
             分類器のクラスのオブジェクトのリスト
+
+        __fitted_classifiers : list <classifier オブジェクト>
+            fitting 処理後の分類器のクラスのオブジェクトのリスト
 
         __n_classifier : int
             アンサンブル分類器を構成する分類器の個数
 
+        __class_labels : list <str>
+            __classifiers のラベル名のリスト
+            
         __weights : float
             各分類器の対する重みの値のリスト
 
@@ -44,9 +57,10 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
             "probability_vote" : 弱識別器の重み付け結果で決定する.（＝クラスの所属確率の argmax() 結果）
 
         __encoder : sklearn.preprocessing.LabelEncoder のオブジェクト
+        
 
-        __class_labels : list <str>
-            __classifiers のラベル名のリスト
+        __named_classifiers : dict
+            
     """
     
     def __init__( self , classifiers, class_labels = [], vote = "majority_vote", weights = None ):
@@ -58,11 +72,23 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
                 分類器のクラスのオブジェクトのリスト
         """
         self.__classifiers = classifiers
-        self.__n_classifier = len( classifiers )
+        self.classifiers_ = classifiers
+
+        if classifiers != None:
+            self.__n_classifier = len( classifiers )
+        else:
+            self.__n_classifier = 0
+
         self.__weights = weights
         self.__vote_method = vote
 
-        self.__encoder = LabelEncoder()
+        # ?
+        if classifiers != None:
+            self.__named_classifiers = { key: value 
+                                         for key, value in _name_estimators(classifiers) }
+        else:
+            self.__named_classifiers = {}
+
 
         self.__class_labels = class_labels
         """
@@ -70,6 +96,8 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         for clf in self.__classifiers:
             self.__class_labels.append( clf.classes_ )
         """
+        
+        self.__encoder = LabelEncoder()
 
         return
 
@@ -80,19 +108,19 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         print("\n")
         print("-------------------------------------------------------------------")
         print( str )
-        print( "[Attributes]" )
+        print( "\n[Attributes]" )
 
         print( "__classifiers :" )
         for clf in self.__classifiers:
-            print( clf )
+            print( "    ", clf )
 
         print( "__n_classifier : ", self.__n_classifier )
         print( "__class_labels : ", self.__class_labels )
-        print( "__weights : \n", self.__weights )
+        print( "__weights : ", self.__weights )
         print( "__vote_method : ", self.__vote_method )
         #print( "__encoder : \n", self.__encoder )
         #print( "__encoder.classes_ : \n", self.__encoder.classes_ )
-        #print( self )
+        print( "\n[self]\n", self )
         print("-------------------------------------------------------------------")
         
         return
@@ -117,19 +145,27 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         # ? これは, self.predict() 関数内の numpy.argmax() 関数呼び出し時に重要となるためである.
         self.__encoder.fit( y_train )
 
+        # public アクセス可能な分類器のリストを初期化
+        self.classifiers_ = []
+
+        # __classifiers に設定されている分類器のクローン clone(clf) で fitting し, 
+        # public アクセス可能な classifiers_ に格納
         for clf in self.__classifiers:
-            clf.fit( X_train, self.__encoder.transform(y_train) )
+
+            # clone() : 同じパラメータの 推定器を生成
+            fitted_clf = clone(clf).fit( X_train, self.__encoder.transform(y_train) )
+            self.classifiers_.append( fitted_clf )
 
         return self
 
 
-    def predict( self, X_train ):
+    def predict( self, X_features ):
         """
         識別器に対し, fitting された結果を元に, クラスラベルの予想値を返す関数
 
         [Input]
-            X_train : numpy.ndarry ( shape = [n_samples, n_features] )
-                トレーニングデータ（特徴行列）
+            X_features : numpy.ndarry ( shape = [n_samples, n_features] )
+                予想したい特徴行列
         [Output]
             vote_results : numpy.ndaary ( shape = [n_samples] )
                 予想結果（クラスラベル）
@@ -143,21 +179,22 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         if self.__vote_method == "probability_vote":
             # numpy.argmax() : 指定した配列の最大要素のインデックスを返す
             # axis : 最大値を読み取る軸の方向 ( axis = 1 : shape が２次元配列 行方向)
-            vote_results = numpy.argmax( self.predict_proba(X_train), axis = 1 )
+            vote_results = numpy.argmax( self.predict_proba(X_features), axis = 1 )
 
         #------------------------------------------------------------------------------------------------------        
         # アンサンブルの最終決定方式 __vote_method が, 多数決方式 "majority_vote" のケース
         #------------------------------------------------------------------------------------------------------
         else:
             # 各弱識別器 clf の predict() 結果を predictions (list) に格納
-            predictions = [ clf.predict(X_train) for clf in self.__classifiers ]
-            print( "EnsembleLearningClassifier.fit() { predictions } : \n", predictions)
+            #predictions = [ clf.predict(X_features) for clf in self.__fitted_classifiers ]
+            #print( "EnsembleLearningClassifier.fit() { predictions } : \n", predictions)
 
             # ? predictions を 転置し, 行と列 (shape) を反転
             # numpy.asarray() :  np.array とほとんど同じように使えるが, 引数に ndarray を渡した場合は配列のコピーをせずに引数をそのまま返す。
-            predictions = numpy.asarray( predictions ).T
-            print( "EnsembleLearningClassifier.fit() { numpy.asarray(predictions).T } : \n", predictions)
+            # predictions = numpy.asarray( predictions ).T
+            #print( "EnsembleLearningClassifier.fit() { numpy.asarray(predictions).T } : \n", predictions)
 
+            predictions = numpy.asarray( [ clf.predict(X_features) for clf in self.classifiers_ ] ).T
 
             # ? 各サンプルの所属クラス確率に重み付けで足し合わせた結果が最大となるようにし、列番号を返すようにする.
             # この処理を numpy.apply_along_axis() 関数を使用して実装
@@ -171,32 +208,33 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
                            )
 
         # ? vote_results を LabelEncoder で逆行列化して, shape を反転
-        print( "EnsembleLearningClassifier.fit() { vote_results } : \n", vote_results )
+        #print( "EnsembleLearningClassifier.fit() { vote_results } : \n", vote_results )
         vote_results = self.__encoder.inverse_transform( vote_results )
-        print( "EnsembleLearningClassifier.fit() {  self.__encoder.inverse_transform( vote_results ) } : \n", vote_results )
+        #print( "EnsembleLearningClassifier.fit() {  self.__encoder.inverse_transform( vote_results ) } : \n", vote_results )
 
         return vote_results
 
 
-    def predict_proba( self, X_train ):
+    def predict_proba( self, X_features ):
         """
         識別器に対し, fitting された結果を元に, クラスの所属確率の予想値を返す関数
 
         [Input]
-            X_train : numpy.ndarry ( shape = [n_samples, n_features] )
-                トレーニングデータ（特徴行列）
+            X_features : numpy.ndarry ( shape = [n_samples, n_features] )
+                予想したい特徴行列
 
         [Output]
             ave_probas : numpy.nadarry ( shape = [n_samples, n_classes] )
                 各サンプルの所属クラス確率に重み付けした結果の平均確率
         """
         # 各弱識別器 clf の predict_prpba() 結果を predictions (list) に格納
-        predict_probas = [ clf.predict_proba(X_train) for clf in self.__classifiers ]
-        print( "EnsembleLearningClassifier.predict_proba() { predict_probas } : \n", predict_probas )
+        #predict_probas = [ clf.predict_proba(X_features) for clf in self.__fitted_classifiers ]
+        #print( "EnsembleLearningClassifier.predict_proba() { predict_probas } : \n", predict_probas )
+        predict_probas = numpy.asarray( [ clf.predict_proba(X_features) for clf in self.classifiers_ ] )
 
         # 平均化
         ave_probas = numpy.average( predict_probas, axis = 0, weights = self.__weights )
-        print( "EnsembleLearningClassifier.predict_proba() { ave_probas } : \n", ave_probas )
+        #print( "EnsembleLearningClassifier.predict_proba() { ave_probas } : \n", ave_probas )
 
         return ave_probas
 
@@ -204,11 +242,23 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
     def get_params( self, deep = True ):
         """
         親クラス BaseEstimator の関数 get_params() をオーバーライド
-        未実装...
+        
         """
-        #return super().get_params(deep)()
+        if deep == False:
+            # ?
+            return super( EnsembleLearningClassifier, self ).get_params( deep = False )
+        else:
+            # ? キューを "分類器の名前__パラメータ名" ,
+            # バリューをパラメータ値とするディクショナリを生成
+            out = self.__named_classifiers.copy()     # named_classifiers.copy() : 
 
-    
+            # ? six.iteritems() : 
+            for name, step in six.iteritems( self.__named_classifiers ):
+                for key, value in six.iteritems( step.get_params(deep=True) ):
+                     out['%s__%s' % (name, key)] = value
+
+            return out
+
     def get_classiflers( self ):
         """
         """
@@ -219,7 +269,7 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         """
         return self.__class_labels
 
-    def CalcplotEnsenbleError( self, error ):
+    def calcEnsenbleError( self, error ):
         """
         ２項分布（多数決）に基づいた, アンサンブルの誤分類率を計算する.
         P_ensemble = ∑ n_C_k * e^k * (1-e)^n-k
@@ -254,7 +304,7 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         """
         # Ensenble Error rate を計算する
         p_ensembles = [
-                          self.CalcplotEnsenbleError( error )
+                          self.calcEnsenbleError( error )
                           for error in errors
                       ]
         
