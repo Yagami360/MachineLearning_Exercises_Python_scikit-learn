@@ -114,8 +114,8 @@ def main():
 
     clf4 = SVC( 
         kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
-        gamma = 0.10,       # RFBカーネル関数のγ値
-        C = 0.5,            # C-SVM の C 値
+        gamma = 0.50,       # RFBカーネル関数のγ値
+        C = 10.0,            # C-SVM の C 値
         random_state = 0,   #
         probability = True  # 学習後の predict_proba method による予想確率を有効にする
     )
@@ -157,19 +157,28 @@ def main():
     # アンサンブル識別器 EnsembleLearningClassifier の設定
     #-----------------------------------------------------------
     ensemble_clf1 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
-                        classifiers = [ pipe1, pipe2, pipe3 ],
-                        class_labels = [ "Logistic Regression", "Decision Tree", "k-NN" ]
+                        classifiers  = [ pipe1, pipe2, pipe3 ],
+                        class_labels = [ 
+                                         "Logistic Regression ( penalty = 'l2', C = 0.001 )", 
+                                         "Decision Tree ( criterion = 'entropy', max_depth = 3 )", 
+                                         "k-NN ( n_neighbors = 3, metric='minkowski' )" 
+                                       ]
                     )
 
         
     ensemble_clf2 = EnsembleLearningClassifier.EnsembleLearningClassifier( 
                         classifiers = [ pipe1, pipe2, pipe4 ],
-                        class_labels = [ "Logistic Regression", "Decision Tree", "SVM" ]
+                        class_labels = [ 
+                                         "Logistic Regression ( penalty = 'l2', C = 0.001 )", 
+                                         "Decision Tree ( criterion = 'entropy', max_depth = 3 )", 
+                                         "SVM ( kernel = 'rbf', C = 10.0, gamma = 0.50 )" 
+                                       ]
                     )
     #ensemble_clf3 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
     #ensemble_clf4 = EnsembleLearningClassifier.EnsembleLearningClassifier( classifiers = [] )
 
     ensemble_clf1.print( "ensemble_clf1" )
+    ensemble_clf2.print( "ensemble_clf2" )
 
     #============================================
     # Learning Process
@@ -184,23 +193,21 @@ def main():
 
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
     all_clf = []
-    all_clf = ensemble_clf1.classifiers_
-    #all_clf = ensemble_clf2.classifiers_
-
-    all_clf.append( ensemble_clf1 )
-    #print( "all_clf :", all_clf )
+    all_clf = ensemble_clf2.classifiers_
+    all_clf.append( ensemble_clf2 )
+    print( "all_clf :", all_clf )
 
     # 各種スコア計算時に使用するクラスラベルのリスト ( for 文の in で使用を想定)
     all_clf_labels = []
-    all_clf_labels = ensemble_clf1.get_class_labels()
-    #all_clf_labels = ensemble_clf2.get_class_labels()
-    
-    all_clf_labels.append( "Ensemble Model 1" )
-    #print( "all_clf_labels :", all_clf_labels )
+    all_clf_labels = ensemble_clf2.class_labels_
+    #all_clf_labels.append( "Ensemble Model 1 ( LogisticRegression, DecisionTree, k-NN)" )
+    all_clf_labels.append( "Ensemble Model 2 ( LogisticRegression, DecisionTree, SVM)" )
+    print( "all_clf_labels :", all_clf_labels )
 
     #---------------------------------------------------------------
     # Ensemble Model のスコア値
     #---------------------------------------------------------------
+    """
     # テストデータ X_test でクラスラベルを予想
     y_train_predict_emb1 = ensemble_clf1.predict( X_train_std )
     y_test_predict_emb1 = ensemble_clf1.predict( X_test_std )
@@ -236,7 +243,7 @@ def main():
     print( "AUC <test data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( auc_test_scores2.mean(), auc_test_scores2.std(), "Ensemble Model 2") )
 
     print( "\n")
-
+    """
     #-------------------------------------------
     # 正解率, 誤識率
     #-------------------------------------------
@@ -249,7 +256,6 @@ def main():
                      X = X_train,
                      y = y_train,
                      cv = 10,
-#                     n_jobs = -1,
                      scoring = 'accuracy'    # 正解率
                  )
         print( "Accuracy <train data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )    
@@ -261,23 +267,11 @@ def main():
                      X = X_test,
                      y = y_test,
                      cv = 10,
-#                     n_jobs = -1,
                      scoring = 'accuracy'    # 正解率
                  )
         print( "Accuracy <test data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )    
 
     
-    """
-    # Ensemble Model 1
-    scores_accuracy = cross_val_score( 
-                          estimator = ensemble_clf1,
-                          X = X_train, y = y_train,
-                          cv = 10,
-                          scoring = 'accuracy'    # 正解率
-                      )
-    print( "Accuracy <test data> : %0.2f (+/- %0.2f) [%s]" % ( scores_accuracy.mean(), scores_accuracy.std(), "Ensemble Model 1") )
-    """
-
     #-------------------------------------------
     # AUC 値
     #-------------------------------------------
@@ -289,7 +283,6 @@ def main():
                      X = X_train,
                      y = y_train,
                      cv = 10,
-#                     n_jobs = -1,
                      scoring = 'roc_auc'    # AUC
                  )
         print( "AUC <train data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )
@@ -300,7 +293,6 @@ def main():
                      X = X_test,
                      y = y_test,
                      cv = 10,
-#                     n_jobs = -1,
                      scoring = 'roc_auc'    # AUC
                  )
         print( "AUC <test data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )
@@ -312,7 +304,7 @@ def main():
 
     plt.subplot( 2, 2, 1 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[0] )
-    plt.title( ensemble_clf1.get_class_labels()[0] + "\n ( penalty = 'l2', C = 0.001 )" )
+    plt.title( all_clf_labels[0] )
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.legend(loc = "best")
@@ -320,7 +312,7 @@ def main():
 
     plt.subplot( 2, 2, 2 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier =  all_clf[1] )
-    plt.title( ensemble_clf1.get_class_labels()[1]  + "\n ( criterion = 'entropy', max_depth = 3 )")
+    plt.title( all_clf_labels[1] )
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.legend(loc = "best")
@@ -328,17 +320,15 @@ def main():
 
     plt.subplot( 2, 2, 3 )
     Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier =  all_clf[2] )
-    plt.title( ensemble_clf1.get_class_labels()[2]  + "\n ( n_neighbors = 3, metric='minkowski' )")
-    #plt.title( ensemble_clf2.get_class_labels()[2] + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
+    plt.title( all_clf_labels[2] )
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.legend(loc = "best")
     plt.tight_layout()
 
     plt.subplot( 2, 2, 4 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = ensemble_clf1 )
-    plt.title( "Ensemble Model 1"  + "\n ( LogisticRegression, DecisionTree, k-NN)")
-    #plt.title( "Ensemble Model 2"+ "\n ( LogisticRegression, DecisionTree, SVM)")
+    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[3] )
+    plt.title( all_clf_labels[3] )
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
     plt.legend(loc = "best")
@@ -352,7 +342,7 @@ def main():
     #-------------------------------------------
     plt.clf()
 
-    for (idx, clf) in zip( range(1,4),  all_clf ):
+    for (idx, clf) in zip( range(1,5),  all_clf ):
         #print(idx)
         #print(clf)
 
@@ -363,7 +353,6 @@ def main():
               y = y_train,                                  # 
               train_sizes = numpy.linspace(0.1, 1.0, 10),   # トレードオフサンプルの絶対数 or 相対数
                                                             # トレーニングデータサイズに応じた, 等間隔の10 個の相対的な値を設定
-              n_jobs = -1,                                  # 全てのCPUで並列処理
               cv = 10                                       # 交差検証の回数（分割数）
         )
 
@@ -389,42 +378,7 @@ def main():
         plt.ylim( [0.5, 1.01] )
         plt.tight_layout()
         
-    """
-    # Ensemble Model 1
-    train_sizes, train_scores, test_scores \
-    = learning_curve(
-          estimator = ensemble_clf1,    # 推定器 
-          X = X_train_std,                              # 
-          y = y_train,                                  # 
-          train_sizes = numpy.linspace(0.1, 1.0, 10),   # トレードオフサンプルの絶対数 or 相対数
-                                                        # トレーニングデータサイズに応じた, 等間隔の10 個の相対的な値を設定
-          n_jobs = -1,                                  # 全てのCPUで並列処理
-          cv = 10                                       # 交差検証の回数（分割数）
-    )
-
-    # 平均値、分散値を算出
-    train_means = numpy.mean( train_scores, axis = 1 )   # axis = 1 : 行方向
-    train_stds = numpy.std( train_scores, axis = 1 )
-    test_means = numpy.mean( test_scores, axis = 1 )
-    test_stds = numpy.std( test_scores, axis = 1 )
-
-    # idx 番目の plot
-    plt.subplot( 2, 2, 4 )
-    Plot2D.Plot2D.drawLearningCurve(
-        train_sizes = train_sizes,
-        train_means = train_means,
-        train_stds = train_stds,
-        test_means = test_means,
-        test_stds = test_stds
-    )
-    plt.title( "Learning Curve \n" + all_clf_labels[idx-1] )
-    plt.xlabel('Number of training samples')
-    plt.ylabel('Accuracy')
-    plt.legend(loc='best')
-    plt.ylim( [0.5, 1.01] )
-    plt.tight_layout()
-    """
-
+    
     plt.savefig("./EnsembleLearning_scikit-learn_3.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()
 
@@ -441,15 +395,7 @@ def main():
         X_test = X_test_std, y_test = y_test
     )
 
-    """
-    Plot2D.Plot2D.drawROCCurveFromClassifiers( 
-        classifilers = ensemble_clf1, 
-        class_labels = "Enseble Model 1", 
-        X_train = X_train_std, y_train = y_train,
-        X_test = X_test_std, y_test = y_test
-    )
-    """
-
+    
     plt.savefig("./EnsembleLearning_scikit-learn_4.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()    
     

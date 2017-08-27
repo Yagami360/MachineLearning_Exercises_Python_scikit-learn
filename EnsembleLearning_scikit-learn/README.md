@@ -99,35 +99,34 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 |Logistic Regression </br> `penalty = 'l2', C = 0.001`|0.84 (+/- 0.23)|0.83 (+/- 0.18)|0.92 (+/- 0.20)|0.95 (+/- 0.11)|
 |Decision Tree </br> `criterion = 'entropy', max_depth = 3`|0.92 (+/- 0.13)|0.81 (+/- 0.16)|0.92 (+/- 0.15)|0.85 (+/- 0.14)|
 |k-NN </br> `n_neighbors = 3, metric = 'minkowski'`|0.92 (+/- 0.13)|0.83 (+/- 0.14)|0.93 (+/- 0.12)|0.89 (+/- 0.11)|
-|SVM</br> ` kernel = 'rbf', C = 0.50, gamma = 0.10 `|0.88 (+/- 0.14)|0.90 (+/- 0.10)|0.95 (+/- 0.15)|0.98 (+/- 0.05)|
-|Ensemble Model 1</br> [LogisticRegression, DecisionTree, k-NN]|0.98 (+/- 0.00)</br>cv=None|0.86 (+/- 0.00)</br>cv=None|0.98 (+/- 0.00)</br>cv=None|0.86 (+/- 0.00)</br>cv=None|
-|Ensemble Model 2</br> [LogisticRegression, DecisionTree, SVM]|0.90 (+/- 0.00)</br>cv=None|0.84 (+/- 0.00)</br>cv=None|0.89 (+/- 0.00)</br>cv=None|0.85 (+/- 0.00)</br>cv=None|
+|SVM</br> ` kernel = 'rbf', C = 10.0, gamma = 0.50 `|0.94 (+/- 0.09)|0.88 (+/- 0.10)|1.00 (+/- 0.00)|0.94 (+/- 0.08)|
+|Ensemble Model 1</br> [LogisticRegression, DecisionTree, k-NN]|0.92 (+/- 0.13)|0.83 (+/- 0.17)|0.93 (+/- 0.20)|0.94 (+/- 0.09)|
+|Ensemble Model 2</br> [LogisticRegression, DecisionTree, SVM]|0.92 (+/- 0.13)|0.86 (+/- 0.13)|1.00 (+/- 0.00)|0.91 (+/- 0.09)|
 
 </br>
 
 > 識別結果＆識別境界（チューニング前）
 >> チューニング前の適当なハイパーパラメータでの各弱識別器＆これらのアンサンブルモデルでの識別結果＆識別境界の図。上段の図がトレーニングデータでの結果。下段がテストデータでの結果。アンサンブルモデルでは、これを構成する個々の弱識別器の識別境界を混ぜ合わせた形状になっていることが分かる。
 
-![ensemblelearning_scikit-learn_2-1](https://user-images.githubusercontent.com/25688193/29749753-95efb334-8b6e-11e7-940e-b8bd236c6af8.png)
-![ensemblelearning_scikit-learn_2-2](https://user-images.githubusercontent.com/25688193/29750143-65886a36-8b75-11e7-9c6f-d92395019fd5.png)
-
+![ensemblelearning_scikit-learn_2-1](https://user-images.githubusercontent.com/25688193/29752697-1f7f2f1a-8b9e-11e7-9972-308010923fd3.png)
+![ensemblelearning_scikit-learn_2-2](https://user-images.githubusercontent.com/25688193/29752701-21eadbb4-8b9e-11e7-8c7a-ff738e6d9f5f.png)
 
 </br>
 
 > 学習曲線（チューニング前）
 
-![ensemblelearning_scikit-learn_3-1](https://user-images.githubusercontent.com/25688193/29749051-9e1eca50-8b5e-11e7-95a1-22a31b9f4c56.png)
-![ensemblelearning_scikit-learn_3-2](https://user-images.githubusercontent.com/25688193/29749052-a18c359c-8b5e-11e7-9510-11746dab1431.png)
+![ensemblelearning_scikit-learn_3-1](https://user-images.githubusercontent.com/25688193/29752710-3388f900-8b9e-11e7-9d3c-d1f89aa11031.png)
+![ensemblelearning_scikit-learn_3-2](https://user-images.githubusercontent.com/25688193/29752711-360c57da-8b9e-11e7-8427-a8b5604812cc.png)
 
 </br>
 
 > ROC 曲線（チューニング前）
 
-![ensemblelearning_scikit-learn_4-1](https://user-images.githubusercontent.com/25688193/29748646-4c52665e-8b55-11e7-9d18-02db91cb7a52.png)
-![ensemblelearning_scikit-learn_4-1](https://user-images.githubusercontent.com/25688193/29748640-37374a00-8b55-11e7-8c95-34a389fa79c6.png)
+![ensemblelearning_scikit-learn_4-1](https://user-images.githubusercontent.com/25688193/29752717-43e7f7ba-8b9e-11e7-868c-52a35e7831b3.png)
+![ensemblelearning_scikit-learn_4-1](https://user-images.githubusercontent.com/25688193/29752718-44fe507c-8b9e-11e7-947a-bc2ee3099d47.png)
 
-![ensemblelearning_scikit-learn_4-2](https://user-images.githubusercontent.com/25688193/29748749-9d731e96-8b57-11e7-979e-46dea44d6daf.png)
-![ensemblelearning_scikit-learn_4-2](https://user-images.githubusercontent.com/25688193/29748750-a087a75a-8b57-11e7-894a-46e74dd8472c.png)
+![ensemblelearning_scikit-learn_4-2](https://user-images.githubusercontent.com/25688193/29752724-504f6c54-8b9e-11e7-9b27-b2cf0703a01e.png)
+![ensemblelearning_scikit-learn_4-2](https://user-images.githubusercontent.com/25688193/29752725-5242df14-8b9e-11e7-8544-a8cdb0229eff.png)
 
 </br>
 

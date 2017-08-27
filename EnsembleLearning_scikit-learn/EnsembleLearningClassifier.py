@@ -32,8 +32,27 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
     scikit-learn ライブラリの推定器 estimator の基本クラス BaseEstimator, ClassifierMixin を継承している.
     
     [public] public アクセス可能なインスタスンス変数には, 便宜上変数名の最後にアンダースコア _ を付ける.
-        classifiers_ : list <classifier オブジェクト>        
-            public アクセス可能にした __classifiers のコピー
+        
+        classifiers : list <classifier オブジェクト>        
+            
+
+
+        vote_method : str
+
+        weights : list <float>
+
+        named_classifier :
+
+        ---------------------------------
+
+        classifiers_ :
+
+
+        encoder_ : 
+
+        classes_ :
+
+
 
     [private] 変数名の前にダブルアンダースコア __ を付ける（Pythonルール）
         __classifiers : list <classifier オブジェクト>
@@ -48,7 +67,7 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         __class_labels : list <str>
             __classifiers のラベル名のリスト
             
-        __weights : float
+        __weights : list <float>
             各分類器の対する重みの値のリスト
 
         __vote_method : str ( "majority_vote" or "probability_vote" )
@@ -63,41 +82,37 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
             
     """
     
-    def __init__( self , classifiers, class_labels = [], vote = "majority_vote", weights = None ):
+    def __init__( self , classifiers, class_labels = [], vote_method = "majority_vote", weights = None ):
         """
         コンストラクタ（厳密にはイニシャライザ）
-
+        引数と同名のオブジェクトの属性を設定する必要あり（上位クラスの BaseEstima仕様）
+        
         [Input]
-            classifiers : list
+            classifiers_ : list
                 分類器のクラスのオブジェクトのリスト
+                
+
         """
-        self.__classifiers = classifiers
-        self.classifiers_ = classifiers
+        self.classifiers = classifiers
+        
+        self.class_labels = class_labels
+        self.class_labels_ = class_labels
+
+        self.weights = weights
 
         if classifiers != None:
             self.__n_classifier = len( classifiers )
         else:
             self.__n_classifier = 0
 
-        self.__weights = weights
-        self.__vote_method = vote
+        self.vote_method = vote_method
 
         # ?
         if classifiers != None:
-            self.__named_classifiers = { key: value 
+            self.named_classifiers = { key: value 
                                          for key, value in _name_estimators(classifiers) }
         else:
-            self.__named_classifiers = {}
-
-
-        self.__class_labels = class_labels
-        """
-        self.__class_labels = []
-        for clf in self.__classifiers:
-            self.__class_labels.append( clf.classes_ )
-        """
-        
-        self.__encoder = LabelEncoder()
+            self.named_classifiers = {}
 
         return
 
@@ -110,16 +125,15 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         print( str )
         print( "\n[Attributes]" )
 
-        print( "__classifiers :" )
-        for clf in self.__classifiers:
+        print( "classifiers :" )
+        for clf in self.classifiers:
             print( "    ", clf )
 
         print( "__n_classifier : ", self.__n_classifier )
-        print( "__class_labels : ", self.__class_labels )
-        print( "__weights : ", self.__weights )
-        print( "__vote_method : ", self.__vote_method )
-        #print( "__encoder : \n", self.__encoder )
-        #print( "__encoder.classes_ : \n", self.__encoder.classes_ )
+        print( "class_labels : ", self.class_labels )
+        print( "weights : ", self.weights )
+        print( "vote_method : ", self.vote_method )
+
         print( "\n[self]\n", self )
         print("-------------------------------------------------------------------")
         
@@ -143,17 +157,19 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         """
         # ? LabelEncoder クラスを使用して, クラスラベルが 0 から始まるようにする.
         # ? これは, self.predict() 関数内の numpy.argmax() 関数呼び出し時に重要となるためである.
-        self.__encoder.fit( y_train )
+        self.encoder_ = LabelEncoder()
+        self.encoder_.fit( y_train )
+        self.classes = self.encoder_.classes_
 
         # public アクセス可能な分類器のリストを初期化
         self.classifiers_ = []
 
-        # __classifiers に設定されている分類器のクローン clone(clf) で fitting し, 
+        # self.classifiers に設定されている分類器のクローン clone(clf) で fitting し, 
         # public アクセス可能な classifiers_ に格納
-        for clf in self.__classifiers:
+        for clf in self.classifiers:
 
             # clone() : 同じパラメータの 推定器を生成
-            fitted_clf = clone(clf).fit( X_train, self.__encoder.transform(y_train) )
+            fitted_clf = clone(clf).fit( X_train, self.encoder_.transform(y_train) )
             self.classifiers_.append( fitted_clf )
 
         return self
@@ -176,7 +192,7 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         #------------------------------------------------------------------------------------------------------
         # アンサンブルの最終決定方式 __vote_method が, 各弱識別器の重み付け方式 "probability_vote" のケース
         #------------------------------------------------------------------------------------------------------
-        if self.__vote_method == "probability_vote":
+        if self.vote_method == "probability_vote":
             # numpy.argmax() : 指定した配列の最大要素のインデックスを返す
             # axis : 最大値を読み取る軸の方向 ( axis = 1 : shape が２次元配列 行方向)
             vote_results = numpy.argmax( self.predict_proba(X_features), axis = 1 )
@@ -202,14 +218,14 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
             # Execute func1d(a, *args) where func1d operates on 1-D arrays and a is a 1-D slice of arr along axis.
             vote_results = numpy.apply_along_axis(
                                lambda x :                                                       # func1d : function
-                               numpy.argmax( numpy.bincount( x, weights = self.__weights ) ),   # 
+                               numpy.argmax( numpy.bincount( x, weights = self.weights ) ),     # 
                                axis = 1,                                                        #
                                arr = predictions                                                # ndarray : Input array
                            )
 
         # ? vote_results を LabelEncoder で逆行列化して, shape を反転
         #print( "EnsembleLearningClassifier.fit() { vote_results } : \n", vote_results )
-        vote_results = self.__encoder.inverse_transform( vote_results )
+        vote_results = self.encoder_.inverse_transform( vote_results )
         #print( "EnsembleLearningClassifier.fit() {  self.__encoder.inverse_transform( vote_results ) } : \n", vote_results )
 
         return vote_results
@@ -233,7 +249,7 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         predict_probas = numpy.asarray( [ clf.predict_proba(X_features) for clf in self.classifiers_ ] )
 
         # 平均化
-        ave_probas = numpy.average( predict_probas, axis = 0, weights = self.__weights )
+        ave_probas = numpy.average( predict_probas, axis = 0, weights = self.weights )
         #print( "EnsembleLearningClassifier.predict_proba() { ave_probas } : \n", ave_probas )
 
         return ave_probas
@@ -250,10 +266,10 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
         else:
             # ? キューを "分類器の名前__パラメータ名" ,
             # バリューをパラメータ値とするディクショナリを生成
-            out = self.__named_classifiers.copy()     # named_classifiers.copy() : 
+            out = self.named_classifiers.copy()     # named_classifiers.copy() : 
 
             # ? six.iteritems() : 
-            for name, step in six.iteritems( self.__named_classifiers ):
+            for name, step in six.iteritems( self.named_classifiers ):
                 for key, value in six.iteritems( step.get_params(deep=True) ):
                      out['%s__%s' % (name, key)] = value
 
@@ -262,12 +278,12 @@ class EnsembleLearningClassifier( BaseEstimator, ClassifierMixin ):
     def get_classiflers( self ):
         """
         """
-        return self.__classifiers
+        return self.classifiers
 
     def get_class_labels( self ):
         """
         """
-        return self.__class_labels
+        return self.class_labels
 
     def calcEnsenbleError( self, error ):
         """

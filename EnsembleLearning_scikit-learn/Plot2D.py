@@ -57,6 +57,9 @@ class Plot2D(object):
         xx1 = meshgrids[0]
         xx2 = meshgrids[1]
 
+        #
+        classifier.fit( dat_X, dat_y)
+
         # ? 値の全ての組み合わせを１次元配列に変換 numpy.array( [xx1.ravel(), xx2.ravel()] ) し、
         # classifierに設定されている predict（予想）を実行
         Z = classifier.predict( 
