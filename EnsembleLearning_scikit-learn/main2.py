@@ -49,8 +49,8 @@ def main():
 
     dat_X = iris.data[ 50:, [1, 2] ]    # 
     dat_y = iris.target[50:]            # 
-    print(dat_X)
-    print(dat_y)
+    #print(dat_X)
+    #print(dat_y)
 
     #===========================================
     # 前処理 [PreProcessing]
