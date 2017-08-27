@@ -95,8 +95,8 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 |Decision Tree </br> `criterion = 'entropy', max_depth = 3`|0.92 (+/- 0.13)|0.81 (+/- 0.16)|0.92 (+/- 0.15)|0.85 (+/- 0.14)|
 |k-NN </br> `n_neighbors = 3, metric = 'minkowski'`|0.92 (+/- 0.13)|0.83 (+/- 0.14)|0.93 (+/- 0.12)|0.89 (+/- 0.11)|
 |SVM</br> ` kernel = 'rbf', C = 0.50, gamma = 0.10 `|0.88 (+/- 0.14)|0.90 (+/- 0.10)|0.95 (+/- 0.15)|0.98 (+/- 0.05)|
-|Ensemble Model 1</br> [LogisticRegression, DecisionTree, k-NN]|...|...|...|...|
-|Ensemble Model 2</br> [LogisticRegression, DecisionTree, SVM]|...|...|...|...|
+|Ensemble Model 1</br> [LogisticRegression, DecisionTree, k-NN]|0.98 (+/- 0.00)</br>cv=None|0.86 (+/- 0.00)</br>cv=None|0.98 (+/- 0.00)</br>cv=None|0.86 (+/- 0.00)</br>cv=None|
+|Ensemble Model 2</br> [LogisticRegression, DecisionTree, SVM]|0.90 (+/- 0.00)</br>cv=None|0.84 (+/- 0.00)</br>cv=None|0.89 (+/- 0.00)</br>cv=None|0.85 (+/- 0.00)</br>cv=None|
 
 </br>
 

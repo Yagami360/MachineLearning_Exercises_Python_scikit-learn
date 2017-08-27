@@ -8,7 +8,12 @@ import matplotlib.pyplot as plt
 # scikit-learn ライブラリ関連
 from sklearn import datasets
 from sklearn.preprocessing import LabelEncoder          
+
 from sklearn.model_selection import cross_val_score     #
+from sklearn.metrics import accuracy_score              # 
+from sklearn.metrics import roc_curve                   # ROC曲線
+from sklearn.metrics import auc                         # AUC
+
 
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
@@ -177,6 +182,10 @@ def main():
     ensemble_clf1.fit( X_train_std, y_train )
     ensemble_clf2.fit( X_train_std, y_train )
 
+    #===========================================
+    # 汎化性能の確認
+    #===========================================
+
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
     all_clf = []
     all_clf = ensemble_clf1.classifiers_
@@ -189,19 +198,51 @@ def main():
     #all_clf_labels.append( "Ensemble Model 1" )
     #print( "all_clf_labels :", all_clf_labels )
 
-    #===========================================
-    # 汎化性能の確認
-    #===========================================
+    #---------------------------------------------------------------
+    # Ensemble Model のスコア値
+    #---------------------------------------------------------------
     # テストデータ X_test でクラスラベルを予想
-    #y_predict = ensemble_clf1.predict( X_test )
-    #print( "ensemble_clf1.predict() : " , y_predict )
+    y_train_predict_emb1 = ensemble_clf1.predict( X_train_std )
+    y_test_predict_emb1 = ensemble_clf1.predict( X_test_std )
+    y_train_predict_emb2 = ensemble_clf2.predict( X_train_std )
+    y_test_predict_emb2 = ensemble_clf2.predict( X_test_std )
 
+    # 正解率
+    accuracy_train_scores1 = accuracy_score( y_train, y_train_predict_emb1 )
+    accuracy_test_scores1 = accuracy_score( y_test, y_test_predict_emb1 )
+    accuracy_train_scores2 = accuracy_score( y_train, y_train_predict_emb2 )    #
+    accuracy_test_scores2 = accuracy_score( y_test, y_test_predict_emb2 )       #
+
+    # AUC
+    fpr, tpr, thresholds = roc_curve( y_train, y_train_predict_emb1, pos_label = 1 )
+    auc_train_scores1 = auc( fpr, tpr )
+    fpr, tpr, thresholds = roc_curve( y_test, y_test_predict_emb1, pos_label = 1 )
+    auc_test_scores1 = auc( fpr, tpr )
+
+    fpr, tpr, thresholds = roc_curve( y_train, y_train_predict_emb2, pos_label = 1 )
+    auc_train_scores2 = auc( fpr, tpr )
+    fpr, tpr, thresholds = roc_curve( y_test, y_test_predict_emb2, pos_label = 1 )
+    auc_test_scores2 = auc( fpr, tpr )
+
+    print( "[Ensemble Model のスコア値 cv = None]")
+    print( "Accuracy <train data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( accuracy_train_scores1.mean(), accuracy_train_scores1.std(), "Ensemble Model 1") )
+    print( "Accuracy <test data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( accuracy_test_scores1.mean(), accuracy_test_scores1.std(), "Ensemble Model 1") )
+    print( "Accuracy <train data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( accuracy_train_scores2.mean(), accuracy_train_scores2.std(), "Ensemble Model 2") )
+    print( "Accuracy <test data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( accuracy_test_scores2.mean(), accuracy_test_scores2.std(), "Ensemble Model 2") )
+    
+    print( "AUC <train data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( auc_train_scores1.mean(), auc_train_scores1.std(), "Ensemble Model 1") )
+    print( "AUC <test data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( auc_test_scores1.mean(), auc_test_scores1.std(), "Ensemble Model 1") )
+    print( "AUC <train data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( auc_train_scores2.mean(), auc_train_scores2.std(), "Ensemble Model 2") )
+    print( "AUC <test data> : %0.2f (+/- %0.2f) cv=None [%s]" % ( auc_test_scores2.mean(), auc_test_scores2.std(), "Ensemble Model 2") )
+
+    print( "\n")
 
     #-------------------------------------------
     # 正解率, 誤識率
     #-------------------------------------------
     # k-fold CV を行い, cross_val_score( scoring = 'accuracy' ) で 正解率を算出
     print( "[Accuracy]")
+    # train data
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
@@ -212,7 +253,8 @@ def main():
                      scoring = 'accuracy'    # 正解率
                  )
         print( "Accuracy <train data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )    
-
+    
+    # test data
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
@@ -224,7 +266,17 @@ def main():
                  )
         print( "Accuracy <test data> : %0.2f (+/- %0.2f) [%s]" % ( scores.mean(), scores.std(), label) )    
 
-    #scores_accuracy = cross_val_score( estimator = ensemble_clf1
+    
+    """
+    # Ensemble Model 1
+    scores_accuracy = cross_val_score( 
+                          estimator = ensemble_clf1,
+                          X = X_train, y = y_train,
+                          cv = 10,
+                          scoring = 'accuracy'    # 正解率
+                      )
+    print( "Accuracy <test data> : %0.2f (+/- %0.2f) [%s]" % ( scores_accuracy.mean(), scores_accuracy.std(), "Ensemble Model 1") )
+    """
 
     #-------------------------------------------
     # AUC 値
@@ -364,9 +416,44 @@ def main():
         plt.xlabel('Number of training samples')
         plt.ylabel('Accuracy')
         plt.legend(loc='best')
-        plt.ylim( [0.8, 1.01] )
+        plt.ylim( [0.5, 1.01] )
         plt.tight_layout()
         
+    """
+    # Ensemble Model 1
+    train_sizes, train_scores, test_scores \
+    = learning_curve(
+          estimator = ensemble_clf1,    # 推定器 
+          X = X_train_std,                              # 
+          y = y_train,                                  # 
+          train_sizes = numpy.linspace(0.1, 1.0, 10),   # トレードオフサンプルの絶対数 or 相対数
+                                                        # トレーニングデータサイズに応じた, 等間隔の10 個の相対的な値を設定
+          n_jobs = -1,                                  # 全てのCPUで並列処理
+          cv = 10                                       # 交差検証の回数（分割数）
+    )
+
+    # 平均値、分散値を算出
+    train_means = numpy.mean( train_scores, axis = 1 )   # axis = 1 : 行方向
+    train_stds = numpy.std( train_scores, axis = 1 )
+    test_means = numpy.mean( test_scores, axis = 1 )
+    test_stds = numpy.std( test_scores, axis = 1 )
+
+    # idx 番目の plot
+    plt.subplot( 2, 2, 4 )
+    Plot2D.Plot2D.drawLearningCurve(
+        train_sizes = train_sizes,
+        train_means = train_means,
+        train_stds = train_stds,
+        test_means = test_means,
+        test_stds = test_stds
+    )
+    plt.title( "Learning Curve \n" + all_clf_labels[idx-1] )
+    plt.xlabel('Number of training samples')
+    plt.ylabel('Accuracy')
+    plt.legend(loc='best')
+    plt.ylim( [0.5, 1.01] )
+    plt.tight_layout()
+    """
 
     plt.savefig("./EnsembleLearning_scikit-learn_3.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()
@@ -383,6 +470,15 @@ def main():
         X_train = X_train_std, y_train = y_train,
         X_test = X_test_std, y_test = y_test
     )
+
+    """
+    Plot2D.Plot2D.drawROCCurveFromClassifiers( 
+        classifilers = ensemble_clf1, 
+        class_labels = "Enseble Model 1", 
+        X_train = X_train_std, y_train = y_train,
+        X_test = X_test_std, y_test = y_test
+    )
+    """
 
     plt.savefig("./EnsembleLearning_scikit-learn_4.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()    
