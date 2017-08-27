@@ -87,16 +87,18 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 #### Iris データセットでの検証結果
 
-> 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`
+> 各種スコア値 by k-fold CV (cv=10):
 
-|Model|Accuracy|AUC|
-|---|---|---|
-|Logistic Regression|0.84 (+/- 0.23)|0.92 (+/- 0.20)|
-|Decision Tree|0.92 (+/- 0.13)|0.92 (+/- 0.15)|
-|k-NN|0.94 (+/- 0.09)|0.93 (+/- 0.10)|
-|SVM|||
-|Ensemble 1</br> [LogisticRegression, DecisionTree, k-NN]|||
-|Ensemble 2</br> [LogisticRegression, DecisionTree, SVM]|||
+|Model (classifiers)|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
+|---|---|---|---|---|
+|Logistic Regression </br> `penalty = 'l2', C = 0.001`|0.84 (+/- 0.23)|0.83 (+/- 0.18)|0.92 (+/- 0.20)|0.95 (+/- 0.11)|
+|Decision Tree </br> `criterion = 'entropy', max_depth = 3`|0.92 (+/- 0.13)|0.79 (+/- 0.17)|0.92 (+/- 0.15)|0.82 (+/- 0.16)|
+|k-NN </br> `n_neighbors = 3, metric='minkowski'`|0.92 (+/- 0.13)|0.83 (+/- 0.14)|0.93 (+/- 0.12)|0.89 (+/- 0.11)|
+|SVM</br> `rbf, C=0.001`|...|...|...|...|
+|Ensemble Model 1</br> [LogisticRegression, DecisionTree, k-NN]|...|...|...|...|
+|Ensemble Model 2</br> [LogisticRegression, DecisionTree, SVM]|...|...|...|...|
+
+</br>
 
 > 各モデルでの識別境界
 >> コード実施中...
@@ -106,13 +108,13 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 > 各種スコア値 by k-fold CV : `cross_val_score( cv = 10 )`
 >> コード実施中...
 
-|Model|Accuracy|AUC|
-|---|---|---|
-|Logistic Regression|||
-|Decision Tree|||
-|k-NN|||
-|SVM|||
-|Ensemble 1</br> [LogisticRegression, DecisionTree, k-NN]|||
+|Model|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
+|---|---|---|---|---|
+|Logistic Regression </br> `penalty = 'l2', C = 0.001`|||
+|Decision Tree </br> `criterion = 'entropy', max_depth = 3`|||
+|k-NN </br> `n_neighbors = 3, metric='minkowski'`|||
+|SVM </br> ``|||
+|Ensemble 1</br>[LogisticRegression, DecisionTree, k-NN]|||
 
 > 各モデルでの識別境界
 >> コード実施中...
