@@ -85,9 +85,14 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
     - ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 3, p = 2, metric = 'minkowski' )`
 - クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score()` を使用
 
-#### Iris データセット（トレーニングデータ 50% 、テストデータ 50%の割合で分割）での検証結果
+#### Iris データセットでの検証結果
 
-> 各種スコア値 by k-fold CV (cv=10) :（チューニング前）
+> Iris データ : `datasets.load_iris()`</br>
+>>・特徴行列（特徴量2個×50個のサンプル） : `iris.data[ 50:, [1, 2] ]`</br>
+>>・教師データ（50個のサンプル） : `iris.target[50:]`</br>
+>>・トレーニングデータ 50% 、テストデータ 50%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.5, random_state = 1 )`
+
+>各種スコア値 by k-fold CV (cv=10) :（チューニング前）
 
 |Model (classifiers)|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
 |---|---|---|---|---|
@@ -103,9 +108,9 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 > 識別結果＆識別境界（チューニング前）
 >> チューニング前の適当なハイパーパラメータでの各弱識別器＆これらのアンサンブルモデルでの識別結果＆識別境界の図。上段の図がトレーニングデータでの結果。下段がテストデータでの結果。アンサンブルモデルでは、これを構成する個々の弱識別器の識別境界を混ぜ合わせた形状になっていることが分かる。
 
-![ensemblelearning_scikit-learn_2-1](https://user-images.githubusercontent.com/25688193/29748312-3d019e96-8b4f-11e7-9ee1-845eba6df331.png)
+![ensemblelearning_scikit-learn_2-1](https://user-images.githubusercontent.com/25688193/29749753-95efb334-8b6e-11e7-940e-b8bd236c6af8.png)
+![ensemblelearning_scikit-learn_2-2](https://user-images.githubusercontent.com/25688193/29749754-97bf6c54-8b6e-11e7-929e-d31e19d5ab55.png)
 
-![ensemblelearning_scikit-learn_2-2](https://user-images.githubusercontent.com/25688193/29748309-2e737764-8b4f-11e7-8bc6-e62332dd0c8b.png)
 
 </br>
 

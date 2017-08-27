@@ -44,20 +44,12 @@ def main():
 
     # データの読み込み
     iris = datasets.load_iris()
+    print(iris)
 
-    dat_X = iris.data[ 50:, [1, 2] ]
-    dat_y = iris.target[50:]
-
-
-    """
-    # 重み付き多数決 : y_predict = arg max∑w*x(classifiler = i)
-    # numpy.bincount() : 引数 x における各値の出現に対し, 引数 weights で重み付けする. 
-    weight_result = numpy.bincount( [0, 0, 1], weights = [0.2, 0.2, 0.6] )
-    # numpy.argmax() : 引数 a の値の内で最大値のインデックス値
-    argmax_result = numpy.argmax( a = weight_result )
-    print( "numpy.bincount() : \n", weight_result )
-    print( "numpy.argmax() : \n", argmax_result )
-    """
+    dat_X = iris.data[ 50:, [1, 2] ]    # 
+    dat_y = iris.target[50:]            # 
+    print(dat_X)
+    print(dat_y)
 
     #===========================================
     # 前処理 [PreProcessing]
@@ -74,6 +66,9 @@ def main():
     # データをトレードオフデータとテストデータに分割
     X_train, X_test, y_train, y_test \
     = DataPreProcess.DataPreProcess.dataTrainTestSplit( X_input = dat_X, y_input = dat_y, ratio_test = 0.5, input_random_state = 1 )
+
+    test_idx = []
+    #test_idx = range( 26,50 )
 
     #
     stdScaler = StandardScaler()
@@ -188,13 +183,13 @@ def main():
 
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
     all_clf = []
-    all_clf = ensemble_clf1.classifiers_
+    all_clf = ensemble_clf2.classifiers_
     #all_clf.append( ensemble_clf1 )
     #print( "all_clf :", all_clf )
 
     # 各種スコア計算時に使用するクラスラベルのリスト ( for 文の in で使用を想定)
     all_clf_labels = []
-    all_clf_labels = ensemble_clf1.get_class_labels()
+    all_clf_labels = ensemble_clf2.get_class_labels()
     #all_clf_labels.append( "Ensemble Model 1" )
     #print( "all_clf_labels :", all_clf_labels )
 
@@ -310,69 +305,39 @@ def main():
     #-------------------------------------------
     plt.clf()
 
-    # train data
-    plt.subplot( 2, 4, 1 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = all_clf[0] )
-    plt.title( ensemble_clf1.get_class_labels()[0] + " [train data]" +"\n ( penalty = 'l2', C = 0.001 )" )
+    plt.subplot( 2, 2, 1 )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[0] )
+    plt.title( ensemble_clf1.get_class_labels()[0] + "\n ( penalty = 'l2', C = 0.001 )" )
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
+    plt.legend(loc = "best")
     plt.tight_layout()
 
-    plt.subplot( 2, 4, 2 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier =  all_clf[1] )
-    plt.title( ensemble_clf1.get_class_labels()[1]  + " [train data]" + "\n ( criterion = 'entropy', max_depth = 3 )")
+    plt.subplot( 2, 2, 2 )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier =  all_clf[1] )
+    plt.title( ensemble_clf1.get_class_labels()[1]  + "\n ( criterion = 'entropy', max_depth = 3 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
+    plt.legend(loc = "best")
     plt.tight_layout()
 
-    plt.subplot( 2, 4, 3 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier =  all_clf[2] )
-    plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
-    #plt.title( ensemble_clf1.get_class_labels()[2]  + " [train data]" + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
+    plt.subplot( 2, 2, 3 )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier =  all_clf[2] )
+    #plt.title( ensemble_clf1.get_class_labels()[2]  + "\n ( n_neighbors = 3, metric='minkowski' )")
+    plt.title( ensemble_clf1.get_class_labels()[2] + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
+    plt.legend(loc = "best")
     plt.tight_layout()
 
-    plt.subplot( 2, 4, 4 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_train_std, y_train, classifier = ensemble_clf1 )
-    plt.title( "Ensemble Model 1"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
-    #plt.title( "Ensemble Model 2"  + " [train data]" + "\n ( LogisticRegression, DecisionTree, SVM)")
+    plt.subplot( 2, 2, 4 )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = ensemble_clf1 )
+    #plt.title( "Ensemble Model 1"  + "\n ( LogisticRegression, DecisionTree, k-NN)")
+    plt.title( "Ensemble Model 2"+ "\n ( LogisticRegression, DecisionTree, SVM)")
     plt.xlabel( "Sepal width [standardized]" )
     plt.ylabel( "Petal length [standardized]" )
+    plt.legend(loc = "best")
     plt.tight_layout()
-
-
-    # test data
-    plt.subplot( 2, 4, 5 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier =  all_clf[0] )
-    plt.title( ensemble_clf1.get_class_labels()[0] + " [test data]" +"\n ( penalty = 'l2', C = 0.001 )" )
-    plt.xlabel( "Sepal width [standardized]" )
-    plt.ylabel( "Petal length [standardized]" )
-    plt.tight_layout()
-
-    plt.subplot( 2, 4, 6 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier =  all_clf[1] )
-    plt.title( ensemble_clf1.get_class_labels()[1]  + " [test data]" + "\n ( criterion = 'entropy', max_depth = 3 )")
-    plt.xlabel( "Sepal width [standardized]" )
-    plt.ylabel( "Petal length [standardized]" )
-    plt.tight_layout()
-
-    plt.subplot( 2, 4, 7 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier =  all_clf[2] )
-    plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( n_neighbors = 3, metric='minkowski' )")
-    #plt.title( ensemble_clf1.get_class_labels()[2]  + " [test data]" + "\n ( kernel = 'rbf', C = 0.5, gamma = 0.10 )")
-    plt.xlabel( "Sepal width [standardized]" )
-    plt.ylabel( "Petal length [standardized]" )
-    plt.tight_layout()
-
-    plt.subplot( 2, 4, 8 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_test_std, y_test, classifier = ensemble_clf1 )
-    plt.title( "Ensemble Model 1"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, k-NN)")
-    #plt.title( "Ensemble Model 2"  + " [test data]" + "\n ( LogisticRegression, DecisionTree, SVM)")
-    plt.xlabel( "Sepal width [standardized]" )
-    plt.ylabel( "Petal length [standardized]" )
-    plt.tight_layout()
-
 
     plt.savefig("./EnsembleLearning_scikit-learn_2.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()
