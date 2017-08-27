@@ -43,7 +43,8 @@ def main():
     print("Enter main()")
 
     # データの読み込み
-    iris = datasets.load_iris()
+    # 三品種 (Setosa, Versicolor, Virginica) の特徴量、含まれる特徴量は、Sepal (がく片) と Petal (花びら) の長さと幅。
+    iris = datasets.load_iris()         
     print(iris)
 
     dat_X = iris.data[ 50:, [1, 2] ]    # 
@@ -331,7 +332,7 @@ def main():
     plt.tight_layout()
 
     plt.subplot( 2, 2, 4 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = ensemble_clf1 )
+    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = ensemble_clf2 )
     #plt.title( "Ensemble Model 1"  + "\n ( LogisticRegression, DecisionTree, k-NN)")
     plt.title( "Ensemble Model 2"+ "\n ( LogisticRegression, DecisionTree, SVM)")
     plt.xlabel( "Sepal width [standardized]" )

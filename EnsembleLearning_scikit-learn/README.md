@@ -109,7 +109,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 >> チューニング前の適当なハイパーパラメータでの各弱識別器＆これらのアンサンブルモデルでの識別結果＆識別境界の図。上段の図がトレーニングデータでの結果。下段がテストデータでの結果。アンサンブルモデルでは、これを構成する個々の弱識別器の識別境界を混ぜ合わせた形状になっていることが分かる。
 
 ![ensemblelearning_scikit-learn_2-1](https://user-images.githubusercontent.com/25688193/29749753-95efb334-8b6e-11e7-940e-b8bd236c6af8.png)
-![ensemblelearning_scikit-learn_2-2](https://user-images.githubusercontent.com/25688193/29749754-97bf6c54-8b6e-11e7-929e-d31e19d5ab55.png)
+![ensemblelearning_scikit-learn_2-2](https://user-images.githubusercontent.com/25688193/29749815-b6e8e71c-8b6f-11e7-92d6-1c90d0eb719b.png)
 
 
 </br>
