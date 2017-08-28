@@ -33,8 +33,7 @@ http://scikit-learn.org/stable/developers/contributing.html#rolling-your-own-est
 http://scikit-learn.org/stable/modules/classes.html#module-sklearn.base
 >>> `sklearn.base.BaseEstimator` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator
-
->>>> scikit-learn の推定器 estimator の基本クラス BaseEstimator を継承した自作クラスを作成していたのだが、コンストラクタ `__init()__` で指定した引数と同名のオブジェクトの属性を設定する必要ある模様。ドキュメントにそれらしき記載あり。
+>>>> scikit-learn の推定器 estimator の基本クラス BaseEstimator を継承した自作クラス `EnsembleModelClassifier` において、コンストラクタ `__init()__` で指定した引数と同名のオブジェクトの属性を設定する必要ある模様。ドキュメントにそれらしき記載あり。
 ![image](https://user-images.githubusercontent.com/25688193/29766807-0c799194-8c1b-11e7-86c0-a63bed2e3233.png)
 
 > その他ライブラリ
