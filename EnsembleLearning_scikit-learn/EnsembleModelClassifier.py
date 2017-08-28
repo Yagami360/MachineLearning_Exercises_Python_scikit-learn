@@ -32,7 +32,7 @@ class EnsembleModelClassifier( BaseEstimator, ClassifierMixin ):
     アンサンブルモデルの識別器 classifier の自作クラス.
     scikit-learn ライブラリの推定器 estimator の基本クラス BaseEstimator, ClassifierMixin を継承している.
 
-    -------------------------------------------------------
+    -------------------------------------------------------------------------------------------------------------------------------
     コンストラクタ __init()__ の引数と同名のオブジェクトの属性を設定する必要あり（上位クラスの BaseEstimator仕様） 
     
     参考: sklearn.base.BaseEstimator の Note
@@ -40,6 +40,7 @@ class EnsembleModelClassifier( BaseEstimator, ClassifierMixin ):
     All estimators should specify all the parameters that can be set at the class level in their __init__ as explicit keyword arguments (no *args or **kwargs).
     http://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator
     --------------------------------------------------------------------------------------------------------------------------------
+    [protedted] protedted な使用法を想定 
         classifiers : list <classifier オブジェクト>        
             分類器のクラスのオブジェクトのリスト : __init()__ の引数と同名のオブジェクトの属性
 
@@ -195,15 +196,13 @@ class EnsembleModelClassifier( BaseEstimator, ClassifierMixin ):
         #------------------------------------------------------------------------------------------------------
         else:
             # 各弱識別器 clf の predict() 結果を predictions (list) に格納
-            #predictions = [ clf.predict(X_features) for clf in self.__fitted_classifiers ]
+            predictions = [ clf.predict(X_features) for clf in self.classifiers_ ]
             #print( "EnsembleLearningClassifier.fit() { predictions } : \n", predictions)
 
             # ? predictions を 転置し, 行と列 (shape) を反転
             # numpy.asarray() :  np.array とほとんど同じように使えるが, 引数に ndarray を渡した場合は配列のコピーをせずに引数をそのまま返す。
-            # predictions = numpy.asarray( predictions ).T
+            predictions = numpy.asarray( predictions ).T
             #print( "EnsembleLearningClassifier.fit() { numpy.asarray(predictions).T } : \n", predictions)
-
-            predictions = numpy.asarray( [ clf.predict(X_features) for clf in self.classifiers_ ] ).T
 
             # ? 各サンプルの所属クラス確率に重み付けで足し合わせた結果が最大となるようにし、列番号を返すようにする.
             # この処理を numpy.apply_along_axis() 関数を使用して実装
@@ -237,7 +236,7 @@ class EnsembleModelClassifier( BaseEstimator, ClassifierMixin ):
                 各サンプルの所属クラス確率に重み付けした結果の平均確率
         """
         # 各弱識別器 clf の predict_prpba() 結果を predictions (list) に格納
-        #predict_probas = [ clf.predict_proba(X_features) for clf in self.__fitted_classifiers ]
+        #predict_probas = [ clf.predict_proba(X_features) for clf in self.classifiers_ ]
         #print( "EnsembleLearningClassifier.predict_proba() { predict_probas } : \n", predict_probas )
         predict_probas = numpy.asarray( [ clf.predict_proba(X_features) for clf in self.classifiers_ ] )
 
@@ -257,8 +256,9 @@ class EnsembleModelClassifier( BaseEstimator, ClassifierMixin ):
             # ?
             return super( EnsembleModelClassifier, self ).get_params( deep = False )
         else:
-            # ? キューを "分類器の名前__パラメータ名" ,
-            # バリューをパラメータ値とするディクショナリを生成
+            # パラメータのディクショナリを設定（グリッドサーチでの使用を想定した構造にする）
+            # ディクショナリの Key を "分類器の名前__パラメータ名" , にする.
+            # Key に対するバリューをパラメータ値とするディクショナリを生成.
             out = self.named_classifiers.copy()     # named_classifiers.copy() : 
 
             # ? six.iteritems() : 

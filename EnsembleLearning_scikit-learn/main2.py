@@ -121,8 +121,8 @@ def main():
 
     clf4 = SVC( 
         kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
-        gamma = 0.50,       # RFBカーネル関数のγ値
-        C = 10.0,            # C-SVM の C 値
+        gamma = 10.0,       # RFBカーネル関数のγ値
+        C = 0.1,            # C-SVM の C 値
         random_state = 0,   #
         probability = True  # 学習後の predict_proba method による予想確率を有効にする
     )
@@ -178,7 +178,7 @@ def main():
                         class_labels = [ 
                                          "Logistic Regression ( penalty = 'l2', C = 0.001 )", 
                                          "Decision Tree ( criterion = 'entropy', max_depth = 3 )", 
-                                         "SVM ( kernel = 'rbf', C = 10.0, gamma = 0.50 )" 
+                                         "SVM ( kernel = 'rbf', C = 0.1, gamma = 10.0 )" 
                                        ]
                     )
     #ensemble_clf3 = EnsembleModelClassifier.EnsembleModelClassifier( classifiers = [] )
@@ -187,6 +187,45 @@ def main():
     ensemble_clf1.print( "ensemble_clf1" )
     ensemble_clf2.print( "ensemble_clf2" )
 
+    #------------------------------------------------------------
+    # グリッドサーチによる各弱識別器のパラメータのチューニング
+    #------------------------------------------------------------
+    print( ensemble_clf2.get_params() )
+
+    params2 = {
+                #"pipeline-1__clf__C":         [0.001, 0.1, 1, 10, 100.0],   # LogisticRegression の C 値
+                #"pipeline-2__clf__max_depth": [1, 2, 3, 4, 5],              # DecisionTree の深さ
+                "pipeline-3__clf__C":         [0.001, 0.1, 1, 10, 100.0],
+                "pipeline-3__clf__gamma":     [0.001, 0.1, 1, 10, 100.0]
+             }
+
+    grid = GridSearchCV(
+               estimator = ensemble_clf2,
+               param_grid = params2,
+               cv = 10,
+               scoring = 'roc_auc'
+           )
+    
+    grid.fit( X_train, y_train )
+
+    cv_keys = ('mean_test_score', 'std_test_score','params')
+    for r, _ in enumerate( grid.cv_results_['mean_test_score'] ):
+        print("%0.3f +/- %0.2f %r"
+              % (grid.cv_results_[cv_keys[0]][r], 
+                 grid.cv_results_[cv_keys[1]][r] / 2.0, 
+                 grid.cv_results_[cv_keys[2]][r]))
+    
+    print('Best parameters: %s' % grid.best_params_)
+    print('Accuracy: %.2f' % grid.best_score_)
+
+    """
+    グリッドサーチ結果Memo
+    SVM
+    Best parameters: {'pipeline-3__clf__C': 0.1, 'pipeline-3__clf__gamma': 10}
+    Accuracy: 1.00
+
+
+    """
     #============================================
     # Learning Process
     #===========================================
@@ -406,13 +445,8 @@ def main():
     plt.savefig("./EnsembleLearning_scikit-learn_4.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()    
     
-    
-    #------------------------------------------------------------
-    # グリッドサーチによる各弱識別器のパラメータのチューニング
-    #------------------------------------------------------------
+        
 
-
-    
     print("Finish main()")
     return
     

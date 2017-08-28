@@ -1,14 +1,17 @@
 ## アンサンブルモデルとアンサンブル学習 [Ensemble Learning]
 
-コード実装中...
-
 ### 目次 [Contents]
 
 1. [使用するライブラリ](#使用するライブラリ)
 1. [使用するデータセット](#使用するデータセット)
 1. [コードの実行結果](#コードの実行結果)
-    1. [多数決方式のアンサンブル法と、単体での分類器での誤分類率。及び多数決方式のアンサンブル法における分類器の個数に応じた比較 : `main1.py`](#main1.py)
-    1. [多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : `main2.py`](#main2.py)
+    1. [多数決方式のアンサンブル法と、単体での分類器での誤分類率。及び多数決方式のアンサンブル法における分類器の個数に応じた比較](#main1.py)
+    1. [多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ](#多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ)
+        1. [アヤメデータでの検証結果](#アヤメデータでの検証結果)
+        1. [同心円状データでの検証結果](#同心円状データでの検証結果)
+        1. [半月状データでの検証結果](#同心円状データでの検証結果)
+    1. [バギングの実行結果](#バギングの実行結果)
+    1. [アダブーストの実行結果](#アダブーストの実行結果)
 1. [背景理論](#背景理論)
     1. [混合モデルとアンサンブル学習](#混合モデルとアンサンブル学習)
     1. [決定木](#決定木)
@@ -16,6 +19,7 @@
     1. [バギング](#バギング)
     1. [ランダムフォレスト](#ランダムフォレスト)
     1. [EMアルゴリズム](#EMアルゴリズム)
+
 
 <a name="#使用するライブラリ"></a>
 
@@ -42,15 +46,6 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 ### 使用するデータセット
 
 > Iris データ : `sklearn.datasets.load_iris()`</br>
->>
-
-|行番号|1|2|3|4|5|
-|---|---|---|---|---|---|
-|0||||||
-|1||||||
-|...|
-|150|
-
 > 同心円状のデータセット : `sklearn.datasets.make_circles()` </br>
 > 半月状のデータセット : `sklearn.datasets.make_moons()` </br>
 
@@ -62,7 +57,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 <a name="#main1.py"></a>
 
-### 多数決方式のアンサンブル法と、単体での分類器での誤分類率。及び多数決方式のアンサンブル法における分類器の個数に応じた比較 : </br> `main1.py`
+### 多数決方式のアンサンブル法と、単体での分類器での誤分類率。及び多数決方式のアンサンブル法における分類器の個数に応じた比較 : `main1.py`
 
 >多数決方式のアンサンブル法（最終的な識別結果を複数の分類器での多数決で決め、２項分布の累積に従う）と、単体での分類器での誤分類率の比較図、及び多数決方式のアンサンブル法における分類器の個数に応じた比較図。</br>
 分類器の個数が奇数で、ランダムな結果（0.5）より識別性能が高い（＝図では 0.5 より小さい領域）場合、多数決方式でのアンサンブルな手法のほうが、単体での分類器より、常に誤識別が低い（識別性能が高い）ことが分かる。</br>
@@ -72,9 +67,11 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 </br>
 
-<a name="#main2.py"></a>
+<a name="#多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ"></a>
 
-### 多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : </br> `main2.py`
+### 多数決方式のアンサンブル分類器と、異なるモデルの組み合わせ : `main2.py`
+
+アンサンブルモデルの強みである多様性を確認するために、単純な重み付け多数決方式でのアンサンブルモデルでの検証をしてみた。（より実用的なのは、同じアンサンブル学習で、Random Forest や AdaBoost, XGBoost で）
 
 - アンサンブル法による分類器の自作クラス `EnsembleModelClassifier` を使用
 - この自作クラス `EnsembleModelClassifier` に scikit -learn ライブラリ の `Pipeline` クラスを設定 : </br> 
@@ -90,6 +87,9 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
     >>３つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`</br>
     >> ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 3, p = 2, metric = 'minkowski' )`</br>
 - クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
+
+
+<a name="アヤメデータでの検証結果"></a>
 
 #### Iris データセットでの検証結果
 
@@ -131,9 +131,94 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 </br>
 
 > グリッドサーチによる各弱識別器のチューニング</br>
-...
+
+>> `EnsembleModelClassifer.get_params()` で得られるパラメータのディクショナリ構造。</br>
+>> グリッドサーチ `sklearn.model_selection.GridSearchCV()` での使用を想定した構造になっている。</br>
+>> 詳細には、ディクショナリの Key の内、モデルのハイパーパラメータとなっいるディクショナリを設定する。</br>
+>>> 例 : `sklearn.model_selection.GridSearchCV()` に渡す引数 `parames` の設定</br>
+>>> `params ={ pipeline-1__clf__C":[0.001, 0.1, 1, 10, 100.0],` </br>
+>>> `"pipeline-2__clf__max_depth": [1, 2, 3, 4, 5] }`
+
+|Key|values|
+|---|---|
+|'pipeline-1':|Pipeline( </br>steps=[('sc', StandardScaler(copy=True, with_mean=True, with_std=True)), ('clf', LogisticRegression(C=0.001, class_weight=None, dual=False, fit_intercept=True, intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1, penalty='l2', random_state=0, solver='liblinear', tol=0.0001, verbose=0, warm_start=False))]), |
+|'pipeline-2':|Pipeline(</br>steps=[('sc', StandardScaler(copy=True, with_mean=True, with_std=True)), ('clf', DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=3, max_features=None, max_leaf_nodes=None, min_impurity_split=1e-07, min_samples_leaf=1, min_samples_split=2, min_weight_fraction_leaf=0.0, presort=False, random_state=0, splitter='best'))]</br>), |
+|'pipeline-3':|Pipeline(</br>steps=[('sc', StandardScaler(copy=True, with_mean=True, with_std=True)), ('clf', SVC(C=10.0, cache_size=200, class_weight=None, coef0=0.0, decision_function_shape=None, degree=3, gamma=0.5, kernel='rbf', max_iter=-1, probability=True, random_state=0, shrinking=True, tol=0.001, verbose=False))]),|
+|'pipeline-1__steps':| [('sc', StandardScaler(copy=True, with_mean=True, with_std=True)), ('clf', LogisticRegression(C=0.001, class_weight=None, dual=False, fit_intercept=True, intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1, penalty='l2', random_state=0, solver='liblinear', tol=0.0001, verbose=0, warm_start=False))], |
+|'pipeline-1__sc':|StandardScaler(copy=True, with_mean=True, with_std=True),|
+|'pipeline-1__clf':|LogisticRegression(C=0.001, class_weight=None, dual=False, fit_intercept=True, intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1, penalty='l2', random_state=0, solver='liblinear', tol=0.0001, verbose=0, warm_start=False), |
+|'pipeline-1__sc__copy':|True, |
+|'pipeline-1__sc__with_mean':| True,|
+|'pipeline-1__sc__with_std':|True, |
+|'pipeline-1__clf__C': |0.001, |
+|'pipeline-1__clf__class_weight':|None, |
+|'pipeline-1__clf__dual': |False, |
+|'pipeline-1__clf__fit_intercept':|True,|
+|'pipeline-1__clf__intercept_scaling':| 1, |
+|'pipeline-1__clf__max_iter': |100, |
+|'pipeline-1__clf__multi_class':|'ovr', |
+|'pipeline-1__clf__n_jobs':| 1,|
+|'pipeline-1__clf__penalty': |'l2', |
+|'pipeline-1__clf__random_state':| 0,| 
+|'pipeline-1__clf__solver': |'liblinear', |
+|'pipeline-1__clf__tol':| 0.0001,|
+|'pipeline-1__clf__verbose': |0, |
+|'pipeline-1__clf__warm_start': |False, |
+|'pipeline-2__steps': |[('sc', StandardScaler(copy=True, with_mean=True, with_std=True)),</br> ('clf', DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=3, max_features=None, max_leaf_nodes=None, min_impurity_split=1e-07, min_samples_leaf=1,min_samples_split=2, min_weight_fraction_leaf=0.0,presort=False, random_state=0, splitter='best'))], |
+|'pipeline-2__sc': |StandardScaler(copy=True, with_mean=True, with_std=True), |
+|'pipeline-2__clf': |DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=3, max_features=None, max_leaf_nodes=None, min_impurity_split=1e-07, min_samples_leaf=1, min_samples_split=2, min_weight_fraction_leaf=0.0, presort=False, random_state=0, splitter='best'), |
+|'pipeline-2__sc__copy': |True, |
+|'pipeline-2__sc__with_mean': |True,|
+|'pipeline-2__sc__with_std': |True, |
+|'pipeline-2__clf__class_weight': |None, |
+|'pipeline-2__clf__criterion': |'entropy',| 
+|'pipeline-2__clf__max_depth': |3,|
+|'pipeline-2__clf__max_features': |None, |
+|'pipeline-2__clf__max_leaf_nodes': |None, |
+|'pipeline-2__clf__min_impurity_split':| 1e-07, |
+|'pipeline-2__clf__min_samples_leaf':| 1, |
+|'pipeline-2__clf__min_samples_split':| 2, |
+|'pipeline-2__clf__min_weight_fraction_leaf':| 0.0, |
+|'pipeline-2__clf__presort': |False, |
+|'pipeline-2__clf__random_state':| 0, |
+|'pipeline-2__clf__splitter': |'best', |
+|'pipeline-3__steps':|[('sc', StandardScaler(copy=True, with_mean=True, with_std=True)), </br>('clf', SVC(C=10.0, cache_size=200, class_weight=None, coef0=0.0, decision_function_shape=None, degree=3, gamma=0.5, kernel='rbf', max_iter=-1, probability=True, random_state=0, shrinking=True, tol=0.001, verbose=False))], |
+|'pipeline-3__sc': | StandardScaler(copy=True, with_mean=True, with_std=True), |
+|'pipeline-3__clf': | SVC(C=10.0, cache_size=200, class_weight=None, coef0=0.0, decision_function_shape=None, degree=3, gamma=0.5, kernel='rbf', max_iter=-1, probability=True, random_state=0, shrinking=True, tol=0.001, verbose=False), |  
+|'pipeline-3__sc__copy': |True, |
+|'pipeline-3__sc__with_mean': |True, |
+|'pipeline-3__sc__with_std': |True, |
+|'pipeline-3__clf__C': |10.0, |
+|'pipeline-3__clf__cache_size': |200, |
+|'pipeline-3__clf__class_weight': |None,| 
+|'pipeline-3__clf__coef0': |0.0, |
+|'pipeline-3__clf__decision_function_shape':| None,| 
+|'pipeline-3__clf__degree':| 3,| 
+|'pipeline-3__clf__gamma':| 0.5, |
+|'pipeline-3__clf__kernel': |'rbf', |
+|'pipeline-3__clf__max_iter':| -1,| 
+|'pipeline-3__clf__probability':| True, |
+|'pipeline-3__clf__random_state':| 0, |
+|'pipeline-3__clf__shrinking':| True, |
+|'pipeline-3__clf__tol':| 0.001, |
+|'pipeline-3__clf__verbose':| False}|
 
 </br>
+
+> グリッドサーチ結果
+>> Ensemble Mode2 ( LogisticRegression, DecisionTree, SVM)
+
+|ハイパーパラメータ|Key|Best parameters|Accuracy|
+|---|---|---|---|
+|LogisticRegression の C 値|pipeline-1__clf__C|...|...|
+|DecisionTree の depth 値|pipeline-2__clf__max_depth|...|...|...|
+|SVM の C 値, gamma 値|pipeline-3__clf__C, </br >pipeline-3__clf__gamma|{'pipeline-3__clf__C': 0.1, '</br>pipeline-3__clf__gamma': 10}|1.00|
+|...|...|...|...|
+
+</br>
+</br>
+
+<a name="同心円状データセットでの検証結果"></a>
 
 #### 同心円状データセットでの検証結果
 
@@ -155,9 +240,13 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 > ROC 曲線、AUC 値
 ![ensemblelearning_scikit-learn_4-3](https://user-images.githubusercontent.com/25688193/29753052-3a43c4ae-8ba4-11e7-93bc-d5ecd6119c6a.png)
 
+</br>
+
+<a name="半月状データセットでの検証結果"></a>
+
 #### 半月形のデータセットでの検証結果
 
-- 検証用データとして、同心円状データセットを使用 : </br> 
+- 検証用データとして、半月状データセットを使用 : </br> 
 `sklearn.datasets.make_moons( n_samples = 1000, random_state = 123 )`
 - トレーニングデータ 70% 、テストデータ 30%の割合で分割 :</br> `sklearn.model_selection.train_test_split()`
 - パイプライン経由で正規化処理実施 :</br>
@@ -171,6 +260,22 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 > ROC 曲線、AUC 値
 ![ensemblelearning_scikit-learn_4-4](https://user-images.githubusercontent.com/25688193/29753084-f31ef610-8ba4-11e7-8dbb-5b547718c77d.png)
+
+</br>
+
+<a name="#バギングの実行結果"></a>
+
+### バギング の実行結果 : `main3.py`
+
+> コード実装中...
+
+</br>
+
+<a name="#アダブーストの実行結果"></a>
+
+### アダブーストの実行結果 : `main4.py`
+
+> コード実装中...
 
 ---
 
