@@ -143,7 +143,7 @@ def main():
     # バギングの生成
     bagging = BaggingClassifier(
                   base_estimator = decition_tree,   # 弱識別器をして決定木を設定
-                  n_estimators = 501,               # バギングを構成する弱識別器の数
+                  n_estimators = 101,               # バギングを構成する弱識別器の数
                   max_samples = 1.0,                # The number of samples to draw from X to train each base estimator.
                                                     # If float, then draw max_samples * X.shape[0] samples.
                                                     # base_estimator に設定した弱識別器の内, 使用するサンプルの割合
