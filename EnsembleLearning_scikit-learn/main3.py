@@ -12,10 +12,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler        # scikit-learn の preprocessing モジュールの StandardScaler クラス
 from sklearn.decomposition import PCA
 
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC                             # 
+from sklearn.tree import DecisionTreeClassifier         # 決定木
 from sklearn.ensemble import BaggingClassifier          # バギング
 
 from sklearn.metrics import accuracy_score              # 正解率の算出
@@ -50,8 +47,7 @@ def main():
     #X_features = iris.data[ 50:, [1, 2] ]    # 
     #y_labels = iris.target[50:]            # 
     """
-
-    """
+    
     # ワインデータセット
     prePro = DataPreProcess.DataPreProcess()
     prePro.setDataFrameFromCsvFile(
@@ -71,24 +67,13 @@ def main():
     prePro.df_ = prePro.df_[ prePro.df_['Class label'] != 1 ]
     X_features = prePro.df_[ ['Alcohol', "Hue" ] ].values       # 特徴行列 : 2つの特徴量×サンプル数
     y_labels = prePro.df_[ ['Class label'] ].values             # クラスラベル : 2 or 3
-    """
-
+    
     #X_features, y_labels = DataPreProcess.DataPreProcess.generateCirclesDataSet()
     #X_features, y_labels = DataPreProcess.DataPreProcess.generateMoonsDataSet()
-
-    # 渦巻きデータ
-    prePro = DataPreProcess.DataPreProcess()
-    prePro.setDataFrameFromCsvFile( "naruto.csv" )
-    prePro.setColumns( ["x","y","class labels"] )
-
-    prePro.print( "渦巻きデータ ")
-
-    X_features = prePro.df_[ ["x", "y" ] ].values
-    y_labels = prePro.df_[ ["class labels"] ].values
-    
+        
     #print( X_features )
 
-    ratio_test = 0.3
+    ratio_test = 0.4
 
     #===========================================
     # 前処理 [PreProcessing]
@@ -139,11 +124,11 @@ def main():
                                                      # or until all leaves contain less than min_samples_split samples.(default=None)
                         random_state = 1
                     )
-
+    
     # バギングの生成
     bagging = BaggingClassifier(
                   base_estimator = decition_tree,   # 弱識別器をして決定木を設定
-                  n_estimators = 101,               # バギングを構成する弱識別器の数
+                  n_estimators = 501,               # バギングを構成する弱識別器の数
                   max_samples = 1.0,                # The number of samples to draw from X to train each base estimator.
                                                     # If float, then draw max_samples * X.shape[0] samples.
                                                     # base_estimator に設定した弱識別器の内, 使用するサンプルの割合
@@ -155,62 +140,24 @@ def main():
                   n_jobs = -1, 
                   random_state = 1
               )
-
-    kNN = KNeighborsClassifier(
-               n_neighbors = 3,
-               p = 2,
-               metric = 'minkowski'
-           )
-
-    svm = SVC( 
-            kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
-            gamma = 10.0,       # RFBカーネル関数のγ値
-            C = 0.1,            # C-SVM の C 値
-            random_state = 0,   #
-            probability = True  # 学習後の predict_proba method による予想確率を有効にする
-    )
-
-    logReg = LogisticRegression(
-                penalty = 'l2', 
-                C = 0.001,
-                random_state = 0
-             )
-
+    
     #-------------------------------------------
     # 各 Pipeline の設定
     #-------------------------------------------
     # パイプラインに各変換器、推定器を設定
     # タプル (任意の識別文字, 変換器 or 推定器のクラス) で指定
-
-    #-----------------------------------------------------------
-    # アンサンブル識別器 EnsembleLearningClassifier の設定
-    #-----------------------------------------------------------
-    ensemble_clf1 = EnsembleModelClassifier.EnsembleModelClassifier( 
-                        classifiers  = [ bagging, decition_tree, logReg, kNN, svm ],
-                        class_labels = [ 
-                                         "Bagging ( base_estimator = decition_tree, n_estimators = 101 )" ,
-                                         "Decision Tree ( criterion = 'entropy' )",
-                                         "Logistic Regression( penalty = 'l2', C = 0.001 )",
-                                         "k-NN ( n_neighbors = 3, metric='minkowski' )",
-                                         "SVM ( kernel = 'rbf', C = 0.1, gamma = 10.0 )"
-                                       ]
-                    )
-
+    
     #-------------------------------------------
     # 全識別器のリストの設定
     #-------------------------------------------
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
-    all_clf = [ bagging, decition_tree, logReg, kNN, svm, ensemble_clf1 ]
+    all_clf = [ decition_tree, bagging ]
     print( "all_clf :", all_clf )
 
     # 各種スコア計算時に使用する識別器のラベルのリスト ( for 文の in で使用を想定)
     all_clf_labels = [ 
-                        "Bagging ( base_estimator = decition_tree, n_estimators = 101 )",
                         "Decision Tree ( criterion = 'entropy' )",
-                        "Logistic Regression( penalty = 'l2', C = 0.001 )",
-                        "k-NN ( n_neighbors = 3, metric='minkowski' )",
-                        "SVM ( kernel = 'rbf', C = 0.1, gamma = 10.0 )",
-                        "Ensemble Model 1 ( Bagging, SVM, k-NN, DecisionTree, LogisticRegression)"
+                        "Bagging ( base_estimator = decition_tree, n_estimators = 501 )"
                      ]
 
     print( "all_clf_labels :", all_clf_labels )
@@ -221,10 +168,6 @@ def main():
     # 設定した推定器をトレーニングデータで fitting
     bagging = bagging.fit( X_train_std, y_train )
     decition_tree = decition_tree.fit( X_train_std, y_train )
-    kNN = kNN.fit( X_train_std, y_train )
-    svm = svm.fit( X_train_std, y_train )
-    logReg = logReg.fit( X_train_std, y_train )
-    ensemble_clf1.fit( X_train_std, y_train )
 
     #print( "decition_tree : ", decition_tree.tree_.max_depth  )
     #print( "bagging : ", bagging )
@@ -302,12 +245,12 @@ def main():
         print( "識別境界 for ループ clf : ", clf )
 
         # idx 番目の plot
-        plt.subplot( 2, 3, idx )
+        plt.subplot( 1, 2, idx )
 
         Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[idx-1] )
         plt.title( label )
-        #plt.xlabel( "Hue [standardized]" )
-        #plt.ylabel( "Alcohol [standardized]" )
+        plt.xlabel( "Hue [standardized]" )
+        plt.ylabel( "Alcohol [standardized]" )
         plt.legend(loc = "best")
         plt.tight_layout()
 
@@ -325,12 +268,13 @@ def main():
 
         train_sizes, train_scores, test_scores \
         = learning_curve(
-              estimator = clf,    # 推定器 
+              estimator = clf,                              # 推定器 
               X = X_train_std,                              # トレーニングデータでの正解率を計算するため, トレーニングデータを設定
               y = y_train,                                  # 
               train_sizes = numpy.linspace(0.1, 1.0, 10),   # トレードオフサンプルの絶対数 or 相対数
                                                             # トレーニングデータサイズに応じた, 等間隔の10 個の相対的な値を設定
-              cv = 10                                       # 交差検証の回数（分割数）
+              cv = 10,                                      # 交差検証の回数（分割数）
+              n_jobs = -1                                   # 
         )
 
         # 平均値、分散値を算出
@@ -347,7 +291,7 @@ def main():
         print( "test_stds", test_stds )
 
         # idx 番目の plot
-        plt.subplot( 2, 3, idx )
+        plt.subplot( 1, 2, idx )
         Plot2D.Plot2D.drawLearningCurve(
             train_sizes = train_sizes,
             train_means = train_means,
@@ -361,7 +305,7 @@ def main():
         plt.xlabel( "Number of training samples" )
         plt.ylabel( "Accuracy" )
         plt.legend( loc = "best" )
-        plt.ylim( [0.8, 1.01] )
+        plt.ylim( [0.5, 1.01] )
         plt.tight_layout()
 
     plt.savefig("./EnsembleLearning_scikit-learn_6.png", dpi = 300, bbox_inches = 'tight' )

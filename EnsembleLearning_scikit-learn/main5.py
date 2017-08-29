@@ -38,47 +38,24 @@ import Plot2D
 def main():
     """
     アンサンブル学習.
-    アダブースト
+    渦巻きデータをアンサンブル法で識別
     """
     print("Enter main()")
 
     # データの読み込み
-    """
-    # アヤメデータ
-    # 三品種 (Setosa, Versicolor, Virginica) の特徴量、含まれる特徴量は、Sepal (がく片) と Petal (花びら) の長さと幅。
-    #iris = datasets.load_iris()         
-    #print(iris)
-
-    #X_features = iris.data[ 50:, [1, 2] ]    # 
-    #y_labels = iris.target[50:]            # 
-    """
-
-    # ワインデータセット
+    # 渦巻きデータ
     prePro = DataPreProcess.DataPreProcess()
-    prePro.setDataFrameFromCsvFile(
-        "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
-    )
-    
-    prePro.setColumns( 
-        ['Class label',
-         'Alcohol', 'Malic acid', 'Ash', 'Alcalinity of ash', 'Magnesium', 'Total phenols',
-         'Flavanoids', 'Nonflavanoid phenols', 'Proanthocyanins', 'Color intensity', 'Hue', 'OD280/OD315 of diluted wines', 'Proline']
-    )
+    prePro.setDataFrameFromCsvFile( "naruto.csv" )
+    prePro.setColumns( ["x","y","class labels"] )
 
-    prePro.print("Breast Cancer Wisconsin dataset")
-    
-    # 使用する特徴量と教師データ
-    # Class label が 1 のサンプルを除外し、ラベルが 2,3 のみのデータを使用
-    prePro.df_ = prePro.df_[ prePro.df_['Class label'] != 1 ]
-    X_features = prePro.df_[ ['Alcohol', "Hue" ] ].values       # 特徴行列 : 2つの特徴量×サンプル数
-    y_labels = prePro.df_[ ['Class label'] ].values             # クラスラベル : 2 or 3
+    prePro.print( "渦巻きデータ ")
 
-    #X_features, y_labels = DataPreProcess.DataPreProcess.generateCirclesDataSet()
-    #X_features, y_labels = DataPreProcess.DataPreProcess.generateMoonsDataSet()
+    X_features = prePro.df_[ ["x", "y" ] ].values
+    y_labels = prePro.df_[ ["class labels"] ].values
 
     #print( X_features )
 
-    ratio_test = 0.4
+    ratio_test = 0.3
 
     #===========================================
     # 前処理 [PreProcessing]
@@ -87,8 +64,6 @@ def main():
     #prePro.meanImputationNaN()
 
     # ラベルデータをエンコード
-    #prePro.encodeClassLabelByLabelEncoder( colum = 1 )
-    #prePro.print( "" )
     encoder = LabelEncoder()
     y_labels = encoder.fit_transform( y_labels )
 
@@ -141,7 +116,7 @@ def main():
             kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
             gamma = 10.0,       # RFBカーネル関数のγ値
             C = 0.1,            # C-SVM の C 値
-            random_state = 0,   #
+            random_state = 1,   #
             probability = True  # 学習後の predict_proba method による予想確率を有効にする
     )
 
@@ -149,7 +124,7 @@ def main():
     logReg = LogisticRegression(
                 penalty = 'l2', 
                 C = 0.001,
-                random_state = 0
+                random_state = 1
              )
 
     # バギングの生成
@@ -165,7 +140,7 @@ def main():
                   bootstrap = True,                 # ブートストラップサンプリングを行う 
                   bootstrap_features = False,       #
                   n_jobs = -1, 
-                  random_state = 0
+                  random_state = 1
               )
     
     # AdaBoost
@@ -173,7 +148,7 @@ def main():
               base_estimator = decition_tree,       # 弱識別器をして決定木を設定
               n_estimators = 501,                   # バギングを構成する弱識別器の数 
               learning_rate = 0.1,                  # 
-              random_state = 0                      #
+              random_state = 1                      #
           )
 
     # Random Forest
@@ -192,11 +167,27 @@ def main():
     # パイプラインに各変換器、推定器を設定
     # タプル (任意の識別文字, 変換器 or 推定器のクラス) で指定
 
+    #-----------------------------------------------------------
+    # アンサンブル識別器 EnsembleLearningClassifier の設定
+    #-----------------------------------------------------------
+    ensemble_clf1 = EnsembleModelClassifier.EnsembleModelClassifier( 
+                        classifiers  = [ bagging, ada, forest, decition_tree, logReg, kNN, svm ],
+                        class_labels = [ 
+                                         "Bagging ( base_estimator = decition_tree, n_estimators = 501 )" ,
+                                         "AdaBoost (base_estimator = decition_tree, n_estimators = 501 )"
+                                         "Random Forest ( criterion = 'gini', n_estimators = 501)"
+                                         "Decision Tree ( criterion = 'entropy' )",                                         
+                                         "Logistic Regression( penalty = 'l2', C = 0.001 )",
+                                         "k-NN ( n_neighbors = 3, metric='minkowski' )",
+                                         "SVM ( kernel = 'rbf', C = 10.0, gamma = 0.1 )"
+                                       ]
+                    )
+
     #-------------------------------------------
     # 全識別器のリストの設定
     #-------------------------------------------
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
-    all_clf = [ decition_tree, bagging, ada, forest ]
+    all_clf = [ bagging, ada, forest, decition_tree, logReg, kNN, svm, ensemble_clf1 ]
     print( "all_clf :", all_clf )
 
     # 各種スコア計算時に使用する識別器のラベルのリスト ( for 文の in で使用を想定)
@@ -205,6 +196,10 @@ def main():
                         "Bagging ( base_estimator = decition_tree, n_estimators = 501 )",
                         "AdaBoost (base_estimator = decition_tree, n_estimators = 501 )",
                         "RamdomForest (base_estimator = decition_tree, n_estimators = 501 )"
+                        "Logistic Regression( penalty = 'l2', C = 0.001 )",
+                        "k-NN ( n_neighbors = 3, metric='minkowski' )",
+                        "SVM ( kernel = 'rbf', C = 0.1, gamma = 10.0 )",
+                        "Ensemble Model ( Bagging, AdaBoost, RandamForest, Decision Tree, LogisticRegression, k-NN, SVM )"
                      ]
 
     print( "all_clf_labels :", all_clf_labels )
@@ -220,7 +215,8 @@ def main():
     bagging = bagging.fit( X_train_std, y_train )
     ada = ada.fit( X_train_std, y_train )    
     forest = forest.fit( X_train_std, y_train )
-    
+    ensemble_clf1.fit( X_train_std, y_train )
+
     #print( "decition_tree : ", decition_tree.tree_.max_depth  )
     #print( "bagging : ", bagging )
 
@@ -297,7 +293,7 @@ def main():
         print( "識別境界 for ループ clf : ", clf )
 
         # idx 番目の plot
-        plt.subplot( 2, 2, idx )
+        plt.subplot( 2, 4, idx )
 
         Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[idx-1] )
         plt.title( label )
@@ -306,7 +302,7 @@ def main():
         plt.legend(loc = "best")
         plt.tight_layout()
 
-    plt.savefig("./EnsembleLearning_scikit-learn_8.png", dpi = 300, bbox_inches = 'tight' )
+    plt.savefig("./EnsembleLearning_scikit-learn_naruto_x-1.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()    
 
     #-------------------------------------------
@@ -342,7 +338,7 @@ def main():
         print( "test_stds", test_stds )
 
         # idx 番目の plot
-        plt.subplot( 2, 2, idx )
+        plt.subplot( 2, 4, idx )
         Plot2D.Plot2D.drawLearningCurve(
             train_sizes = train_sizes,
             train_means = train_means,
@@ -356,10 +352,10 @@ def main():
         plt.xlabel( "Number of training samples" )
         plt.ylabel( "Accuracy" )
         plt.legend( loc = "best" )
-        plt.ylim( [0.7, 1.01] )
+        plt.ylim( [0.5, 1.01] )
         plt.tight_layout()
 
-    plt.savefig("./EnsembleLearning_scikit-learn_9.png", dpi = 300, bbox_inches = 'tight' )
+    plt.savefig("./EnsembleLearning_scikit-learn_naruto_x-2.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()    
   
     #-------------------------------------------
@@ -373,7 +369,7 @@ def main():
         X_test = X_test_std, y_test = y_test
     )
 
-    plt.savefig("./EnsembleLearning_scikit-learn_10.png", dpi = 300, bbox_inches = 'tight' )
+    plt.savefig("./EnsembleLearning_scikit-learn_naruto_x-3.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()    
     
     
