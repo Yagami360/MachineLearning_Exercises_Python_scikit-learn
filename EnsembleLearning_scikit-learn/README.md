@@ -27,14 +27,19 @@
 
 > scikit-learn ライブラリ</br>
 >> 開発者向け情報 : </br>
-http://scikit-learn.org/stable/developers/contributing.html#rolling-your-own-estimator
->> `sklearn.base` モジュールの API Reference
+http://scikit-learn.org/stable/developers/contributing.html#rolling-your-own-estimator</br>
+>> `sklearn.base` モジュールの API Reference</br>
 >>> `sklearn.base` :</br>
-http://scikit-learn.org/stable/modules/classes.html#module-sklearn.base
->>> `sklearn.base.BaseEstimator` :</br>
-http://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator
->>>> scikit-learn の推定器 estimator の基本クラス BaseEstimator を継承した自作クラス `EnsembleModelClassifier` において、コンストラクタ `__init()__` で指定した引数と同名のオブジェクトの属性を設定する必要ある模様。ドキュメントにそれらしき記載あり。
-![image](https://user-images.githubusercontent.com/25688193/29766807-0c799194-8c1b-11e7-86c0-a63bed2e3233.png)
+http://scikit-learn.org/stable/modules/classes.html#module-sklearn.base</br>
+`sklearn.base.BaseEstimator` :</br>
+http://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator</br></br>
+scikit-learn の推定器 estimator の基本クラス BaseEstimator を継承した自作クラス `EnsembleModelClassifier` において、コンストラクタ `__init()__` で指定した引数と同名のオブジェクトの属性を設定する必要ある模様。ドキュメントにそれらしき記載あり。</br>
+![image](https://user-images.githubusercontent.com/25688193/29766807-0c799194-8c1b-11e7-86c0-a63bed2e3233.png)</br>
+stack overflow に質問投稿 :</br>https://ja.stackoverflow.com/questions/37528/scikit-learn-%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E7%B6%99%E6%89%BF%E3%81%97%E3%81%9F%E8%87%AA%E4%BD%9C%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E7%94%9F%E6%88%90%E6%99%82%E3%81%AB%E3%82%A8%E3%83%A9%E3%83%BC-typeerror-module-object-is-not-c</br>
+>> 決定木 : `sklearn.tree.DecisionTreeClassifier`</br>
+http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html</br>
+>> バギング : `sklearn.ensemble.BaggingClassifier`</br>
+http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html
 
 > その他ライブラリ
 >> `math` :</br>
@@ -102,7 +107,8 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 - パイプラインの変換器で正規化処理実施 :</br>`("sc", StandardScaler())`
 - クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
->各種スコア値の表 by k-fold CV (cv=10) :（チューニング前）
+> 各種スコア値の表 by k-fold CV (cv=10) :（チューニング前）
+>> アンサンブルモデルの方が、単一の分類器に比べて、特に重要なテストデータに対するスコア値が高く、またその分散値も小さい傾向にあり、単一の分類器に比べて、より汎化性能に優れていることが分かる。</br>（但し、例外的に、単一な分類器である SVM は優れたスコアとなっている。）
 
 |Model (classifiers)|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
 |---|---|---|---|---|
@@ -218,7 +224,6 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 |...|...|...|...|
 
 </br>
-</br>
 
 <a name="同心円状データセットでの検証結果"></a>
 
@@ -269,7 +274,57 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ### バギング の実行結果 : `main3.py`
 
-> コード実装中...
+#### Wine データセットでの検証結果
+
+- 検証用データセットとして、Wine データセットを使用 :</br> https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
+
+||Class label  |Alcohol  |Malic acid   |Ash  |Alcalinity of ash|Magnesium |Total phenols|Flavanoids|Nonflavanoid phenols|Proanthocyanins|Color intensity|Hue|OD280/OD315 of diluted wines|Proline|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|0 |1 |14.23 |1.71  |2.43 |15.6 |127 |2.80|3.06|0.28|2.29|5.640000|1.04|3.92|1065|
+|1 |1 |13.20 |1.78  |2.14 |11.2 |100 |2.65|2.76|0.26|1.28|4.380000|1.05|3.40|1050|
+|2 |1 |13.16 |2.36  |2.67 |18.6 |101 |2.80|3.24|0.30|2.81|5.680000|1.03|3.17|1185|
+|3 |1 |14.37 |1.95  |2.50 |16.8 |113 |3.85|3.49|0.24|2.18|7.800000|0.86|3.45|1480|
+|4 |1 |13.24 |2.59  |2.87 |21.0 |118 |2.80|2.69|0.39|1.82|4.320000|1.04|2.93|735|  
+|5 |1 |14.20 |1.76  |2.45 |15.2 |112 |3.27|3.39|0.34|1.97|6.750000|1.05|2.85|1450|
+|...|...|...|...|...|...|...|...|...|...|...|...|...|...|...|
+|175|3|13.27|4.28|2.26|20.0|120|1.59|0.69|0.43|1.35|10.200000 |0.59|1.56|835|  
+|176|3|13.17|2.59|2.37|20.0|120|1.65|0.68|0.53|1.46|9.300000  |0.60|1.62|840| 
+|177|3|14.13|4.10|2.74|24.5|96 |2.05|0.76|0.56|1.35|9.200000  |0.61|1.60|560| 
+
+- この Wine データセットの内、Class label が 1 のサンプルは除外
+- 特徴行列（特徴量は、"Alcohol","Hue" の 2 個 × Class label が 2 or 3 のサンプル数）
+- 教師データ（Class label が 2 or 3 のサンプル）
+- トレーニングデータ 60% 、テストデータ 40%の割合で分割 :</br> `sklearn.model_selection.train_test_split()`
+- 正規化処理実施 :</br>
+- クロス・バディゲーション k-fold CV (cv=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
+
+> 各種スコア by k-fold CV (cv=10)
+>> バギングの方が、単一の分類器である決定木に比べて、特に重要なテストデータに対するスコア値が高く、またその分散値も小さく、より汎化性能に優れていることが分かる。
+
+|Model (classifiers)|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
+|---|---|---|---|---|
+|Decision Tree </br> `criterion = 'entropy',`</br>` max_depth = 5`|0.87 (+/- 0.13)|0.87 (+/- 0.18)|0.85 (+/- 0.14)|0.87 (+/- 0.19)|
+|Bagging </br> `base_estimator = decition_tree,`</br>` n_estimators = 500`|0.89 (+/- 0.15)|0.91 (+/- 0.09)|0.97 (+/- 0.07)|0.98 (+/- 0.04)|
+|Ensemble Model 1</br> []|...|...|...|...|
+|Ensemble Model 2</br> []|...|...|...|...|
+
+</br>
+
+> 識別結果＆識別境界の図
+>> 決定木とバギングでの識別結果＆識別境界の図。</br>バギングは、弱識別器として、500 個の決定木からなる弱識別器で構成している。</br>図から分かるように、アンサンブル学習であるバギングの方が、より滑らかな識別境界を構成しており、よりうまくデータを識別している。</br>尚、滑らかに見えるバギングの識別境界を拡大すると、決定木と同じく特徴軸に直行した多くの直線の集合から構成されていることが分かる。これは、バギングの弱識別器として決定木を採用しているので、この決定木の性質が反映されている為である。
+![ensemblelearning_scikit-learn_5-1](https://user-images.githubusercontent.com/25688193/29809080-ad9644ea-8cd5-11e7-9a8d-02d43c1b4a1b.png)
+
+</br>
+
+> 学習曲線
+>> 決定木とバギングでの学習曲線の図。、バギングの方が、バイアス・バリアントトレードオフの関係がちょうどいいバランスになっており、より過学習対策が出来ていることが分かる。
+![ensemblelearning_scikit-learn_6-1](https://user-images.githubusercontent.com/25688193/29810326-64a0b220-8cda-11e7-9bcb-3aa2651b079c.png)
+
+</br>
+
+> ROC曲線
+>> 決定木とバギングでのROC 曲線。バギングの方が、理想的な ROC 曲線の形状に近く、又 AUC 値も高く、汎化性能が高くなっていることが見て取れる。
+![ensemblelearning_scikit-learn_7-1](https://user-images.githubusercontent.com/25688193/29809082-b10ea540-8cd5-11e7-95c1-953d41ff4fab.png)
 
 </br>
 
@@ -333,6 +388,11 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ![twitter_ _ _11-18_170705](https://user-images.githubusercontent.com/25688193/29602489-47b34c9a-881b-11e7-80d7-b34afe348feb.png)
 ![twitter_ _ _11-19_170707](https://user-images.githubusercontent.com/25688193/29602491-47c72a08-881b-11e7-82df-71b94ae2dfc2.png)
+
+<補足> データの分割とブートストラップ法
+![twitter_ 4-1_160918](https://user-images.githubusercontent.com/25688193/29807504-4179d07a-8ccf-11e7-902d-a2c85ec4f4a0.png)
+![twitter_ 5-2_160919](https://user-images.githubusercontent.com/25688193/29807505-4386a154-8ccf-11e7-95a2-dd548bbd5ba9.png)
+
 
 <a name="#ランダムフォレスト"></a>
 
