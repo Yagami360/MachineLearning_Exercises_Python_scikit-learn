@@ -117,7 +117,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 <a name="アヤメデータでの検証結果"></a>
 
-#### Iris データセットでの検証結果
+#### ① Iris データセットでの検証結果
 
 - Iris データ : `datasets.load_iris()`
 - 特徴行列（特徴量2個×50個のサンプル） : `iris.data[ 50:, [1, 2] ]`
@@ -246,7 +246,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 <a name="同心円状データセットでの検証結果"></a>
 
-#### 同心円状データセットでの検証結果
+#### ② 同心円状データセットでの検証結果
 
 - 検証用データとして、同心円状データセットを使用 : </br> 
 `sklearn.datasets.make_circles( n_samples = 1000, random_state = 123, noize = 0.1, factor = 0.2 )`
@@ -270,7 +270,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 <a name="半月状データセットでの検証結果"></a>
 
-#### 半月形のデータセットでの検証結果
+#### ③ 半月形のデータセットでの検証結果
 
 - 検証用データとして、半月状データセットを使用 : </br> 
 `sklearn.datasets.make_moons( n_samples = 1000, random_state = 123 )`
@@ -293,7 +293,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 
 ### バギング の実行結果 : `main3.py`
 
-#### Wine データセットでの検証結果
+#### ① Wine データセットでの検証結果
 
 - 検証用データセットとして、Wine データセットを使用 :</br> 
 - この Wine データセットの内、Class label が 1 のサンプルは除外
