@@ -311,8 +311,6 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 |---|---|---|---|---|
 |Decision Tree </br> `criterion = 'entropy',`</br>` max_depth = 5`</br>|0.87 (+/- 0.13)</br>0.87 (+/- 0.13)|0.87 (+/- 0.18)</br>0.87 (+/- 0.18)|0.85 (+/- 0.14)</br>0.85 (+/- 0.14)|0.87 (+/- 0.19)</br>0.87 (+/- 0.19)|
 |Bagging </br> `base_estimator = decition_tree,`</br>` n_estimators = 500`|0.89 (+/- 0.15)</br>0.89 (+/- 0.15)|0.91 (+/- 0.09)</br>0.91 (+/- 0.09)|0.97 (+/- 0.07)</br>0.97 (+/- 0.07)|0.98 (+/- 0.04)</br>0.96 (+/- 0.06)|
-|Ensemble Model 1</br> []|...|...|...|...|
-|Ensemble Model 2</br> []|...|...|...|...|
 
 </br>
 
@@ -403,21 +401,25 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 |k-NN </br> `n_neighbors = 3,`</br>`metric = 'minkowski'`|0.71 (+/- 0.10)|0.58 (+/- 0.17)|0.80 (+/- 0.14)|0.58 (+/- 0.22)|
 |SVM</br> `kernel = 'rbf',`</br>`C = 0.1, gamma = 10.0 `|0.76 (+/- 0.11)|0.78 (+/- 0.17)|0.90 (+/- 0.10)|0.83 (+/- 0.13)|
 |Bagging </br> `base_estimator = decition_tree,`</br>` n_estimators = 501`|0.74 (+/- 0.14)|0.65 (+/- 0.17)|0.82 (+/- 0.15)|0.72 (+/- 0.14)|
-|AdaBoost</br>`base_estimator = SVM,`</br>` n_estimators = 501`|...|...|...|...|
-|Random Forest</br>`n_estimators = 501`|...|...|...|...|
+|AdaBoost</br>`base_estimator = SVM,`</br>` n_estimators = 501`|0.77 (+/- 0.12)|0.62 (+/- 0.17)|0.84 (+/- 0.13)|0.69 (+/- 0.13)|
+|Random Forest</br>`n_estimators = 501`|0.77 (+/- 0.15)|0.65 (+/- 0.12)|0.77 (+/- 0.15)|0.65 (+/- 0.12)|
 |Ensemble Model 1</br> [Bagging, DecisionTree, LogisticRegression, k-NN, SVM]|0.74 (+/- 0.12)|0.72 (+/- 0.13)|0.84 (+/- 0.13)|0.66 (+/- 0.16)|
-|Ensemble Model 2</br> []|...|...|...|...|
+|Ensemble Model 2</br> [Bagging, AdaBoost, RandamForest,</br> Decision Tree, LogisticRegression, k-NN, SVM]|0.76 (+/- 0.11)|0.78 (+/- 0.17)|0.90 (+/- 0.10)|0.83 (+/- 0.13)|
 
 </br>
 
 > 識別結果＆識別境界の図
 >> 渦巻きデータに対しての識別結果＆識別境界の図。それぞれバギング、決定木、ロジスティクス回帰、k-NN法、SVM、そして重み付け多数決方式のアンサンブルモデルでの識別結果。</br>（ハイパーパラメータのチューニングは行なってない。）
 ![ensemblelearning_scikit-learn_naruto_1-1](https://user-images.githubusercontent.com/25688193/29839454-35130a08-8d39-11e7-9ed7-bed46031b6fd.png)
+![ensemblelearning_scikit-learn_naruto_4-1](https://user-images.githubusercontent.com/25688193/29842709-98aac078-8d44-11e7-8d4b-87f622252781.png)
+
+</br>
 
 > 学習曲線
 >> ? 決定木とバギングの train accuracy のグラフが、常に 1.00 になっており、うまく描写できていない。（原因調査中）</br>
 ![ensemblelearning_scikit-learn_naruto_1-2](https://user-images.githubusercontent.com/25688193/29839455-35382338-8d39-11e7-801b-5469fb293923.png)
 
+</br>
 
 > ROC 曲線
 >> ? SVMの結果がうまく描写できていない。

@@ -188,21 +188,23 @@ def main():
     #-------------------------------------------
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
     all_clf = [ bagging, ada, forest, decition_tree, logReg, kNN, svm, ensemble_clf1 ]
-    print( "all_clf :", all_clf )
 
     # 各種スコア計算時に使用する識別器のラベルのリスト ( for 文の in で使用を想定)
     all_clf_labels = [ 
-                        "Decision Tree ( criterion = 'entropy' )",
-                        "Bagging ( base_estimator = decition_tree, n_estimators = 501 )",
-                        "AdaBoost (base_estimator = decition_tree, n_estimators = 501 )",
-                        "RamdomForest (base_estimator = decition_tree, n_estimators = 501 )"
-                        "Logistic Regression( penalty = 'l2', C = 0.001 )",
-                        "k-NN ( n_neighbors = 3, metric='minkowski' )",
-                        "SVM ( kernel = 'rbf', C = 0.1, gamma = 10.0 )",
-                        "Ensemble Model ( Bagging, AdaBoost, RandamForest, Decision Tree, LogisticRegression, k-NN, SVM )"
+                        "Decision Tree \n ( criterion = 'entropy' )",
+                        "Bagging \n ( base_estimator = decition_tree, n_estimators = 501 )",
+                        "AdaBoost \n (base_estimator = decition_tree, n_estimators = 501 )",
+                        "RamdomForest \n (base_estimator = decition_tree, n_estimators = 501 )",
+                        "Logistic Regression \n ( penalty = 'l2', C = 0.001 )",
+                        "k-NN \n ( n_neighbors = 3, metric='minkowski' )",
+                        "SVM \n ( kernel = 'rbf', C = 0.1, gamma = 10.0 )",
+                        "Ensemble Model \n ( Bagging, AdaBoost, RandamForest, Decision Tree, LogisticRegression, k-NN, SVM )"
                      ]
 
+    print( "all_clf :", all_clf )
+    print( "len(all_clf) :", len(all_clf) )
     print( "all_clf_labels :", all_clf_labels )
+    print( "len(all_clf_labels) :", len(all_clf_labels) )
 
     #============================================
     # Learning Process
@@ -212,9 +214,11 @@ def main():
     logReg = logReg.fit( X_train_std, y_train )
     kNN = kNN.fit( X_train_std, y_train )
     svm = svm.fit( X_train_std, y_train )
+    
     bagging = bagging.fit( X_train_std, y_train )
     ada = ada.fit( X_train_std, y_train )    
     forest = forest.fit( X_train_std, y_train )
+    
     ensemble_clf1.fit( X_train_std, y_train )
 
     #print( "decition_tree : ", decition_tree.tree_.max_depth  )
@@ -297,8 +301,6 @@ def main():
 
         Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[idx-1] )
         plt.title( label )
-        plt.xlabel( "Hue [standardized]" )
-        plt.ylabel( "Alcohol [standardized]" )
         plt.legend(loc = "best")
         plt.tight_layout()
 
