@@ -41,13 +41,18 @@ def main():
     print("Enter main()")
 
     # データの読み込み
+    """
+    # アヤメデータ
     # 三品種 (Setosa, Versicolor, Virginica) の特徴量、含まれる特徴量は、Sepal (がく片) と Petal (花びら) の長さと幅。
     #iris = datasets.load_iris()         
     #print(iris)
 
     #X_features = iris.data[ 50:, [1, 2] ]    # 
     #y_labels = iris.target[50:]            # 
-    
+    """
+
+    """
+    # ワインデータセット
     prePro = DataPreProcess.DataPreProcess()
     prePro.setDataFrameFromCsvFile(
         "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
@@ -66,8 +71,24 @@ def main():
     prePro.df_ = prePro.df_[ prePro.df_['Class label'] != 1 ]
     X_features = prePro.df_[ ['Alcohol', "Hue" ] ].values       # 特徴行列 : 2つの特徴量×サンプル数
     y_labels = prePro.df_[ ['Class label'] ].values             # クラスラベル : 2 or 3
+    """
+
+    #X_features, y_labels = DataPreProcess.DataPreProcess.generateCirclesDataSet()
+    #X_features, y_labels = DataPreProcess.DataPreProcess.generateMoonsDataSet()
+
+    # 渦巻きデータ
+    prePro = DataPreProcess.DataPreProcess()
+    prePro.setDataFrameFromCsvFile( "naruto.csv" )
+    prePro.setColumns( ["x","y","class labels"] )
+
+    prePro.print( "渦巻きデータ ")
+
+    X_features = prePro.df_[ ["x", "y" ] ].values
+    y_labels = prePro.df_[ ["class labels"] ].values
     
-    ratio_test = 0.40
+    #print( X_features )
+
+    ratio_test = 0.3
 
     #===========================================
     # 前処理 [PreProcessing]
@@ -114,7 +135,7 @@ def main():
     # 決定木の生成
     decition_tree = DecisionTreeClassifier(
                         criterion = 'entropy',       # 不純度として, 交差エントロピー
-                        max_depth = None,            # None : If None, then nodes are expanded until all leaves are pure 
+                        max_depth = None,               # None : If None, then nodes are expanded until all leaves are pure 
                                                      # or until all leaves contain less than min_samples_split samples.(default=None)
                         random_state = 1
                     )
@@ -122,7 +143,7 @@ def main():
     # バギングの生成
     bagging = BaggingClassifier(
                   base_estimator = decition_tree,   # 弱識別器をして決定木を設定
-                  n_estimators = 500,               # バギングを構成する弱識別器の数
+                  n_estimators = 501,               # バギングを構成する弱識別器の数
                   max_samples = 1.0,                # The number of samples to draw from X to train each base estimator.
                                                     # If float, then draw max_samples * X.shape[0] samples.
                                                     # base_estimator に設定した弱識別器の内, 使用するサンプルの割合
@@ -135,23 +156,61 @@ def main():
                   random_state = 1
               )
 
+    kNN = KNeighborsClassifier(
+               n_neighbors = 3,
+               p = 2,
+               metric = 'minkowski'
+           )
+
+    svm = SVC( 
+            kernel = 'rbf',     # rbf : RFBカーネルでのカーネルトリックを指定
+            gamma = 10.0,       # RFBカーネル関数のγ値
+            C = 0.1,            # C-SVM の C 値
+            random_state = 0,   #
+            probability = True  # 学習後の predict_proba method による予想確率を有効にする
+    )
+
+    logReg = LogisticRegression(
+                penalty = 'l2', 
+                C = 0.001,
+                random_state = 0
+             )
+
     #-------------------------------------------
     # 各 Pipeline の設定
     #-------------------------------------------
     # パイプラインに各変換器、推定器を設定
     # タプル (任意の識別文字, 変換器 or 推定器のクラス) で指定
 
+    #-----------------------------------------------------------
+    # アンサンブル識別器 EnsembleLearningClassifier の設定
+    #-----------------------------------------------------------
+    ensemble_clf1 = EnsembleModelClassifier.EnsembleModelClassifier( 
+                        classifiers  = [ bagging, decition_tree, logReg, kNN, svm ],
+                        class_labels = [ 
+                                         "Bagging ( base_estimator = decition_tree, n_estimators = 101 )" ,
+                                         "Decision Tree ( criterion = 'entropy' )",
+                                         "Logistic Regression( penalty = 'l2', C = 0.001 )",
+                                         "k-NN ( n_neighbors = 3, metric='minkowski' )",
+                                         "SVM ( kernel = 'rbf', C = 0.1, gamma = 10.0 )"
+                                       ]
+                    )
+
     #-------------------------------------------
     # 全識別器のリストの設定
     #-------------------------------------------
     # 各種スコア計算時に使用する識別器のリスト ( for 文の in で使用を想定) 
-    all_clf = [ decition_tree, bagging ]
+    all_clf = [ bagging, decition_tree, logReg, kNN, svm, ensemble_clf1 ]
     print( "all_clf :", all_clf )
 
     # 各種スコア計算時に使用する識別器のラベルのリスト ( for 文の in で使用を想定)
     all_clf_labels = [ 
-                        "Decision Tree ( criterion = 'entropy', max_depth = 5 )",
-                        "Bagging ( base_estimator = decition_tree, n_estimators = 500 )"
+                        "Bagging ( base_estimator = decition_tree, n_estimators = 101 )",
+                        "Decision Tree ( criterion = 'entropy' )",
+                        "Logistic Regression( penalty = 'l2', C = 0.001 )",
+                        "k-NN ( n_neighbors = 3, metric='minkowski' )",
+                        "SVM ( kernel = 'rbf', C = 0.1, gamma = 10.0 )",
+                        "Ensemble Model 1 ( Bagging, SVM, k-NN, DecisionTree, LogisticRegression)"
                      ]
 
     print( "all_clf_labels :", all_clf_labels )
@@ -160,11 +219,15 @@ def main():
     # Learning Process
     #===========================================
     # 設定した推定器をトレーニングデータで fitting
-    decition_tree = decition_tree.fit( X_train_std, y_train )
     bagging = bagging.fit( X_train_std, y_train )
+    decition_tree = decition_tree.fit( X_train_std, y_train )
+    kNN = kNN.fit( X_train_std, y_train )
+    svm = svm.fit( X_train_std, y_train )
+    logReg = logReg.fit( X_train_std, y_train )
+    ensemble_clf1.fit( X_train_std, y_train )
 
-    print( "decition_tree : ", decition_tree.tree_.max_depth  )
-    print( "bagging : ", bagging )
+    #print( "decition_tree : ", decition_tree.tree_.max_depth  )
+    #print( "bagging : ", bagging )
 
     #===========================================
     # 汎化性能の確認
@@ -234,39 +297,19 @@ def main():
     #-------------------------------------------
     plt.clf()
 
-    plt.subplot( 1, 2, 1 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[0] )
-    plt.title( all_clf_labels[0] )
-    plt.xlabel( "Hue [standardized]" )
-    plt.ylabel( "Alcohol [standardized]" )
-    plt.legend(loc = "best")
-    plt.tight_layout()
+    for (idx, clf, label) in zip( range( 1,len(all_clf)+2 ),  all_clf, all_clf_labels ):
+        print( "識別境界 for ループ idx : ", idx )
+        print( "識別境界 for ループ clf : ", clf )
 
-    plt.subplot( 1, 2, 2 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier =  all_clf[1] )
-    plt.title( all_clf_labels[1] )
-    plt.xlabel( "Hue [standardized]" )
-    plt.ylabel( "Alcohol [standardized]" )
-    plt.legend(loc = "best")
-    plt.tight_layout()
+        # idx 番目の plot
+        plt.subplot( 2, 3, idx )
 
-    """
-    plt.subplot( 2, 2, 3 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier =  all_clf[2] )
-    plt.title( all_clf_labels[2] )
-    plt.xlabel( "Hue [standardized]" )
-    plt.ylabel( "Alcohol [standardized]" )
-    plt.legend(loc = "best")
-    plt.tight_layout()
-
-    plt.subplot( 2, 2, 4 )
-    Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[3] )
-    plt.title( all_clf_labels[3] )
-    plt.xlabel( "Hue [standardized]" )
-    plt.ylabel( "Alcohol [standardized]" )
-    plt.legend(loc = "best")
-    plt.tight_layout()
-    """
+        Plot2D.Plot2D.drawDiscriminantRegions( X_combined_std, y_combined, classifier = all_clf[idx-1] )
+        plt.title( label )
+        #plt.xlabel( "Hue [standardized]" )
+        #plt.ylabel( "Alcohol [standardized]" )
+        plt.legend(loc = "best")
+        plt.tight_layout()
 
     plt.savefig("./EnsembleLearning_scikit-learn_5.png", dpi = 300, bbox_inches = 'tight' )
     plt.show()    
@@ -276,7 +319,7 @@ def main():
     #-------------------------------------------
     plt.clf()
 
-    for (idx, clf) in zip( range(1,3),  all_clf ):
+    for (idx, clf, label) in zip( range( 1,len(all_clf)+2 ),  all_clf, all_clf_labels ):
         print( "学習曲線 for ループ idx : ", idx )
         print( "学習曲線 for ループ clf : ", clf )
 
@@ -304,7 +347,7 @@ def main():
         print( "test_stds", test_stds )
 
         # idx 番目の plot
-        plt.subplot( 1, 2, idx )
+        plt.subplot( 2, 3, idx )
         Plot2D.Plot2D.drawLearningCurve(
             train_sizes = train_sizes,
             train_means = train_means,
@@ -314,7 +357,7 @@ def main():
             train_label = "training accuracy",
             test_label = "k-fold cross validation accuracy (cv=10)"
         )
-        plt.title( "Learning Curve \n" + all_clf_labels[idx-1] )
+        plt.title( "Learning Curve \n" + label )
         plt.xlabel( "Number of training samples" )
         plt.ylabel( "Accuracy" )
         plt.legend( loc = "best" )
