@@ -112,7 +112,7 @@ class Plot2D(object):
         train_sizes, 
         train_means, train_stds, 
         test_means, test_stds, 
-        train_label = "training accuracy", test_label = "validation accuracy",
+        train_label = "training accuracy", test_label = "k-fold cross validation accuracy",
         input_alpha = 0.15 ):
         """
         学習曲線を平均値±標準偏差の幅で塗りつぶて描写する.
@@ -188,7 +188,7 @@ class Plot2D(object):
         param_range, 
         train_means, train_stds, 
         test_means, test_stds, 
-        train_label = "training accuracy", test_label = "validation accuracy",
+        train_label = "training accuracy", test_label = "k-fold cross validation accuracy",
         input_alpha = 0.15 ):
         """
         学習曲線を平均値±標準偏差の幅で塗りつぶて描写する.
