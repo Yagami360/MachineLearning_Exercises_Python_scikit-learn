@@ -112,7 +112,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
     
     >>３つ目のパイプラインの１つ目の変換器は、正規化処理 : </br>`("sc", StandardScaler())`</br>
     >> ３つ目のパイプラインの推定器は、k-NN 法 : </br>`( "clf", KNeighborsClassifier( n_neighbors = 3, p = 2, metric = 'minkowski' )`</br>
-- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
+- クロス・バリデーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
 
 <a name="アヤメデータでの検証結果"></a>
@@ -124,7 +124,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 - 教師データ（50個のサンプル） : `iris.target[50:]`
 - トレーニングデータ 50% 、テストデータ 50%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.5, random_state = 1 )`
 - パイプラインの変換器で正規化処理実施 :</br>`("sc", StandardScaler())`
-- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
+- クロス・バリデーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
 > 各種スコア値の表 by k-fold CV (cv=10) :（チューニング前）
 >> アンサンブルモデルの方が、単一の分類器に比べて、特に重要なテストデータに対するスコア値が高く、またその分散値も小さい傾向にあり、単一の分類器に比べて、より汎化性能に優れていることが分かる。</br>（但し、例外的に、単一な分類器である SVM は優れたスコアとなっている。）
@@ -252,7 +252,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 `sklearn.datasets.make_circles( n_samples = 1000, random_state = 123, noize = 0.1, factor = 0.2 )`
 - トレーニングデータ 70% 、テストデータ 30%の割合で分割 :</br> `sklearn.model_selection.train_test_split()`
 - パイプライン経由で正規化処理実施 :</br>
-- クロス・バディゲーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
+- クロス・バリデーション k-fold CV (k=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
 > 各種スコア値の表 by k-fold CV : `cross_val_score( cv = 10 )`</br>
 ...
@@ -301,17 +301,18 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 - 教師データ（Class label が 2 or 3 のサンプル）
 - トレーニングデータ 60% 、テストデータ 40%の割合で分割 :</br> `sklearn.model_selection.train_test_split()`
 - 正規化処理実施 :</br>
-- クロス・バディゲーション k-fold CV (cv=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
+- クロス・バリデーション k-fold CV (cv=10) で汎化性能を評価 : </br>`sklearn.model_selection.cross_val_score( cv=10 )`
 
 > 各種スコア by k-fold CV (cv=10)
->> バギングの方が、単一の分類器である決定木に比べて、特に重要なテストデータに対するスコア値が高く、またその分散値も小さく、より汎化性能に優れていることが分かる。
+>> バギングの方が、単一の分類器である決定木に比べて、特に重要なテストデータに対するスコア値が高く、またその分散値も小さく、より汎化性能に優れていることが分かる。</br> ※ 上段のスコア値 : 正規化無し, 下段のスコア値 : 正規化有り
 
 |Model (classifiers)|Accuracy</br>[train data]|Accuracy</br>[test data]|AUC</br>[train data]|AUC</br>[test data]|
 |---|---|---|---|---|
-|Decision Tree </br> `criterion = 'entropy',`</br>` max_depth = 5`|0.87 (+/- 0.13)|0.87 (+/- 0.18)|0.85 (+/- 0.14)|0.87 (+/- 0.19)|
-|Bagging </br> `base_estimator = decition_tree,`</br>` n_estimators = 500`|0.89 (+/- 0.15)|0.91 (+/- 0.09)|0.97 (+/- 0.07)|0.98 (+/- 0.04)|
+|Decision Tree </br> `criterion = 'entropy',`</br>` max_depth = 5`</br>|0.87 (+/- 0.13)</br>0.87 (+/- 0.13)|0.87 (+/- 0.18)</br>0.87 (+/- 0.18)|0.85 (+/- 0.14)</br>0.85 (+/- 0.14)|0.87 (+/- 0.19)</br>0.87 (+/- 0.19)|
+|Bagging </br> `base_estimator = decition_tree,`</br>` n_estimators = 500`|0.89 (+/- 0.15)</br>0.89 (+/- 0.15)|0.91 (+/- 0.09)</br>0.91 (+/- 0.09)|0.97 (+/- 0.07)</br>0.97 (+/- 0.07)|0.98 (+/- 0.04)</br>0.96 (+/- 0.06)|
 |Ensemble Model 1</br> []|...|...|...|...|
 |Ensemble Model 2</br> []|...|...|...|...|
+
 
 </br>
 
@@ -322,7 +323,7 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 </br>
 
 > 学習曲線
->> 決定木とバギングでの学習曲線の図。、バギングの方が、バイアス・バリアントトレードオフの関係がちょうどいいバランスになっており、より過学習対策が出来ていることが分かる。
+>> 決定木とバギングでの学習曲線の図。決定木に比べてバギングの方が、トレーニングデータ数が増加するにつれ、バイアス・バリアントトレードオフの関係がちょうどいいバランスになっており、より汎化性能が高く、又過学習対策が出来ていることが分かる。
 ![ensemblelearning_scikit-learn_6-1](https://user-images.githubusercontent.com/25688193/29810326-64a0b220-8cda-11e7-9bcb-3aa2651b079c.png)
 
 </br>

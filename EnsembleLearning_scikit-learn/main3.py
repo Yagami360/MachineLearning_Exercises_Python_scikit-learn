@@ -179,7 +179,7 @@ def main():
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
-                     X = X_train,
+                     X = X_train_std,
                      y = y_train,
                      cv = 10,
                      n_jobs = -1,
@@ -191,7 +191,7 @@ def main():
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
-                     X = X_test,
+                     X = X_test_std,
                      y = y_test,
                      cv = 10,
                      n_jobs = -1,
@@ -208,7 +208,7 @@ def main():
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
-                     X = X_train,
+                     X = X_train_std,
                      y = y_train,
                      cv = 10,
                      n_jobs = -1,
@@ -219,7 +219,7 @@ def main():
     for clf, label in zip( all_clf, all_clf_labels ):
         scores = cross_val_score(
                      estimator = clf,
-                     X = X_test,
+                     X = X_test_std,
                      y = y_test,
                      cv = 10,
                      n_jobs = -1,
@@ -283,7 +283,7 @@ def main():
         train_sizes, train_scores, test_scores \
         = learning_curve(
               estimator = clf,    # 推定器 
-              X = X_train_std,                              # 
+              X = X_train_std,                              # トレーニングデータでの正解率を計算するため, トレーニングデータを設定
               y = y_train,                                  # 
               train_sizes = numpy.linspace(0.1, 1.0, 10),   # トレードオフサンプルの絶対数 or 相対数
                                                             # トレーニングデータサイズに応じた, 等間隔の10 個の相対的な値を設定
@@ -310,13 +310,15 @@ def main():
             train_means = train_means,
             train_stds = train_stds,
             test_means = test_means,
-            test_stds = test_stds
+            test_stds = test_stds,
+            train_label = "training accuracy",
+            test_label = "k-fold cross validation accuracy (cv=10)"
         )
         plt.title( "Learning Curve \n" + all_clf_labels[idx-1] )
-        plt.xlabel('Number of training samples')
-        plt.ylabel('Accuracy')
-        plt.legend(loc='best')
-        plt.ylim( [0.7, 1.01] )
+        plt.xlabel( "Number of training samples" )
+        plt.ylabel( "Accuracy" )
+        plt.legend( loc = "best" )
+        plt.ylim( [0.8, 1.01] )
         plt.tight_layout()
 
     plt.savefig("./EnsembleLearning_scikit-learn_6.png", dpi = 300, bbox_inches = 'tight' )
