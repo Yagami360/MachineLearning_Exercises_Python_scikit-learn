@@ -1,10 +1,10 @@
 # MachineLearning_Samples_Python
-機械学習のサンプルコード集（Python使用）。機械学習とPython＆機械学習ライブラリの使い方のお練習
+機械学習のサンプルコード集（Python使用）。機械学習とPython＆機械学習ライブラリ scikit-learn の使い方のお練習
 
 README.md : コード実行結果の解説と合わせて、理論の解説も記載してます。
 
 
-### 機械学習ライブラリ
+### 機械学習ライブラリ : scikit-learn
 
 > scikit-learn ライブラリ チートシート：
 >> http://scikit-learn.org/stable/tutorial/machine_learning_map/
