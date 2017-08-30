@@ -62,7 +62,9 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 > Iris データ : `sklearn.datasets.load_iris()`</br>
 > 同心円状のデータセット : `sklearn.datasets.make_circles()` </br>
 > 半月状のデータセット : `sklearn.datasets.make_moons()` </br>
-> ワインデータセット : https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
+> 渦巻きデータ : </br>
+https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/EnsembleLearning_scikit-learn/data/naruto.csv  </br>
+> ワインデータセット : </br> https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
 
 ||Class label  |Alcohol  |Malic acid   |Ash  |Alcalinity of ash|Magnesium |Total phenols|Flavanoids|Nonflavanoid phenols|Proanthocyanins|Color intensity|Hue|OD280/OD315 of diluted wines|Proline|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
