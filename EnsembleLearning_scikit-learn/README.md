@@ -36,8 +36,9 @@ http://scikit-learn.org/stable/modules/classes.html#module-sklearn.base</br>
 `sklearn.base.BaseEstimator` :</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator</br></br>
 scikit-learn の推定器 estimator の基本クラス BaseEstimator を継承した自作クラス `EnsembleModelClassifier` において、コンストラクタ `__init()__` で指定した引数と同名のオブジェクトの属性を設定する必要ある模様。ドキュメントにそれらしき記載あり。</br>
-![image](https://user-images.githubusercontent.com/25688193/29766807-0c799194-8c1b-11e7-86c0-a63bed2e3233.png)</br>
+![image](https://user-images.githubusercontent.com/25688193/29766807-0c799194-8c1b-11e7-86c0-a63bed2e3233.png)</br></br>
 stack overflow に質問投稿 :</br>https://ja.stackoverflow.com/questions/37528/scikit-learn-%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E7%B6%99%E6%89%BF%E3%81%97%E3%81%9F%E8%87%AA%E4%BD%9C%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E7%94%9F%E6%88%90%E6%99%82%E3%81%AB%E3%82%A8%E3%83%A9%E3%83%BC-typeerror-module-object-is-not-c</br>
+
 >> 決定木 : `sklearn.tree.DecisionTreeClassifier`</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html</br>
 >> バギング : `sklearn.ensemble.BaggingClassifier`</br>
@@ -321,9 +322,12 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 </br>
 
 > 学習曲線
->> ? train accuracy のグラフ、常に 1.00 になっており、うまく描写できていない。（原因調査中）</br>
->> 以下、validation accuracy のグラフのみからの見解。</br>
->> 決定木とバギングでの学習曲線の図。決定木に比べてバギングの方が、トレーニングデータ数が増加するにつれ、バイアス・バリアントトレードオフの関係がちょうどいいバランスになっており、より汎化性能が高く、又過学習対策が出来ていることが分かる。
+>> 決定木とバギングでの学習曲線の図。train accuracy のグラフが、トレーニングサンプル数に関わらず常に 1.00 になっている。これは、過度に過学習しているためと考えられる。</br>
+>>（※決定木は、アルゴリズムが単純で、かつよい識別率と出せるが、その一方で過学習し易い。そのためにも木の剪定が重要となることがこの結果からも分かる。）</br>
+>> 参考URL : </br>
+>> http://www.ritchieng.com/machinelearning-learning-curve/</br>
+>> http://scikit-learn.org/stable/modules/learning_curve.html</br>
+>> 双方の分類器ともハイバリアント状態であるとはいえ、validation accuracy のグラフを見る限りでは、単一の分類器である決定木より、アンサンブル学習であるバギングのほうが、より汎化性能が高いことが分かる。</br>
 ![ensemblelearning_scikit-learn_6-1](https://user-images.githubusercontent.com/25688193/29810326-64a0b220-8cda-11e7-9bcb-3aa2651b079c.png)
 
 </br>
@@ -365,7 +369,9 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 ![ensemblelearning_scikit-learn_8-1](https://user-images.githubusercontent.com/25688193/29828775-adecab80-8d18-11e7-9744-631f9e918016.png)
 
 > 学習曲線
->> ? train accuracy のグラフが、常に 1.00 になっており、うまく描写できていない。（原因調査中）</br>
+>> 決定木とバギングとアダブーストでの学習曲線の図。train accuracy のグラフが、トレーニングサンプル数に関わらず常に 1.00 になっている。これは、過度に過学習しているためと考えられる。</br>
+>>（※決定木は、アルゴリズムが単純で、かつよい識別率と出せるが、その一方で過学習し易い。そのためにも木の剪定が重要となることがこの結果からも分かる。）</br>
+>> 双方の分類器ともハイバリアント状態であるとはいえ、validation accuracy のグラフを見る限りでは、単一の分類器である決定木より、アンサンブルであるバギング、アダブーストのほうが、より汎化性能が高いことが見て取れる。</br>
 ![ensemblelearning_scikit-learn_9-1](https://user-images.githubusercontent.com/25688193/29835972-a47fe33a-8d2e-11e7-8feb-73825702247a.png)
 
 > ROC曲線
@@ -416,13 +422,15 @@ https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.comb.html
 </br>
 
 > 学習曲線
->> ? 決定木とバギングの train accuracy のグラフが、常に 1.00 になっており、うまく描写できていない。（原因調査中）</br>
+>> バギングより、それを更にアンサンブルした、重み付け多数決方式のアンサンブルモデル｛弱識別器として、バギング、決定木、ロジスティクス回帰、k-NN、SVM で構成｝の方が汎化性能が高いことが見て取れる。</br>
+>> 尚、決定木とバギングの train accuracy のグラフが、トレーニングサンプル数に関わらず、常に 1.00 になっているが、これは過度に過学習しているためだと考えられる。</br>
+>>（※決定木は、アルゴリズムが単純で、かつよい識別率と出せるが、その一方で過学習し易い。そのためにも木の剪定が重要となることが、この結果からも分かる。）</br>
 ![ensemblelearning_scikit-learn_naruto_1-2](https://user-images.githubusercontent.com/25688193/29839455-35382338-8d39-11e7-801b-5469fb293923.png)
 
 </br>
 
 > ROC 曲線
->> ? SVMの結果がうまく描写できていない。
+>> ? SVMの結果がうまく描写できていない。（原因調査中）
 ![ensemblelearning_scikit-learn_naruto_1-3](https://user-images.githubusercontent.com/25688193/29839453-351040e8-8d39-11e7-8e14-c8ccc1a81038.png)
 
 
