@@ -21,8 +21,12 @@
 ### 使用するライブラリ：
 
 > scikit-learn ライブラリ </br>
->> `sklearn.datasets.make_blobs` : </br>
-http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html#sklearn.datasets.make_blobs
+>> データセット : `sklearn.datasets`
+>>> ガウス分布に従った各クラスター生成 : `sklearn.datasets.make_blobs()` : </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html#sklearn.datasets.make_blobs </br>
+>> クラスタリング : `sklearn.cluster`
+>>> k-means 法 : `sklearn.cluster.KMeans` </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </br>
 
 > その他ライブラリ
 >>
@@ -33,6 +37,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.htm
 
 ### 使用するデータセット
 
+> ガウス分布に従った各クラスター生成 : `sklearn.datasets.make_blobs()`
 
 </br>
 
@@ -42,9 +47,41 @@ http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.htm
 
 <a name="#k-mean法実行結果"></a>
 
-### k-mean 法 : `main1.py`
+## k-mean 法 : `main1.py`
 
-> コード実装中...
+#### ① ガウス分布に従った各クラスターの散布図
+
+- ガウス分布に従った各クラスターを `sklearn.datasets.make_blobs()` 関数を使用して生成
+- クラスター数 5 個 : `centers = 5`
+- 各クラスターのサンプル数 100 個（合計 500 個） `n_samples = 500`
+- 特徴量 2 個 : `n_features = 2`
+
+> ガウス分布に従った各クラスターの散布図
+![clutterringanalysis_scikit-learn_1-1](https://user-images.githubusercontent.com/25688193/29911961-f4d031d6-8e6a-11e7-8e12-4d50973f842f.png)
+
+
+#### ② k-means法でのセントロイドと各クラスターの散布図
+
+- k-meas 法として `sklearn.cluster.KMeans` クラスを使用
+- クラスター数 5 個 : `n_clusters = 5`
+- クラスターの個数（５個）の都度、異なるランダムな初期値を使用して, </br>k-means 法によるクラスタリングを 10 回行う : `n_init = 10`
+- １回の k-means 法の最大イテレーション回数 300 回 : `max_iter = 300`
+- k-means 法において、収束と判定する為の相対的な許容誤差値 0.0001 : `tol = 1e-04`
+- fitting 処理 `sklearn.cluster.KMeans.fit()` する特徴行列 `X_features` は、
+    - 各クラスターのサンプル数 100 個（合計 500 個） `X_features[0:500,:]`
+    - 特徴量 2 個 : `X_features[:,0], X_features[:,1]`
+
+</br>
+
+> k-means 法でのセントロイドと各クラスターの散布図
+>> セントロイドをまとめて描写した散布図
+![clutterringanalysis_scikit-learn_1-2](https://user-images.githubusercontent.com/25688193/29914915-1f6a20b4-8e75-11e7-9c66-c92a3b66e2d3.png)
+
+>> セントロイドを個別に描写した散布図
+>>> クラスターとそのセントロイドが対応していない（コード修正中...）
+![clutterringanalysis_scikit-learn_1-3](https://user-images.githubusercontent.com/25688193/29916412-a3b48aae-8e79-11e7-81f8-77c19f0a2237.png)
+
+
 
 ---
 

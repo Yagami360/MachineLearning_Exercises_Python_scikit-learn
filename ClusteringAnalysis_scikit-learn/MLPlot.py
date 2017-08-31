@@ -9,6 +9,9 @@
     [17/08/22] : ROC曲線の描写関数 `drawROCCurveFromTrainTestIterator()` 追加
     [17/08/27] : ROC曲線の描写関数 `drawROCCurveFromClassifiers()` 追加
     [17/08/31] : クラス名を Plot2D → MLPlot に改名
+               : 描写結果の保存関数 `saveFigure()` を追加
+               : クラスターの散布図の描写関数 `drawClustersScatter()` 追加
+               : クラスターとセントロイドの散布図の描写関数 `drawClustersAndCentroidsScatter()` 追加
 
 """
 
@@ -19,10 +22,11 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
 import seaborn
-from sklearn.metrics import confusion_matrix
 
+from sklearn.metrics import confusion_matrix
 from sklearn.metrics import roc_curve                   # ROC曲線
 from sklearn.metrics import auc                         # AUC
+
 from scipy import interp                                # （AUCを計算するための）補間処理
 
 
@@ -36,52 +40,69 @@ class MLPlot(object):
         self.mainTitle = "mainTitle"
     
     @ staticmethod
-    def drawDiscriminantRegions( dat_X, dat_y, classifier, list_test_idx = None, resolusion = 0.02 ):
+    def saveFigure( fileName = "MLPlot.png", input_dpi = 300, input_bbox_inches = "tight" ):
+        """ 指定したファイル名で図を保存する. """
+
+        # matplotlib.pyplot.savefig
+        # https://matplotlib.org/devdocs/api/_as_gen/matplotlib.pyplot.savefig.html
+        plt.savefig( 
+            fileName, 
+            dpi = input_dpi, 
+            bbox_inches = input_bbox_inches
+        )
+
+        return
+
+    @ staticmethod
+    def drawDiscriminantRegions( X_features, y_labels, classifier, list_test_idx = None, resolusion = 0.02 ):
         """ 識別器 [classifier] による識別領域を色分けで描写する """
         
         # 識別クラス数に対応したMAPの作成（最大５クラス対応）
         tuple_makers = ( "s","x","+","^","v" )                          # タプル（定数リスト）
-        tuple_colors = ( "red","blue","lightgreen", "gray", "cyan" )    # 塗りつぶす色を表すタプル（定数リスト）
-        numClass = len( numpy.unique(dat_y) )                           # numpy.unique() : 指定したarray変数の要素の重複をなくしたものを返す,更にlen() でユニークな値の数取得
+        tuple_colors = ( "red","blue","green", "gray", "cyan" )         # 塗りつぶす色を表すタプル（定数リスト）
+        numClass = len( numpy.unique(y_labels) )                        # numpy.unique() : 指定したarray変数の要素の重複をなくしたものを返す,更にlen() でユニークな値の数取得
         cmap = ListedColormap( tuple_colors[0:numClass] )               # plt.scatter() の引数で使用
 
         # plot the decision surface
-        x1_min = dat_X[:, 0].min() - 1
-        x1_max = dat_X[:, 0].max() + 1
-        x2_min = dat_X[:, 1].min() - 1
-        x2_max = dat_X[:, 1].max() + 1
+        x1_min = X_features[:, 0].min() - 1     # １つ目の特徴量の min 値
+        x1_max = X_features[:, 0].max() + 1     # １つ目の特徴量の max 値
+        x2_min = X_features[:, 1].min() - 1     # ２つ目の特徴量の min 値
+        x2_max = X_features[:, 1].max() + 1     # ２つ目の特徴量の max 値
 
+        # ? numpy.meshgrid() : 
         meshgrids = numpy.meshgrid(                                     # マス目を作る ( 戻り値:numpy.ndarray )
                         numpy.arange( x1_min, x1_max, resolusion ),     # numpy.arang(): min~max by resolution
                         numpy.arange( x2_min, x2_max, resolusion )
                     )
-        # 入力データ datX のx1軸、x2軸の値の全ての組み合わせ
+
+        # 特徴行列 X_features のx1軸、x2軸の値の全ての組み合わせ
         xx1 = meshgrids[0]
         xx2 = meshgrids[1]
 
-        #
-        classifier.fit( dat_X, dat_y)
+        # 識別器を指定した特徴行列 X_features で fitting
+        classifier.fit( X_features, y_labels)
 
         # ? 値の全ての組み合わせを１次元配列に変換 numpy.array( [xx1.ravel(), xx2.ravel()] ) し、
         # classifierに設定されている predict（予想）を実行
         Z = classifier.predict( 
                 numpy.array( [xx1.ravel(), xx2.ravel()] ).T
             )
-        # ? 予測結果を元のグリッドポイントサイズに変換
+
+        # 予測結果を元のグリッドポイントサイズに変換
         Z = Z.reshape( xx1.shape )  # numpy.ndarray の属性 shape は，各次元ごとの配列の大きさをまとめたタプルで指定
 
         # 等高線plotで識別領域を塗りつぶす
-        plt.contourf( xx1, xx2, Z, alpha=0.4, cmap=cmap )
+        plt.contourf( xx1, xx2, Z, alpha = 0.4, cmap = cmap )
 
         # 図の軸の範囲指定
         plt.xlim( xx1.min(), xx1.max() )
         plt.ylim( xx2.min(), xx2.max() )
 
-        # 識別クラス毎に、入力データ dat_X, dat_y の散布図 plot
-        for (idx, cl) in enumerate( numpy.unique(dat_y) ): # enumerate():idx と共に clもloop
+        # 識別クラス毎に、入力データ X_features, y_labels の散布図 plot
+        for (idx, clf) in enumerate( numpy.unique(y_labels) ): # enumerate():idx と共に clもloop
             plt.scatter(
-                x = dat_X[dat_y == cl, 0], 
-                y = dat_X[dat_y == cl, 1],
+                x = X_features[ y_labels == clf, 0 ],     # clf に属している１つ目の特徴量
+                y = X_features[ y_labels == clf, 1 ],     # clf に属している２つ目の特徴量
                 alpha = 0.8, 
                 c = cmap(idx),
                 edgecolor = 'black',
@@ -90,19 +111,21 @@ class MLPlot(object):
             )
 
         # テスト用サンプルデータを強調表示
-        if (list_test_idx != None):
-            X_test = dat_X[list_test_idx, :]
-            y_test = dat_y[list_test_idx]
+        if ( list_test_idx != None ):
+            X_test = X_features[list_test_idx, :]
+            y_test = X_features[list_test_idx]
             plt.scatter(
                 X_test[:, 0], X_test[:, 1],
-                c='',
-                alpha=1.0,
-                edgecolor='black',
-                linewidths=1,
-                marker='o',
-                s=55, 
-                label='test set'
+                c = '',                         # plot color
+                alpha = 1.0,
+                edgecolor = 'black',
+                linewidths = 1,
+                marker = 'o',                   # ○
+                s = 55,                         # plot size 
+                label = 'test set'
             )
+
+        plt.legend( loc = 'best' )
 
         # グラフ同士のラベルが重ならない程度にグラフを小さくする。
         plt.tight_layout()
@@ -514,3 +537,185 @@ class MLPlot(object):
         plt.legend( loc = 'best' )
 
         return
+
+
+    @staticmethod
+    def drawClustersScatter( 
+            X_features, y_labels, 
+            cluster_labels = [ "cluster 1", "cluster 2", "cluster 3", "cluster 4", "cluster 5" ], 
+            cluster_markers = [ "s","x","+","^","v" ], 
+            cluster_cmap = ListedColormap( [ "orange","blue","green", "gray", "cyan" ] )
+        ):
+        """
+        指定したクラスターを散布図で描写する.
+
+        [Input]
+            X_features : ndarry ( shape = [ n_samples, n_features = 2 ] )
+                ２つの特徴量からなる特徴行列
+
+            y_labels : ndarry ( shape = [n_samples] )
+                ラベルのリスト（教師データ）
+            
+            cluster_labels : list <str>
+                各クラスターのラベル名（凡例に描写）
+
+            cluster_markers : list <>
+                plot のマーカー
+                "s" : □ 
+                "x" : ×
+                "+" : +
+                "^" : △
+                "v" : ▽
+
+            cluster_cmap : ListedColormap のオブジェクト
+                plot の色
+            
+            drawCentroidsIndividually : bool
+                セントロイドを個別に描写するか否か？
+                True  : 個別に描写
+                False : まとめて描写
+
+        """
+        plt.clf()
+                
+        # １つ目の特徴量の min,max 値
+        x1_min = X_features[:, 0].min() - 1
+        x1_max = X_features[:, 0].max() + 1
+
+        # ２つ目の特徴量の min,max 値
+        x2_min = X_features[:, 1].min() - 1
+        x2_max = X_features[:, 1].max() + 1
+        
+        # 図の軸の範囲指定
+        plt.xlim( x1_min, x1_max )
+        plt.ylim( x2_min, x2_max )
+
+        # クラスター毎に、特徴量 X_features[:, 0], X_features[:, 1] の散布図 plot
+        # numpy.unique() : 指定したarray変数の要素の重複をなくしたものを返す,
+        for (idx, cluster) in enumerate( numpy.unique(y_labels) ): # enumerate():idx と共に clもloop
+            plt.scatter(
+                x = X_features[ y_labels == cluster, 0 ],    # １つ目の特徴量 
+                y = X_features[ y_labels == cluster, 1 ],    # ２つ目の特徴量
+                s = 50,                                      # plot サイズ (デフォルト値: 20)
+                alpha = 0.8, 
+                c = cluster_cmap(idx),
+                edgecolor = 'black',
+                marker = cluster_markers[idx],
+                label = cluster_labels[idx]
+            )
+
+        plt.title( "scatter of clusters" )
+        plt.legend( loc = 'best' )
+        plt.tight_layout()
+
+        return
+
+    @ staticmethod
+    def drawClustersAndCentroidsScatter( 
+            X_features, y_labels, 
+            X_cluster_centors,
+            cluster_labels = [ "cluster 1", "cluster 2", "cluster 3", "cluster 4", "cluster 5" ], 
+            cluster_markers = [ "s","x","+","^","v" ], 
+            cluster_cmap = ListedColormap( [ "orange","blue","green", "gray", "cyan" ] ),
+            drawCentroidsIndividually = False,
+            centroid_labels = [ "centroid 1", "centroid 2", "centroid 3", "centroid 4", "centroid 5" ],
+            centroid_markers = [ "*", "*", "*", "*", "*" ], 
+            centroid_cmap = ListedColormap( [ "orange","blue","green", "gray", "cyan" ] )
+        ):
+        """
+        指定したクラスターと指定したセントロイドを散布図で描写する.
+
+        [Input]
+            X_features : ndarry ( shape = [ n_samples, n_features = 2 ] )
+                ２つの特徴量からなる特徴行列
+
+            y_labels : ndarry ( shape = [n_samples] )
+                ラベルのリスト（教師データ）
+
+            X_cluster_centors : ndaary ( shape = [clusters] )
+                各クラスターのセントロイド
+
+            cluster_labels : list <str>
+                各クラスターのラベル名（凡例に描写）
+
+            cluster_markers : list <>
+                plot のマーカー
+                "s" : □ 
+                "x" : ×
+                "+" : +
+                "^" : △
+                "v" : ▽
+
+            cluster_cmap : ListedColormap のオブジェクト
+                plot の色
+            
+            drawCentroidsIndividually : bool
+                セントロイドを個別に描写するか否か？
+                True  : 個別に描写
+                False : まとめて描写
+
+        """
+        plt.clf()
+                
+        # １つ目の特徴量の min,max 値
+        x1_min = X_features[:, 0].min() - 1
+        x1_max = X_features[:, 0].max() + 1
+
+        # ２つ目の特徴量の min,max 値
+        x2_min = X_features[:, 1].min() - 1
+        x2_max = X_features[:, 1].max() + 1
+        
+        # 図の軸の範囲指定
+        plt.xlim( x1_min, x1_max )
+        plt.ylim( x2_min, x2_max )
+
+        # クラスター毎に、特徴量 X_features[:, 0], X_features[:, 1] の散布図 plot
+        # numpy.unique() : 指定したarray変数の要素の重複をなくしたものを返す,
+        for (idx, cluster) in enumerate( numpy.unique(y_labels) ): # enumerate():idx と共に clもloop
+            plt.scatter(
+                x = X_features[ y_labels == cluster, 0 ],    # １つ目の特徴量 
+                y = X_features[ y_labels == cluster, 1 ],    # ２つ目の特徴量
+                s = 30,                                      # plot サイズ (デフォルト値: 20)
+                alpha = 0.8, 
+                c = cluster_cmap(idx),
+                edgecolor = 'black',
+                marker = cluster_markers[idx],
+                label = cluster_labels[idx]
+            )
+
+        # セントロイドの plot
+        if ( drawCentroidsIndividually == True):
+           # ? セントロイドを個別に plot
+           for (idx, cluster) in enumerate( numpy.unique(y_labels) ): # enumerate():idx と共に clもloop
+                print( "cluster :", cluster )
+                
+                plt.scatter(
+                    x = X_cluster_centors[ cluster, 0 ],    # １つ目の特徴量 
+                    y = X_cluster_centors[ cluster, 1 ],    # ２つ目の特徴量
+                    s = 200,                            # plot サイズ (デフォルト値: 20)
+                    alpha = 1.0, 
+                    c = centroid_cmap(idx),
+                    edgecolor = 'black',
+                    marker = centroid_markers[idx],
+                    label = centroid_labels[idx]
+                )
+
+        else:
+            # セントロイドをまとめて plot
+            plt.scatter(
+                x = X_cluster_centors[ :, 0 ],    # １つ目の特徴量 
+                y = X_cluster_centors[ :, 1 ],    # ２つ目の特徴量
+                s = 200,                            # plot サイズ (デフォルト値: 20)
+                alpha = 1.0, 
+                c = "red",
+                edgecolor = 'black',
+                marker = "*",
+                label = "centroids"
+            )
+
+        plt.title( "scatter of clusters and centroids" )
+        plt.legend( loc = 'best' )
+        plt.tight_layout()
+
+        return
+        
