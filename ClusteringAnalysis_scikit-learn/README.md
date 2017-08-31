@@ -22,7 +22,7 @@
 > scikit-learn ライブラリ </br>
 >> データセット : `sklearn.datasets`</br>
 >>> ガウス分布に従った各クラスター生成 : `sklearn.datasets.make_blobs()` : </br>
-http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html#sklearn.datasets.make_blobs </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html#sklearn.datasets.make_blobs
 
 >> クラスタリング : `sklearn.cluster`</br>
 >>> k-means 法 : `sklearn.cluster.KMeans` </br>
@@ -57,7 +57,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 - 特徴量 2 個 : `n_features = 2`
 
 > ガウス分布に従った各クラスターの散布図
-![clutterringanalysis_scikit-learn_1-1](https://user-images.githubusercontent.com/25688193/29911961-f4d031d6-8e6a-11e7-8e12-4d50973f842f.png)
+![clutterringanalysis_scikit-learn_1-1](https://user-images.githubusercontent.com/25688193/29921505-c2d7b696-8e8c-11e7-9ef9-84abad420f7a.png)
 
 
 ### ② k-means法でのセントロイドと各クラスターの散布図
@@ -75,7 +75,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 
 > k-means 法でのセントロイドと各クラスターの散布図
 >> セントロイドをまとめて描写した散布図
-![clutterringanalysis_scikit-learn_1-2](https://user-images.githubusercontent.com/25688193/29914915-1f6a20b4-8e75-11e7-9c66-c92a3b66e2d3.png)
+![clutterringanalysis_scikit-learn_1-2](https://user-images.githubusercontent.com/25688193/29921508-c476719a-8e8c-11e7-8470-95cfd511ab69.png)
 
 >> セントロイドを個別に描写した散布図
 ![clutterringanalysis_scikit-learn_1-3](https://user-images.githubusercontent.com/25688193/29921350-38ef44bc-8e8c-11e7-98d8-b96e7782aae3.png)
