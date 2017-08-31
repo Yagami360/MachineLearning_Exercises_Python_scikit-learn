@@ -12,6 +12,8 @@
     1. [ベクトル量子化](#ベクトル量子化)
     1. [k-mean 法](#k-mean法)
     1. [学習ベクトル量子化](#学習ベクトル量子化)
+    1. [ウォード法](#ウォード法)
+    1. [EMアルゴリズム](#EMアルゴリズム)
 
 </br>
 
@@ -20,11 +22,13 @@
 ### 使用するライブラリ：
 
 > scikit-learn ライブラリ </br>
->> データセット : `sklearn.datasets`</br>
+>> データセット Dataset loading utilities : `sklearn.datasets`</br>
+>> http://scikit-learn.org/stable/datasets/index.html </br>
 >>> ガウス分布に従った各クラスター生成 : `sklearn.datasets.make_blobs()` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html#sklearn.datasets.make_blobs
 
 >> クラスタリング : `sklearn.cluster`</br>
+http://scikit-learn.org/stable/modules/clustering.html#clustering </br>
 >>> k-means 法 : `sklearn.cluster.KMeans` </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </br>
 
@@ -86,7 +90,13 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 
 ## エルボー法を用いた、最適なクラスター数 : `main2.py`
 
-> コード実装中...
+|クラスター数|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|Distortion (SSE)</br>小数点以下切り捨て|13693|3694|1535|676|**238**</br>値が急速に低下（エルボー）|218|201|185|168|153|141|129|120|110|
+
+> kmeans ++ 法による、クラスター数と SSE 値の関係図（エルボー法）。</br>図より、クラスター数が、5 個のときみエルボー（肘）部分となっており、最適なクラスター数は 5 個であることが分かる。
+![clutterringanalysis_scikit-learn_2-1](https://user-images.githubusercontent.com/25688193/29934439-283e1a2e-8eb6-11e7-9382-f5d41ccbf4ff.png)
+
 
 </br>
 
@@ -104,17 +114,34 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 
 ## 背景理論
 
-<a name="#k-mean法"></a>
+<a name="#ベクトル量子化"></a>
 
 ## ベクトル量子化
 
 ![twitter_ _ _9-3_170623](https://user-images.githubusercontent.com/25688193/29883660-f317784c-8deb-11e7-95f2-36758cc39a98.png)
 
+<a name="#k-mean法"></a>
+
 ## k-mean 法
 
 ![twitter_ _ _9-4_170623](https://user-images.githubusercontent.com/25688193/29883665-f521bbd4-8deb-11e7-8d72-5f67a511e32f.png)
+
+<a name="#学習ベクトル量子化"></a>
 
 ## 学習ベクトル量子化 [LQV]
 
 ![twitter_ _ _9-5_170623](https://user-images.githubusercontent.com/25688193/29883666-f554559e-8deb-11e7-8e70-62068f41afa7.png)
 
+<a name="#ウォード法"></a>
+
+## ウォード法
+
+<a name="#EMアルゴリズム"></a>
+
+## EM アルゴリズム
+
+![twitter_ _ _11-6_170701](https://user-images.githubusercontent.com/25688193/29933249-f4078546-8eb1-11e7-8ae1-83861e2cefd8.png)
+![twitter_ _ _11-8_170701](https://user-images.githubusercontent.com/25688193/29933253-f40b7390-8eb1-11e7-8006-8eeed89f613e.png)
+![twitter_ _ _11-9_170701](https://user-images.githubusercontent.com/25688193/29933250-f40824e2-8eb1-11e7-995a-bfbd9f0415d4.png)
+![twitter_ _ _11-10_170701](https://user-images.githubusercontent.com/25688193/29933251-f40a4e7a-8eb1-11e7-9643-b1c99e0096db.png)
+![twitter_ _ _11-7 _170701](https://user-images.githubusercontent.com/25688193/29933252-f40a45c4-8eb1-11e7-9afa-7335ce8f1123.png)
