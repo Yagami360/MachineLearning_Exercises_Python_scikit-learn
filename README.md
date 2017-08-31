@@ -1,4 +1,4 @@
-# MachineLearning_Samples_Python
+# MachineLearning_Exercises_Python_scikit-learn
 Python＆機械学習ライブラリ scikit-learn の使い方の練習コード集。背景理論解説付き。
 
 README.md : コード実行結果の解説と合わせて、理論の解説も記載してます。
