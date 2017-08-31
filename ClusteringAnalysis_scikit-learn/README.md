@@ -7,8 +7,9 @@
 1. [使用するライブラリ](#使用するライブラリ)
 1. [使用するデータセット](#使用するデータセット)
 1. [コードの実行結果](#コードの実行結果)
-    1. [k-mean 法](#k-mean法実行結果)
-    1. [](#)
+    1. [k-mean 法によるクラスタリング](#クラスタリング)
+    1. [エルボー法を用いた最適なクラスター数](#エルボー法を用いた最適なクラスター数)
+    1. [シルエット図を用いたクラスタリング性能の数値化](#シルエット図を用いたクラスタリング性能の数値化)
 1. [背景理論](#背景理論)
     1. [ベクトル量子化](#ベクトル量子化)
     1. [k-mean 法](#k-mean法)
@@ -21,10 +22,10 @@
 ### 使用するライブラリ：
 
 > scikit-learn ライブラリ </br>
->> データセット : `sklearn.datasets`
+>> データセット : `sklearn.datasets`</br>
 >>> ガウス分布に従った各クラスター生成 : `sklearn.datasets.make_blobs()` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html#sklearn.datasets.make_blobs </br>
->> クラスタリング : `sklearn.cluster`
+>> クラスタリング : `sklearn.cluster`</br>
 >>> k-means 法 : `sklearn.cluster.KMeans` </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </br>
 
@@ -45,11 +46,11 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 
 ## コードの実行結果
 
-<a name="#k-mean法実行結果"></a>
+<a name="#クラスタリング"></a>
 
-## k-mean 法 : `main1.py`
+## k-mean 法によるクラスタリング : `main1.py`
 
-#### ① ガウス分布に従った各クラスターの散布図
+### ① ガウス分布に従った各クラスターの散布図
 
 - ガウス分布に従った各クラスターを `sklearn.datasets.make_blobs()` 関数を使用して生成
 - クラスター数 5 個 : `centers = 5`
@@ -60,7 +61,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 ![clutterringanalysis_scikit-learn_1-1](https://user-images.githubusercontent.com/25688193/29911961-f4d031d6-8e6a-11e7-8e12-4d50973f842f.png)
 
 
-#### ② k-means法でのセントロイドと各クラスターの散布図
+### ② k-means法でのセントロイドと各クラスターの散布図
 
 - k-meas 法として `sklearn.cluster.KMeans` クラスを使用
 - クラスター数 5 個 : `n_clusters = 5`
@@ -81,7 +82,23 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 >>> クラスターとそのセントロイドが対応していない（コード修正中...）
 ![clutterringanalysis_scikit-learn_1-3](https://user-images.githubusercontent.com/25688193/29916412-a3b48aae-8e79-11e7-81f8-77c19f0a2237.png)
 
+</br>
 
+<a name="#エルボー法を用いた最適なクラスター数"></a>
+
+## エルボー法を用いた、最適なクラスター数 : `main2.py`
+
+> コード実装中...
+
+</br>
+
+<a name="#シルエット図を用いたクラスタリング性能の数値化"></a>
+
+## シルエット図を用いた、クラスタリング性能の数値化 : `main2.py`
+
+> コード実装中...
+
+</br>
 
 ---
 
