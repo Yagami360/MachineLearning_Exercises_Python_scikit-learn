@@ -1,7 +1,5 @@
 ## クラスター分析 [Clustering Analysis]
 
-コード実装中...
-
 ### 項目 [Contents]
 
 1. [使用するライブラリ](#使用するライブラリ)
@@ -25,6 +23,7 @@
 >> データセット : `sklearn.datasets`</br>
 >>> ガウス分布に従った各クラスター生成 : `sklearn.datasets.make_blobs()` : </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html#sklearn.datasets.make_blobs </br>
+
 >> クラスタリング : `sklearn.cluster`</br>
 >>> k-means 法 : `sklearn.cluster.KMeans` </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </br>
@@ -79,8 +78,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 ![clutterringanalysis_scikit-learn_1-2](https://user-images.githubusercontent.com/25688193/29914915-1f6a20b4-8e75-11e7-9c66-c92a3b66e2d3.png)
 
 >> セントロイドを個別に描写した散布図
->>> クラスターとそのセントロイドが対応していない（コード修正中...）
-![clutterringanalysis_scikit-learn_1-3](https://user-images.githubusercontent.com/25688193/29916412-a3b48aae-8e79-11e7-81f8-77c19f0a2237.png)
+![clutterringanalysis_scikit-learn_1-3](https://user-images.githubusercontent.com/25688193/29921350-38ef44bc-8e8c-11e7-98d8-b96e7782aae3.png)
 
 </br>
 
@@ -94,7 +92,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html </b
 
 <a name="#シルエット図を用いたクラスタリング性能の数値化"></a>
 
-## シルエット図を用いた、クラスタリング性能の数値化 : `main2.py`
+## シルエット図を用いた、クラスタリング性能の数値化 : `main3.py`
 
 > コード実装中...
 

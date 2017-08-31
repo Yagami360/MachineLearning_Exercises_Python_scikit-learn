@@ -59,7 +59,7 @@ class MLPlot(object):
         
         # 識別クラス数に対応したMAPの作成（最大５クラス対応）
         tuple_makers = ( "s","x","+","^","v" )                          # タプル（定数リスト）
-        tuple_colors = ( "red","blue","green", "gray", "cyan" )         # 塗りつぶす色を表すタプル（定数リスト）
+        tuple_colors = ( "red","blue","green", "purple", "cyan" )       # 塗りつぶす色を表すタプル（定数リスト）
         numClass = len( numpy.unique(y_labels) )                        # numpy.unique() : 指定したarray変数の要素の重複をなくしたものを返す,更にlen() でユニークな値の数取得
         cmap = ListedColormap( tuple_colors[0:numClass] )               # plt.scatter() の引数で使用
 
@@ -544,7 +544,7 @@ class MLPlot(object):
             X_features, y_labels, 
             cluster_labels = [ "cluster 1", "cluster 2", "cluster 3", "cluster 4", "cluster 5" ], 
             cluster_markers = [ "s","x","+","^","v" ], 
-            cluster_cmap = ListedColormap( [ "orange","blue","green", "gray", "cyan" ] )
+            cluster_cmap = ListedColormap( [ "orange","blue","green", "purple", "cyan" ] )
         ):
         """
         指定したクラスターを散布図で描写する.
@@ -614,13 +614,14 @@ class MLPlot(object):
     def drawClustersAndCentroidsScatter( 
             X_features, y_labels, 
             X_cluster_centors,
+            cluster_centroid_map = [ 0, 1, 2, 3, 4 ],
             cluster_labels = [ "cluster 1", "cluster 2", "cluster 3", "cluster 4", "cluster 5" ], 
             cluster_markers = [ "s","x","+","^","v" ], 
-            cluster_cmap = ListedColormap( [ "orange","blue","green", "gray", "cyan" ] ),
+            cluster_cmap = ListedColormap( [ "orange","lightblue","lightgreen", "mediumpurple", "lightcyan" ] ),
             drawCentroidsIndividually = False,
             centroid_labels = [ "centroid 1", "centroid 2", "centroid 3", "centroid 4", "centroid 5" ],
             centroid_markers = [ "*", "*", "*", "*", "*" ], 
-            centroid_cmap = ListedColormap( [ "orange","blue","green", "gray", "cyan" ] )
+            centroid_cmap = ListedColormap( [ "darkorange","blue","green", "purple", "cyan" ] )
         ):
         """
         指定したクラスターと指定したセントロイドを散布図で描写する.
@@ -634,6 +635,9 @@ class MLPlot(object):
 
             X_cluster_centors : ndaary ( shape = [clusters] )
                 各クラスターのセントロイド
+
+            cluster_centroid_map : list <int>
+                クラスターとセントロイドのインデックスの対応関係のMAP
 
             cluster_labels : list <str>
                 各クラスターのラベル名（凡例に描写）
@@ -686,18 +690,19 @@ class MLPlot(object):
         # セントロイドの plot
         if ( drawCentroidsIndividually == True):
            # ? セントロイドを個別に plot
-           for (idx, cluster) in enumerate( numpy.unique(y_labels) ): # enumerate():idx と共に clもloop
-                print( "cluster :", cluster )
+           for (idx, map) in enumerate( cluster_centroid_map ): # enumerate():idx と共に clもloop
+                #print( "cluster :", cluster )
                 
                 plt.scatter(
-                    x = X_cluster_centors[ cluster, 0 ],    # １つ目の特徴量 
-                    y = X_cluster_centors[ cluster, 1 ],    # ２つ目の特徴量
+                    x = X_cluster_centors[ idx, 0 ],    # １つ目の特徴量 
+                    y = X_cluster_centors[ idx, 1 ],    # ２つ目の特徴量
                     s = 200,                            # plot サイズ (デフォルト値: 20)
+                    linewidths = 1.0,                   # 
                     alpha = 1.0, 
-                    c = centroid_cmap(idx),
+                    c = centroid_cmap(map),
                     edgecolor = 'black',
-                    marker = centroid_markers[idx],
-                    label = centroid_labels[idx]
+                    marker = centroid_markers[map],
+                    label = centroid_labels[map]
                 )
 
         else:
@@ -706,6 +711,7 @@ class MLPlot(object):
                 x = X_cluster_centors[ :, 0 ],    # １つ目の特徴量 
                 y = X_cluster_centors[ :, 1 ],    # ２つ目の特徴量
                 s = 200,                            # plot サイズ (デフォルト値: 20)
+                linewidths = 1.0,                   # 
                 alpha = 1.0, 
                 c = "red",
                 edgecolor = 'black',

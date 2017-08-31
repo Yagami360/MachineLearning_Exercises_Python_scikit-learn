@@ -19,8 +19,7 @@ from MLPlot import MLPlot
 def main():
     """
     クラスター分析.
-    k-mean 法
-
+    k-mean 法によるクラスタリング
     """
     print("Enter main()")
 
@@ -55,7 +54,9 @@ def main():
 
     # 指定した特徴行列 X_features のクラスターのセントロイドの計算＆各サンプルのインデックスを予想して返す.
     y_kmeans = kmeans.fit_predict( X_features )
-    print( "kmeans.cluster_centers_s :\n", kmeans.cluster_centers_ )
+
+    print( "kmeans.cluster_centers_ :\n", kmeans.cluster_centers_ )
+    print( "kmeans.labels_ :\n", kmeans.labels_ )
     print( "y_kmeans :\n", y_kmeans )
 
     #---------------------------------------------------------------
@@ -82,7 +83,8 @@ def main():
     MLPlot.drawClustersAndCentroidsScatter( 
         X_features, y_labels, 
         X_cluster_centors = kmeans.cluster_centers_,
-        drawCentroidsIndividually = True
+        drawCentroidsIndividually = True,
+        cluster_centroid_map = [ 2, 0, 4, 1, 3 ]
     )
 
     MLPlot.saveFigure( fileName = 'ClutterringAnalysis_scikit-learn_1-3.png' )
