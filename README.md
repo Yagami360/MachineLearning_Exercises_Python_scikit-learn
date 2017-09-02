@@ -23,10 +23,10 @@ README.md : コード実行結果の解説と合わせて、理論の解説も�
 
 ## 項目（フォルダ別）
 
-1. [./Perceptron](#Perceptron)
-1. [./AdaLineGD](#AdaLineGD) 
-1. [./AdaLineSGD](#AdaLineSGD)
-1. [./Perceptron_scikit-learn](#Perceptron_scikit-learn)
+1. [./Perceptron](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/Perceptron)
+1. [./AdaLineGD](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/AdaLineGD) 
+1. [./AdaLineSGD](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/AdaLineSGD)
+1. [./Perceptron_scikit-learn](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/Perceptron_scikit-learn)
 1. [./LogisticRegression_scikit-learn](#LogisticRegression_scikit-learn)
 1. [./SVM_scikit-learn](#SVM_scikit-learn)
 1. [./kNN_scikit-learn](#kNN_scikit-learn)
@@ -41,44 +41,6 @@ README.md : コード実行結果の解説と合わせて、理論の解説も�
 
 </br>
 
-<a name="Perceptron"></a>
-## ./Perceptron 
-
-<機械学習＆Pythonの練習Memo>
-
-アヤメデータを単一パーセプトロン＆最急降下法で識別（重みの更新:Δw = η*(y_i-y^_i)）
-
-![twitter_ _1_2_170718](https://user-images.githubusercontent.com/25688193/28357345-0fc51218-6ca6-11e7-859e-5e1d71bca1c2.png)
-
-
-<a name="AdaLineGD"></a>
-## ./AdaLineGD
-
-<機械学習＆Pythonの練習Memo>
-
-アヤメデータをAdaLine＆最急降下法（コスト関数）でのバッチ学習で識別（重みの更新:Δw=η*∑( y-Φ(w^T*x) ) (j=1,2,...,m), コスト関数:J(w)= (1/2)*∑( y-Φ(w^T*x) )^2）
-
-![twitter_adaline_1-2_170718](https://user-images.githubusercontent.com/25688193/28357349-152a9656-6ca6-11e7-9611-90643928b4a6.png)
-
-
-<a name="AdaLineSGD"></a>
-## ./AdaLineSGD
-
-<機械学習＆Pythonの練習Memo> 
-
-アヤメデータをAdaLine＆確率的最急降下法（コスト関数）、及びオンライン学習で識別（重みの更新：Δw=η*( y_i - Φ(w^T*x_i) ), J=(1/2)*( y_i - Φ(w^T*x_i) )^2, i：ランダム）
-
-![twitter_adaline_2-2_170719](https://user-images.githubusercontent.com/25688193/28357356-19940cb8-6ca6-11e7-80ba-50e0c968f6dc.png)
-
-
-<a name="Perceptron_scikit-learn"></a>
-## ./Perceptron_scikit-learn
-
-<機械学習＆Pythonの練習Memo> 
-
-アヤメデータのパーセプトロンによる３クラス（３品種）識別。データの分割は、トレーニングデータ：70%, テストデータ :30% のランダムサンプリング（scikit-learn ライブラリを使用）パーセプトロン如きでは、やはりうまく識別出来ない。
-
-![perceptron_scikit-learn_2](https://user-images.githubusercontent.com/25688193/28395827-d3c43ef6-6d31-11e7-9421-0fb406a6ec49.png)
 
 <a name="LogisticRegression_scikit-learn"></a>
 ## ./LogisticRegression_scikit-learn
