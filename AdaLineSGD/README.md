@@ -1,4 +1,4 @@
-## AdaLineSGD（Adaptive Liner ニューロン勾配降下法） [Adaptive Liner Gradient descent]
+## AdaLineSGD（Adaptive Liner ニューロン確率的勾配降下法）</br> [Adaptive Liner stomatic Gradient descent]
 
 ### 項目 [Contents]
 
