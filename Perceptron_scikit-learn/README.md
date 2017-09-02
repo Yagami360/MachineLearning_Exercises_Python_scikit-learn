@@ -1,4 +1,4 @@
-## パーセプトロン [Perceptron]（scikit-learn ライブラ不使用）
+## パーセプトロン [Perceptron]（scikit-learn ライブラリ使用）
 
 ### 項目 [Contents]
 
@@ -60,7 +60,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 - サンプル数 100 個の内、品種 "setosa" が 50 個、"virginica" が 50 個。
 - 教師データ `y_labels` は、サンプル数 100 個 : </br >`y_labels = df_Iris.iloc[0:100,4].values`
     - カテゴリーデータを -1 or 1 に変換 : </br>`y_labels = numpy.where( y_labels == "Iris-setosa", -1, 1)`
-- トレーニングデータ 50% 、テストデータ 50%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.3, random_state = 0 )`
+- トレーニングデータ 70% 、テストデータ 30%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.3, random_state = 0 )`
 - 正規化処理を実施する。</br> : `sklearn.preprocessing.StandardScaler` クラスを使用 
 - 自作クラス `Perceptron` でパーセプトロンの fitting 処理（重みベクトルの更新）を実施 :</br>
 `Perceptron.fit( X_features, y_labels )`
