@@ -27,7 +27,7 @@ README.md : コード実行結果の解説と合わせて、理論の解説も�
 1. [./AdaLineGD](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/AdaLineGD) 
 1. [./AdaLineSGD](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/AdaLineSGD)
 1. [./Perceptron_scikit-learn](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/Perceptron_scikit-learn)
-1. [./LogisticRegression_scikit-learn](#LogisticRegression_scikit-learn)
+1. [./LogisticRegression_scikit-learn](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/LogisticRegression_scikit-learn)
 1. [./SVM_scikit-learn](#SVM_scikit-learn)
 1. [./kNN_scikit-learn](#kNN_scikit-learn)
 1. [./DecisionTree_scikit-learn](#DecisionTree_scikit-learn)
@@ -40,39 +40,6 @@ README.md : コード実行結果の解説と合わせて、理論の解説も�
 1. [./ClusteringAnalysis_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/ClusteringAnalysis_scikit-learn)
 
 </br>
-
-
-<a name="LogisticRegression_scikit-learn"></a>
-## ./LogisticRegression_scikit-learn
-![twitter_ 18-1_161130](https://user-images.githubusercontent.com/25688193/28620065-596c98e6-7246-11e7-86bc-b162dc67923f.png)
-![twitter_ 18-2_161130](https://user-images.githubusercontent.com/25688193/28620079-6469d858-7246-11e7-8228-38d902db541f.png)
-![twitter_ 18-3_161130](https://user-images.githubusercontent.com/25688193/28620103-7ce82c9a-7246-11e7-80c1-0de312e10d62.png)
-![twitter_ 18-4_161130](https://user-images.githubusercontent.com/25688193/28620114-8273782c-7246-11e7-8505-4627605c4290.png)
-![twitter_ 18-5_161201](https://user-images.githubusercontent.com/25688193/28620120-884b54a4-7246-11e7-819a-61e546a75fb1.png)
-![twitter_ 18-6 _170204](https://user-images.githubusercontent.com/25688193/28620130-93ed169e-7246-11e7-9bea-de868a82455b.png)
-![twitter_ 18-7 _170204](https://user-images.githubusercontent.com/25688193/28620136-9846c1f4-7246-11e7-88af-7ac885a097e9.png)
-
-![twitter_ 18-17_170726](https://user-images.githubusercontent.com/25688193/28604784-47ddf5f4-7208-11e7-8136-3ac637f584f2.png)
-
-![twitter_ 18-18_170726](https://user-images.githubusercontent.com/25688193/28615080-dcc565d8-7232-11e7-9e72-d7a9b8166136.png)
-
-<機械学習＆Pythonの練習Memo>
-
-scikit-learn ライブラリの sklearn.linear_model モジュールの LogisticRegression クラスのpredict_proba() 関数を使用して、指定したサンプルのクラスの所属確率を予想
-
-![logisticregression_scikit-learn_4](https://user-images.githubusercontent.com/25688193/28619864-725f0614-7245-11e7-8534-6c162eba8dd3.png)
-
-バイアス・分散トレードオフと過学習、及び正則化による過学習への対応
-
-![twitter_ _3-1_160924](https://user-images.githubusercontent.com/25688193/28652178-310a6984-72c1-11e7-994c-d28390cd000b.png)
-![twitter_ _3-2_160924](https://user-images.githubusercontent.com/25688193/28652185-381f5356-72c1-11e7-8fae-37e7f77b4e30.png)
-![twitter_ _3-3_160924](https://user-images.githubusercontent.com/25688193/28652189-3da74482-72c1-11e7-8050-866a21cba355.png)
-![twitter_ _3-4_170727](https://user-images.githubusercontent.com/25688193/28652195-456e0480-72c1-11e7-96c4-c2d9ee8ba273.png)
-
-＜機械学習＆Pythonの練習Memo＞
-
-ロジスティクス回帰の逆正則化パラメータ C の値と正則化の強さの関係（ロジスティクス回帰における、正則化による過学習への対応）正則化の強さを確認するため、重み係数 w と逆正則化パラメータ C の関係を plot
-![twitter_ 18-19_170727](https://user-images.githubusercontent.com/25688193/28652198-4b09b560-72c1-11e7-8053-a9e00b280ef8.png)
 
 
 <a name="SVM_scikit-learn"></a>
