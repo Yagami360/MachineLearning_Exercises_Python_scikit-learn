@@ -1,4 +1,4 @@
-## ロジスティクス回帰 [Logistic Regression]
+## サポートベクターマシン [SVM : Support Vector Machine]
 
 ### 項目 [Contents]
 
