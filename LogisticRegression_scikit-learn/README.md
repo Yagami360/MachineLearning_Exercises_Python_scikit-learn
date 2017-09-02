@@ -60,15 +60,21 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 ## ロジスティクス回帰の実行結果 : `main.py`
 
 - Iris データセットを使用 : `datasets.load_iris()`
-
-- 特徴行列 `X_features` は、特徴数 2 個 × サンプル数 100 個 :</br> `X_features = df_Iris.iloc[0:100, [0,2]].values`
-- サンプル数 100 個の内、品種 "setosa" が 50 個、"virginica" が 50 個。
-- 教師データ `y_labels` は、サンプル数 100 個 : </br >`y_labels = df_Iris.iloc[0:100,4].values`
-    - カテゴリーデータを -1 or 1 に変換 : </br>`y_labels = numpy.where( y_labels == "Iris-setosa", -1, 1)`
+- 特徴行列 `X_features` は、特徴数 2 個 × サンプル数 150 個 :</br> `iris.data[ :, [2,3] ]`
+- サンプル数 150 個の内、品種 "setosa" が 50 個、"virginica" が 50 個、"versicolor" が 50 個。
+- 教師データ `y_labels` は、サンプル数 150 個 : `y_labels = iris.target`
+    - ここで、`iris.target` で取得したデータは、カテゴリーデータを 0, 1, 2 に変換したデータとなっている。
 - トレーニングデータ 70% 、テストデータ 30%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.3, random_state = 0 )`
 - 正規化処理を実施 : </br> `sklearn.preprocessing.StandardScaler` クラスを使用 
+- モデルとして、ロジスティクス回帰モデルを使用する（L2正則化なし） :</br> 
+`logReg = LogisticRegression( C = 100.0, random_state = 0 )`
 - ロジスティクス回帰モデルの fitting 処理でモデルを学習させる。 :</br>
-`LogisticRegression.fit( X_train_std, y_train )`
+`logReg.fit( X_train_std, y_train )`
+- predict した結果 `y_predict = logReg.predict( X_test_std )` を元に、`accuracy_score()` 関数で、正解率、誤分類のサンプル数を算出。</br>
+正解率 : `accuracy_score( y_test, y_predict )`</br>
+誤分類数 : `( y_test != y_predict ).sum()`
+- `predict_proba()` 関数を使用して、指定したサンプルのクラスの所属関係を予想 : </br>
+例 : `logReg.predict_proba( X_test_std[0, :].reshape(1, -1) )`
 
 </br>
 
@@ -82,13 +88,45 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 ### ② ロジスティクス回帰による３クラス識別結果
 ![twitter_ 18-18_170726](https://user-images.githubusercontent.com/25688193/29994419-b440a164-9009-11e7-89ff-9fdb63fb537d.png)
 
-scikit-learn ライブラリの `sklearn.linear_model` モジュールの `LogisticRegression` クラスの`predict_proba()` 関数を使用して、指定したサンプルのクラスの所属確率を予想。
+- scikit-learn ライブラリの `sklearn.linear_model` モジュールの `LogisticRegression` クラスの`predict_proba()` 関数を使用して、指定したサンプルのクラスの所属確率を予想。
 ![logisticregression_scikit-learn_4](https://user-images.githubusercontent.com/25688193/28619864-725f0614-7245-11e7-8534-6c162eba8dd3.png)
 
 <a name="#ロジスティクス回帰での正則化による過学習への対応"></a>
 
 ### ③ ロジスティクス回帰での正則化による過学習への対応
-ロジスティクス回帰の逆正則化パラメータ C の値と正則化の強さの関係（ロジスティクス回帰における、正則化による過学習への対応）正則化の強さを確認するため、重み係数 w と逆正則化パラメータ C の関係を plot
+- 10個の逆正則化パラメータ C（C=10^-5,C=10^-4, ... C=10, ... , C=10^5 ）に関して、ロジスティクス回帰モデルを作成し、それぞれのモデルを学習データで学習。
+
+```
+weights0 = []    # 重み係数の空リスト（Setosa）を生成
+weights1 = []    # 重み係数の空リスト（Versicolor）を生成
+weights2 = []    # 重み係数の空リスト（Virginica）を生成
+paramesC = []    # 逆正則化パラメータの空リストを生成
+
+# 10個の逆正則化パラメータ C（C=10^-5,C=10^-4, ... C=10, ... , C=10^5 ）に関して、
+# LogisiticReegression オブジェクトを作成し、それぞれのモデルを学習データで学習
+for c in numpy.arange(-5, 5):
+    logReg_tmp = LogisticRegression.LogisticRegression( paramC = 10**c )
+    logReg_tmp.logReg_.fit( X_train_std, y_train )
+
+    # 重み係数リストに学習後の重み係数を格納
+    # coef_[0] : petal length, petal weightの重み (Setosa)
+    weights0.append( logReg_tmp.logReg_.coef_[0] )
+    # coef_[1] : petal length, petal weightの重み (Versicolor)
+    weights1.append( logReg_tmp.logReg_.coef_[1] )
+    # coef_[2] : petal length, petal weightの重み (Virginica)   
+    weights2.append( logReg_tmp.logReg_.coef_[2] )
+        
+    # 逆正則化パラメータリストにモデルの C 値を格納
+    paramesC.append( 10**c )
+
+# 重み係数リストを numpy 配列に変換
+weights0 = numpy.array( weights0 )
+weights1 = numpy.array( weights1 )
+weights2 = numpy.array( weights2 )
+```
+
+- ロジスティクス回帰の逆正則化パラメータ C の値と正則化の強さの関係（ロジスティクス回帰における、正則化による過学習への対応）正則化の強さを確認するため、重み係数 w と逆正則化パラメータ C の関係を plot
+
 ![twitter_ 18-19_170727](https://user-images.githubusercontent.com/25688193/28652198-4b09b560-72c1-11e7-8053-a9e00b280ef8.png)
 
 </br>
