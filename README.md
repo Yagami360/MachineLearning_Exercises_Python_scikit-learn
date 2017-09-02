@@ -1,7 +1,7 @@
 # MachineLearning_Exercises_Python_scikit-learn
-Python＆機械学習ライブラリ scikit-learn の使い方の練習コード集。背景理論解説付き。
+Python＆機械学習ライブラリ scikit-learn の使い方の練習コード集。機械学習の理論解説付き。
 
-README.md : コード実行結果の解説と合わせて、理論の解説も記載してます。
+README.md : コード実行結果の解説と合わせて、機械学習の背景理論の解説も記載してます。
 
 
 ### 機械学習ライブラリ : scikit-learn
@@ -12,14 +12,15 @@ README.md : コード実行結果の解説と合わせて、理論の解説も�
 
 ### 検証用データセット
 
-> MNIST：（手書き数字文字画像データ）</br>
->> http://yann.lecun.com/exdb/mnist/
-
 > ワインデータセット：（csvフォーマット）</br>
->> https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
+https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
 
 > Brest Cancer Wisconsin データセット：（csvフォーマット）</br>
->> https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
+https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
+
+> MNIST：（手書き数字文字画像データ）</br>
+http://yann.lecun.com/exdb/mnist/
+
 
 ## 項目（フォルダ別）
 
@@ -28,7 +29,7 @@ README.md : コード実行結果の解説と合わせて、理論の解説も�
 1. [./AdaLineSGD](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/AdaLineSGD)
 1. [./Perceptron_scikit-learn](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/Perceptron_scikit-learn)
 1. [./LogisticRegression_scikit-learn](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/LogisticRegression_scikit-learn)
-1. [./SVM_scikit-learn](#SVM_scikit-learn)
+1. [./SVM_scikit-learn](https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/tree/master/SVM_scikit-learn)
 1. [./kNN_scikit-learn](#kNN_scikit-learn)
 1. [./DecisionTree_scikit-learn](#DecisionTree_scikit-learn)
 1. [./RandomForests_scikit-learn](https://github.com/Yagami360/MachineLearning_Samples_Python/tree/master/RandomForests_scikit-learn)
@@ -41,40 +42,6 @@ README.md : コード実行結果の解説と合わせて、理論の解説も�
 
 </br>
 
-
-<a name="SVM_scikit-learn"></a>
-## ./SVM_scikit-learn
-
-![twitter_svm_1-1_170211](https://user-images.githubusercontent.com/25688193/28708179-313cdc98-73b6-11e7-985f-8ced8d316ecc.png)
-![twitter_svm_1-2_170211](https://user-images.githubusercontent.com/25688193/28708178-313a6daa-73b6-11e7-9817-8621f3cd9985.png)
-
-![twitter_svm_2-1_170212](https://user-images.githubusercontent.com/25688193/28708177-31342c92-73b6-11e7-9b19-0a41a4b7b705.png)
-![twitter_svm_2-2_170212](https://user-images.githubusercontent.com/25688193/28708175-312ab5c2-73b6-11e7-8617-37b57c475b35.png)
-
-![twitter_svm_3-1_170214](https://user-images.githubusercontent.com/25688193/28708174-311e33d8-73b6-11e7-82e5-3da320e93b89.png)
-![twitter_svm_3-2_170214](https://user-images.githubusercontent.com/25688193/28708173-311dbda4-73b6-11e7-832e-bf7162703056.png)
-![twitter_svm_3-3_170214](https://user-images.githubusercontent.com/25688193/28708172-3118eeaa-73b6-11e7-960a-71824390bee5.png)
-![twitter_svm_3-4_170214](https://user-images.githubusercontent.com/25688193/28708171-3113dc62-73b6-11e7-9140-f4974f44b495.png)
-![twitter_svm_3-5_170216](https://user-images.githubusercontent.com/25688193/28708170-31097290-73b6-11e7-8d0c-8087e1751fb1.png)
-
-![twitter_svm_4-1_170216](https://user-images.githubusercontent.com/25688193/28708169-310200aa-73b6-11e7-8492-41e07ad0a3f9.png)
-![twitter_svm_4-2_170217](https://user-images.githubusercontent.com/25688193/28708168-30faf92c-73b6-11e7-987b-996e874fb16f.png)
-![twitter_svm_4-3_170217](https://user-images.githubusercontent.com/25688193/28708165-30eb1a5c-73b6-11e7-8530-e19ac4cef9e1.png)
-![twitter_svm_4-4_170218](https://user-images.githubusercontent.com/25688193/28708167-30f916ac-73b6-11e7-976d-d4c1e3a52524.png)
-![twitter_svm_4-5_170218](https://user-images.githubusercontent.com/25688193/28708166-30f5c588-73b6-11e7-9d9b-54d46b8a69f5.png)
-
-![twitter_svm_5-1_170219](https://user-images.githubusercontent.com/25688193/28708164-30e4d688-73b6-11e7-89a0-d78b5065b467.png)
-![twitter_svm_5-2_170220](https://user-images.githubusercontent.com/25688193/28708163-30def074-73b6-11e7-8d17-57fdbf9bab59.png)
-![twitter_svm_5-2_170225](https://user-images.githubusercontent.com/25688193/28708162-30c28aba-73b6-11e7-8e63-aa1d77db8c00.png)
-![twitter_svm_5-3_170222](https://user-images.githubusercontent.com/25688193/28708159-30bd4c44-73b6-11e7-91bb-c212ab04a7db.png)
-![twitter_svm_5-4_170225](https://user-images.githubusercontent.com/25688193/28708161-30c06262-73b6-11e7-88bd-9ea72837d9c8.png)
-![twitter_svm_5-5_170303](https://user-images.githubusercontent.com/25688193/28708158-30bc0e1a-73b6-11e7-9fc1-c015e9403def.png)
-![twitter_svm_5-6_170303](https://user-images.githubusercontent.com/25688193/28708157-30bbfba0-73b6-11e7-9aba-894974b30167.png)
-
-![twitter_svm_6-1_170728](https://user-images.githubusercontent.com/25688193/28708061-adc48348-73b5-11e7-8cf8-17f3c3a8ba0e.png)
-![twitter_svm_6-2 _170728](https://user-images.githubusercontent.com/25688193/28719743-f71ebd8a-73e5-11e7-91cb-476014748aad.png)
-![twitter_svm_6-3_170729](https://user-images.githubusercontent.com/25688193/28736123-694aa3d2-7423-11e7-8bba-92fadfdc645c.png)
-![twitter_svm_6-4_170729](https://user-images.githubusercontent.com/25688193/28737648-6f478f8c-742a-11e7-9de9-f3f6d619d623.png)
 
 <a name="kNN_scikit-learn"></a>
 ## ./kNN_scikit-learn
