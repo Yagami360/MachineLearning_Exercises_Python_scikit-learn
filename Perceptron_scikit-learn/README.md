@@ -43,32 +43,39 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 
 ### 使用するデータセット
 
-> Iris データセット : </br>
-> https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
+> Iris データセット : `datasets.load_iris()`
 
 <a name="#コードの実行結果"></a>
 
 ## コードの実行結果
 
-<a name="#パーセプトロンによる重みベクトルの更新と識別処理"></a>
+<a name="#パーセプトロンによる３クラス（アヤメデータ）の識別"></a>
 
-## パーセプトロンによる重みベクトルの更新と識別処理 : `main.py`
+## パーセプトロンによる３クラス（アヤメデータ）の識別 : `main.py`
 
 - Iris データセットを使用 : `datasets.load_iris()`
-
-- 特徴行列 `X_features` は、特徴数 2 個 × サンプル数 100 個 :</br> `X_features = df_Iris.iloc[0:100, [0,2]].values`
-- サンプル数 100 個の内、品種 "setosa" が 50 個、"virginica" が 50 個。
-- 教師データ `y_labels` は、サンプル数 100 個 : </br >`y_labels = df_Iris.iloc[0:100,4].values`
-    - カテゴリーデータを -1 or 1 に変換 : </br>`y_labels = numpy.where( y_labels == "Iris-setosa", -1, 1)`
+- 特徴行列 `X_features` は、特徴数 2 個 × サンプル数 150 個 :</br> `iris.data[ :, [2,3] ]`
+- サンプル数 150 個の内、品種 "setosa" が 50 個、"virginica" が 50 個、"versicolor" が 50 個。
+- 教師データ `y_labels` は、サンプル数 150 個 : `y_labels = iris.target`
+    - ここで、`iris.target` で取得したデータは、カテゴリーデータを 0, 1, 2 に変換したデータとなっている。
 - トレーニングデータ 70% 、テストデータ 30%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.3, random_state = 0 )`
 - 正規化処理を実施する。</br> : `sklearn.preprocessing.StandardScaler` クラスを使用 
-- 自作クラス `Perceptron` でパーセプトロンの fitting 処理（重みベクトルの更新）を実施 :</br>
-`Perceptron.fit( X_features, y_labels )`
+- モデルとして、単純パーセプトロンモデルを使用する :</br> 
+`ppn1 = Perceptron( n_iter = 40, eta0 = 0.1, random_state = 0, shuffle = True )`
+- この線形SVMモデルの fitting 処理でモデルを学習させる :</br>
+`ppn1.fit( X = X_train_std, y = y_train )`
+- predict した結果 `y_predict = ppn1.predict( X_test_std )` を元に、`accuracy_score()` 関数で、正解率、誤分類のサンプル数を算出。</br>
+正解率 : `accuracy_score( y_test, y_predict )`</br>
+誤分類数 : `( y_test != y_predict ).sum()`
+- `predict_proba()` 関数を使用して、指定したサンプルのクラスの所属関係を予想 : </br>
+例 : `linearSVM.predict_proba( X_test_std[0, :].reshape(1, -1) )`
 
 </br>
 
->アヤメデータを単一パーセプトロン＆最急降下法で識別結果 </br>（重みの更新:Δw = η*(y_i-y^_i)）
-![twitter_ _1_2_170718](https://user-images.githubusercontent.com/25688193/28357345-0fc51218-6ca6-11e7-859e-5e1d71bca1c2.png)
+パーセプトロンによる３クラス（アヤメデータ）の識別結果と識別境界の図。 </br>
+（重みの更新:Δw = η*(y_i-y^_i)）</br>
+※ 以下の図中の分割方法に関する記述の、クロス・バリデーションの部分は誤記で、クロス・バリデーションでの各種スコアの評価は行なっていない。
+![twitter_python_scikit-learn_1_1_170719](https://user-images.githubusercontent.com/25688193/29999283-590ac8dc-907d-11e7-8202-b61ca7134164.png)
 
 </br>
 
