@@ -1,4 +1,4 @@
-## サポートベクターマシン [SVM : Support Vector Machine]
+## k-NN 法 [k-nearest neighbor algorithm]
 
 ### 項目 [Contents]
 
