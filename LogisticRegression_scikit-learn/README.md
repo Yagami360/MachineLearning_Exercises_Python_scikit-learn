@@ -35,8 +35,8 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_t
 >>> 正規化処理 :  `sklearn.preprocessing.StandardScaler`</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html </br>
 
->> パーセプトロン : `sklearn.linear_model.Perceptron` </br>
-http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html
+>> ロジスティクス回帰 : `sklearn.linear_model.LogisticRegression` </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
 
 >> 正解率の算出 : `sklearn.metrics.accuracy_score` </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html </br>
