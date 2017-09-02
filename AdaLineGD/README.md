@@ -46,6 +46,9 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
     `X_features_std = numpy.copy( X_features ) # ディープコピー`</br>
     `X_features_std[:,0] = ( X_features[:,0] - X_features[:,0].mean() ) / X_features[:,0].std() `</br>
     `X_features_std[:,1] = ( X_features[:,1] - X_features[:,1].mean() ) / X_features[:,1].std()`
+- 自作クラス `AdaLineGD` を用いて、学習データでの fitting 処理（重みベクトルの更新処理）を行う。</br> `AdaLineGD.fit( X_features, y_labels )`
+
+</br>
 
 > アヤメデータをAdaLine＆最急降下法（コスト関数）でのバッチ学習で識別結果。</br>（重みの更新:Δw=η*∑( y-Φ(w^T*x) ) (j=1,2,...,m), コスト関数:J(w)= (1/2)*∑( y-Φ(w^T*x) )^2）
 ![twitter_adaline_1-2_170718](https://user-images.githubusercontent.com/25688193/28357349-152a9656-6ca6-11e7-9611-90643928b4a6.png)
