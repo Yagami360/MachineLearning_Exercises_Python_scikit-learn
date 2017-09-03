@@ -37,11 +37,11 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_t
 >>> 正規化処理 :  `sklearn.preprocessing.StandardScaler`</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html </br>
 
->> SVM : `sklearn.svm.SVC` </br>
-http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
-
 >> 正解率の算出 : `sklearn.metrics.accuracy_score` </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html </br>
+
+>> SVM : `sklearn.svm.SVC` </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
 
 
 </br>
@@ -79,6 +79,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 - `predict_proba()` 関数を使用して、指定したサンプルのクラスの所属関係を予想 : </br>
 例 : `linearSVM.predict_proba( X_test_std[0, :].reshape(1, -1) )`
 
+（※以下の挿入図のデータの分割方法の記載に、クロス・バリデーションの記載があるが、実際にはクロス・バリデーションによる各スコアの評価は行なっていない。）
 ![twitter_svm_6-1_170728](https://user-images.githubusercontent.com/25688193/28708061-adc48348-73b5-11e7-8cf8-17f3c3a8ba0e.png)
 
 ## RBFカーネル関数を使用した２クラス識別問題の実行結果 : `main2.py`
