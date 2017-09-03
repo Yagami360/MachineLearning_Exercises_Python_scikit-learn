@@ -50,8 +50,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
 
 ### 使用するデータセット
 
-> Iris データセット : </br>
-> https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
+> Iris データセット : `datasets.load_iris()`
 
 <a name="#コードの実行結果"></a>
 
