@@ -13,7 +13,7 @@ from sklearn.metrics import accuracy_score              #
 from sklearn.svm import SVC                             # 
 
 # 自作クラス
-import Plot2D
+from MLPlot import MLPlot                               # 機械学習用の図の描写をサポートする関数群からなるクラス
 
 def main():
     #==================================================================================================
@@ -30,25 +30,25 @@ def main():
     numpy.random.seed(0)
 
     # 標準正規分布に従う乱数で row:200, col:2 の行列生成
-    dat_X = numpy.random.randn( 200, 2 )
+    X_features = numpy.random.randn( 200, 2 )
 
-    # dat_X を XORした結果でクラス分けする
-    dat_y = numpy.logical_xor( 
-                (dat_X[:,0] > 0),  # １列目と２列目どちらかが正と成るか？
-                (dat_X[:,1] > 0)
+    # X_features を XORした結果でクラス分けする
+    y_labels = numpy.logical_xor( 
+                (X_features[:,0] > 0),  # １列目と２列目どちらかが正と成るか？
+                (X_features[:,1] > 0)
             )   
     
-    dat_y = numpy.where( dat_y > 0 , 1, -1 )
+    y_labels = numpy.where( y_labels > 0 , 1, -1 )
 
     #---------------------------------------------------------------------
     # トレーニングされたモデルの性能評価を未知のデータで評価するために、
     # データセットをトレーニングデータセットとテストデータセットに分割する
     #---------------------------------------------------------------------
     # scikit-learn の cross_validation モジュールの関数 train_test_split() を用いて、70%:テストデータ, 30%:トレーニングデータに分割
-    train_test = train_test_split(       # 戻り値:list
-                     dat_X, dat_y,       # 
-                     test_size = 0.3,    # 0.0~1.0 で指定 
-                     random_state = 0    # 
+    train_test = train_test_split(          # 戻り値:list
+                     X_features, y_labels,  # 
+                     test_size = 0.3,       # 0.0~1.0 で指定 
+                     random_state = 0       # 
                  )
     """
     # train_test_split() の戻り値の確認
@@ -81,9 +81,9 @@ def main():
     y_combined     = numpy.hstack( (y_train, y_test) )
 
     # 学習データを正規化（後で plot データ等で使用する）
-    #dat_X_std = numpy.copy(dat_X)                                           # ディープコピー（参照コピーではない）
-    #dat_X_std[:,0] = ( dat_X[:,0] - dat_X[:,0].mean() ) / dat_X[:,0].std()  # 0列目全てにアクセス[:,0]
-    #dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
+    #X_features_std = numpy.copy( X_features )                                           # ディープコピー（参照コピーではない）
+    #X_features_std[:,0] = ( X_features[:,0] - X_features[:,0].mean() ) / X_features[:,0].std()  # 0列目全てにアクセス[:,0]
+    #X_features_std[:,1] = ( X_features[:,1] - X_features[:,1].mean() ) / X_features[:,1].std()
     
     #====================================================
     #   Learning Process
@@ -129,7 +129,7 @@ def main():
 
     # class +1 plot(赤の□)
     plt.scatter(
-        dat_X[ dat_y == 1, 0 ], dat_X[ dat_y == 1 , 1 ],
+        X_features[ y_labels == 1, 0 ], X_features[ y_labels == 1 , 1 ],
         color = "red",
         edgecolor = 'black',
         marker = "s",
@@ -137,7 +137,7 @@ def main():
     )
     # class -1 plot(青のx)
     plt.scatter(
-        dat_X[ dat_y == -1, 0 ], dat_X[ dat_y == -1 , 1 ],
+        X_features[ y_labels == -1, 0 ], X_features[ y_labels == -1 , 1 ],
         color = "blue",
         edgecolor = 'black',
         marker = "x",
@@ -156,8 +156,8 @@ def main():
     # plt.subplot(行数, 列数, 何番目のプロットか)
     plt.subplot(1,2,2)
 
-    Plot2D.Plot2D.drawDiscriminantRegions( 
-        dat_X = X_combined_std, dat_y = y_combined,
+    MLPlot.drawDiscriminantRegions( 
+        X_features = X_combined_std, y_labels = y_combined,
         classifier = kernelSVM1,
         list_test_idx = range( 101,150 )
     )
@@ -169,7 +169,7 @@ def main():
     
 
     plt.savefig("./SVM_scikit-learn_3.png", dpi=300)
-    #plt.show()
+    plt.show()
 
     #-------------------------------
     # 識別率を計算＆出力

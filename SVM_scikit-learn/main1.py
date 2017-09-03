@@ -13,7 +13,8 @@ from sklearn.metrics import accuracy_score              #
 from sklearn.svm import SVC                             # 
 
 # 自作クラス
-import Plot2D
+from MLPlot import MLPlot                               # 機械学習用の図の描写をサポートする関数群からなるクラス
+
 
 def main():
 
@@ -34,12 +35,12 @@ def main():
     iris = datasets.load_iris()
 
     # 3,4 列目の特徴量を抽出し、dat_X に保管
-    dat_X = iris.data[ :, [2,3] ]
+    X_features = iris.data[ :, [2,3] ]
 
     # クラスラベル（教師データ）を取得
-    dat_y = iris.target
+    y_labels = iris.target
 
-    print( 'Class labels:', numpy.unique(dat_y) )    # ※多くの機械学習ライブラリクラスラベルは文字列から整数にして管理されている（最適な性能を発揮するため）
+    print( 'Class labels:', numpy.unique(y_labels) )    # ※多くの機械学習ライブラリクラスラベルは文字列から整数にして管理されている（最適な性能を発揮するため）
     print("finishing reading data")
 
     #---------------------------------------------------------------------
@@ -47,10 +48,10 @@ def main():
     # データセットをトレーニングデータセットとテストデータセットに分割する
     #---------------------------------------------------------------------
     # scikit-learn の cross_validation モジュールの関数 train_test_split() を用いて、70%:テストデータ, 30%:トレーニングデータに分割
-    train_test = train_test_split(       # 戻り値:list
-                     dat_X, dat_y,       # 
-                     test_size = 0.3,    # 0.0~1.0 で指定 
-                     random_state = 0    # 
+    train_test = train_test_split(               # 戻り値:list
+                     X_features, y_labels,       # 
+                     test_size = 0.3,            # 0.0~1.0 で指定 
+                     random_state = 0            # 
                  )
     """
     # train_test_split() の戻り値の確認
@@ -83,9 +84,9 @@ def main():
     y_combined     = numpy.hstack( (y_train, y_test) )
 
     # 学習データを正規化（後で plot データ等で使用する）
-    dat_X_std = numpy.copy(dat_X)                                           # ディープコピー（参照コピーではない）
-    dat_X_std[:,0] = ( dat_X[:,0] - dat_X[:,0].mean() ) / dat_X[:,0].std()  # 0列目全てにアクセス[:,0]
-    dat_X_std[:,1] = ( dat_X[:,1] - dat_X[:,1].mean() ) / dat_X[:,1].std()
+    X_features_std = numpy.copy( X_features )                                                   # ディープコピー（参照コピーではない）
+    X_features_std[:,0] = ( X_features[:,0] - X_features[:,0].mean() ) / X_features[:,0].std()  # 0列目全てにアクセス[:,0]
+    X_features_std[:,1] = ( X_features[:,1] - X_features[:,1].mean() ) / X_features[:,1].std()
 
     #====================================================
     #   Learning Process
@@ -111,7 +112,7 @@ def main():
 
     # 品種 setosa のplot(赤の□)
     plt.scatter(
-        dat_X_std[0:50,0], dat_X_std[0:50,1],
+        X_features_std[0:50,0], X_features_std[0:50,1],
         color = "red",
         edgecolor = 'black',
         marker = "s",
@@ -119,7 +120,7 @@ def main():
     )
     # 品種 virginica のplot(青のx)
     plt.scatter(
-        dat_X_std[51:100,0], dat_X_std[51:100,1],
+        X_features_std[51:100,0], X_features_std[51:100,1],
         color = "blue",
         edgecolor = 'black',
         marker = "x",
@@ -127,7 +128,7 @@ def main():
     )
     # 品種 versicolor のplot(緑の+)
     plt.scatter(
-        dat_X_std[101:150,0], dat_X_std[101:150,1],
+        X_features_std[101:150,0], X_features_std[101:150,1],
         color = "green",
         edgecolor = 'black',
         marker = "+",
@@ -145,8 +146,8 @@ def main():
     #-------------------------------
     # plt.subplot(行数, 列数, 何番目のプロットか)
     plt.subplot(1,2,2)
-    Plot2D.Plot2D.drawDiscriminantRegions( 
-        dat_X = X_combined_std, dat_y = y_combined,
+    MLPlot.drawDiscriminantRegions( 
+        X_features = X_combined_std, y_labels = y_combined,
         classifier = linearSVM,
         list_test_idx = range( 101,150 )
     )
@@ -246,21 +247,6 @@ def main():
     plt.savefig("./SVM_scikit-learn_2.png", dpi=300)
     plt.show()
     
-    #==================================================================================================
-    # RBF-Kernelを使用したSVMによる非線形問題
-    #==================================================================================================
-    print("Start Process2")
-    #====================================================
-    #   Pre Process（前処理）
-    #====================================================
-    #----------------------------------------------------
-    #   read & set  data (randam data)
-    #----------------------------------------------------
-    # 乱数の seed
-    numpy.random.seed(0)
-
-
-
     #    
     print("Finish main()")
     return
