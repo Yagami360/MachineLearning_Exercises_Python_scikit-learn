@@ -3,6 +3,11 @@
 ### Iris データセット : （csvフォーマット）
 URL : https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
 
+全サンプル数 150 個の内、アヤメの品種（"setosa", "versicolor", "versicolor" ）は、以下のように構成されている。</br
+- 先頭（行）から 50 個が、品種 : "setosa" 
+- 次の 50 個が 品種 : "versicolor" 
+- 最後の 50 個が、品種 "virginica"
+
 </br>
 
 ### ワインデータセット：（csvフォーマット）
