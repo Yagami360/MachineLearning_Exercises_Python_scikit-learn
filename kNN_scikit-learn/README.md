@@ -33,11 +33,11 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_t
 >>> 正規化処理 :  `sklearn.preprocessing.StandardScaler`</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html </br>
 
->> k-NN 法 : `sklearn.neighbors.KNeighborsClassifier` </br>
-sklearn.neighbors.KNeighborsClassifier
-
 >> 正解率の算出 : `sklearn.metrics.accuracy_score` </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html </br>
+
+>> k-NN 法 : `sklearn.neighbors.KNeighborsClassifier` </br>
+sklearn.neighbors.KNeighborsClassifier
 
 
 </br>
@@ -46,8 +46,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 
 ### 使用するデータセット
 
-> Iris データセット : </br>
-> https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
+> Iris データセット : `datasets.load_iris()`
 
 <a name="#コードの実行結果"></a>
 
