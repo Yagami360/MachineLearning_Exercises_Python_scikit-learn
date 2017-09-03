@@ -42,15 +42,11 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
 
 
-
-</br>
-
 <a name="#使用するデータセット"></a>
 
 ### 使用するデータセット
 
-> Iris データセット : </br>
-> https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
+> Iris データセット : `datasets.load_iris()`
 
 <a name="#コードの実行結果"></a>
 
