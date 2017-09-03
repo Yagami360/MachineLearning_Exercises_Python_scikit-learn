@@ -12,9 +12,8 @@ from sklearn.preprocessing import StandardScaler        # scikit-learn の prepr
 from sklearn.metrics import accuracy_score              # 
 
 # 自作クラス
-import Plot2D
+from MLPlot import MLPlot                               # 機械学習用の図の描写をサポートする関数群からなるクラス
 import DecisionTree
-
 
 def main():
     print("Enter main()")
