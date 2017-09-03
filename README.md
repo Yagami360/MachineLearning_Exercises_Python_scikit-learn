@@ -11,19 +11,7 @@ README.md : コード実行結果の解説と合わせて、関連する機械�
 
 
 ### 検証用データセット
-
-> Iris データセット : （csvフォーマット）</br>
-https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
-
-> ワインデータセット：（csvフォーマット）</br>
-https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data
-
-> Brest Cancer Wisconsin データセット：（csvフォーマット）</br>
-https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
-
-> MNIST：（手書き数字文字画像データ）</br>
-http://yann.lecun.com/exdb/mnist/
-
+> https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/blob/master/dataset.md
 
 ## 項目（フォルダ別）
 
