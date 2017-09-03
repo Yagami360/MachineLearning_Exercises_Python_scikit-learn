@@ -30,14 +30,13 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_t
 >>> 正規化処理 :  `sklearn.preprocessing.StandardScaler`</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html </br>
 
->> パーセプトロン : `sklearn.linear_model.Perceptron` </br>
-http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html
-
 >> 正解率の算出 : `sklearn.metrics.accuracy_score` </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html </br>
 
+>> パーセプトロン : `sklearn.linear_model.Perceptron` </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html
 
-</br>
+
 
 <a name="#使用するデータセット"></a>
 
@@ -60,9 +59,9 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
     - ここで、`iris.target` で取得したデータは、カテゴリーデータを 0, 1, 2 に変換したデータとなっている。
 - トレーニングデータ 70% 、テストデータ 30%の割合で分割 : </br>`sklearn.cross_validation.train_test_split( test_size = 0.3, random_state = 0 )`
 - 正規化処理を実施する。</br> : `sklearn.preprocessing.StandardScaler` クラスを使用 
-- モデルとして、単純パーセプトロンモデルを使用する :</br> 
+- モデルとして、単純パーセプトロンモデルを使用する </br>（グリッドサーチによるハイパーパラメータのチューニングは行わない）:</br> 
 `ppn1 = Perceptron( n_iter = 40, eta0 = 0.1, random_state = 0, shuffle = True )`
-- この線形SVMモデルの fitting 処理でモデルを学習させる :</br>
+- この単純パーセプトロンモデルの fitting 処理でモデルを学習させる :</br>
 `ppn1.fit( X = X_train_std, y = y_train )`
 - predict した結果 `y_predict = ppn1.predict( X_test_std )` を元に、`accuracy_score()` 関数で、正解率、誤分類のサンプル数を算出。</br>
 正解率 : `accuracy_score( y_test, y_predict )`</br>
