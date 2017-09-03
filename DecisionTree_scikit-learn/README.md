@@ -14,7 +14,6 @@
     1. [決定木での特徴空間のクラス分け（識別クラス）と確率分布](#決定木での特徴空間のクラス分け（識別クラス）と確率分布)
     1. [ノードの分割規則と不純度](#ノードの分割規則と不純度)
 
-</br>
 
 <a name="#使用するライブラリ"></a>
 
@@ -41,14 +40,12 @@ http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassi
 http://scikit-learn.org/stable/modules/generated/sklearn.tree.export_graphviz.html
 
 
-</br>
-
 <a name="#使用するデータセット"></a>
 
 ### 使用するデータセット
 
-> Iris データセット : </br>
-> https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
+> Iris データセット : `datasets.load_iris()`
+
 
 <a name="#コードの実行結果"></a>
 
