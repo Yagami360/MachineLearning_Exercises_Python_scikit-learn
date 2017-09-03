@@ -35,11 +35,12 @@ http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_t
 >>> 正規化処理 :  `sklearn.preprocessing.StandardScaler`</br>
 http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html </br>
 
+>> 正解率の算出 : `sklearn.metrics.accuracy_score` </br>
+http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html </br>
+
 >> ロジスティクス回帰 : `sklearn.linear_model.LogisticRegression` </br>
 http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
 
->> 正解率の算出 : `sklearn.metrics.accuracy_score` </br>
-http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html </br>
 
 
 </br>
@@ -86,6 +87,7 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 <a name="#ロジスティクス回帰による３クラス識別結果"></a>
 
 ### ② ロジスティクス回帰による３クラス識別結果
+（※以下の挿入図のデータの分割方法の記載に、クロス・バリデーションの記載があるが、実際にはクロス・バリデーションによる各スコアの評価は行なっていない。） 
 ![twitter_ 18-18_170726](https://user-images.githubusercontent.com/25688193/29994419-b440a164-9009-11e7-89ff-9fdb63fb537d.png)
 
 - scikit-learn ライブラリの `sklearn.linear_model` モジュールの `LogisticRegression` クラスの`predict_proba()` 関数を使用して、指定したサンプルのクラスの所属確率を予想。
@@ -97,32 +99,32 @@ http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.
 - 10個の逆正則化パラメータ C（C=10^-5,C=10^-4, ... C=10, ... , C=10^5 ）に関して、ロジスティクス回帰モデルを作成し、それぞれのモデルを学習データで学習。
 
 ```
-weights0 = []    # 重み係数の空リスト（Setosa）を生成
-weights1 = []    # 重み係数の空リスト（Versicolor）を生成
-weights2 = []    # 重み係数の空リスト（Virginica）を生成
-paramesC = []    # 逆正則化パラメータの空リストを生成
+    weights0 = []    # 重み係数の空リスト（Setosa）を生成
+    weights1 = []    # 重み係数の空リスト（Versicolor）を生成
+    weights2 = []    # 重み係数の空リスト（Virginica）を生成
+    paramesC = []    # 逆正則化パラメータの空リストを生成
 
-# 10個の逆正則化パラメータ C（C=10^-5,C=10^-4, ... C=10, ... , C=10^5 ）に関して、
-# LogisiticReegression オブジェクトを作成し、それぞれのモデルを学習データで学習
-for c in numpy.arange(-5, 5):
-    logReg_tmp = LogisticRegression.LogisticRegression( paramC = 10**c )
-    logReg_tmp.logReg_.fit( X_train_std, y_train )
+    # 10個の逆正則化パラメータ C（C=10^-5,C=10^-4, ... C=10, ... , C=10^5 ）に関して、
+    # LogisiticReegression オブジェクトを作成し、それぞれのモデルを学習データで学習
+    for c in numpy.arange(-5, 5):
+        logReg_tmp = LogisticRegression.LogisticRegression( paramC = 10**c )
+        logReg_tmp.logReg_.fit( X_train_std, y_train )
 
-    # 重み係数リストに学習後の重み係数を格納
-    # coef_[0] : petal length, petal weightの重み (Setosa)
-    weights0.append( logReg_tmp.logReg_.coef_[0] )
-    # coef_[1] : petal length, petal weightの重み (Versicolor)
-    weights1.append( logReg_tmp.logReg_.coef_[1] )
-    # coef_[2] : petal length, petal weightの重み (Virginica)   
-    weights2.append( logReg_tmp.logReg_.coef_[2] )
+        # 重み係数リストに学習後の重み係数を格納
+        # coef_[0] : petal length, petal weightの重み (Setosa)
+        weights0.append( logReg_tmp.logReg_.coef_[0] )
+        # coef_[1] : petal length, petal weightの重み (Versicolor)
+        weights1.append( logReg_tmp.logReg_.coef_[1] )
+        # coef_[2] : petal length, petal weightの重み (Virginica)   
+        weights2.append( logReg_tmp.logReg_.coef_[2] )
         
-    # 逆正則化パラメータリストにモデルの C 値を格納
-    paramesC.append( 10**c )
+        # 逆正則化パラメータリストにモデルの C 値を格納
+        paramesC.append( 10**c )
 
-# 重み係数リストを numpy 配列に変換
-weights0 = numpy.array( weights0 )
-weights1 = numpy.array( weights1 )
-weights2 = numpy.array( weights2 )
+    # 重み係数リストを numpy 配列に変換
+    weights0 = numpy.array( weights0 )
+    weights1 = numpy.array( weights1 )
+    weights2 = numpy.array( weights2 )
 ```
 
 - ロジスティクス回帰の逆正則化パラメータ C の値と正則化の強さの関係（ロジスティクス回帰における、正則化による過学習への対応）正則化の強さを確認するため、重み係数 w と逆正則化パラメータ C の関係を plot
