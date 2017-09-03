@@ -107,7 +107,7 @@ class MLPlot(object):
                 c = cmap(idx),
                 edgecolor = 'black',
                 marker = tuple_makers[idx],
-                label = cl
+                label = clf
             )
 
         # テスト用サンプルデータを強調表示
