@@ -52,3 +52,8 @@ URL : https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wi
 
 URL : http://yann.lecun.com/exdb/mnist/
 
+### 渦巻きデータ：（csvフォーマット）
+
+URL : https://github.com/Yagami360/MachineLearning_Exercises_Python_scikit-learn/blob/master/EnsembleLearning_scikit-learn/data/naruto.csv
+
+２クラス（0 or 1）識別問題用の渦巻状のデータ。
