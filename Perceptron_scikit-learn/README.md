@@ -1,20 +1,22 @@
 ## パーセプトロン [Perceptron]（scikit-learn ライブラリ使用）
 
+分かりやすいように main.py ファイル毎に１つの完結したコードにしています。
+
 ### 項目 [Contents]
 
-1. [使用するライブラリ](#使用するライブラリ)
-1. [使用するデータセット](#使用するデータセット)
-1. [コードの実行結果](#コードの実行結果)
-    1. [パーセプトロンによる３クラス（アヤメデータ）の識別](#パーセプトロンによる３クラス（アヤメデータ）の識別)
-    1. [](#)
-1. [背景理論](#背景理論)
-    1. [ニューラルネットワークの概要](#ニューラルネットの概要)
-    1. [活性化関数](#活性化関数)
-    1. [単純パーセプトロン](#単純パーセプトロン)
-    1. [パーセプトロンによる論理演算](#パーセプトロンによる論理演算)
-    1. [最急降下法による学習](#最急降下法による学習)
+1. [使用するライブラリ](#ID_1)
+1. [使用するデータセット](#ID_2)
+1. [コードの実行結果](#ID_3)
+    1. [パーセプトロンによる３クラス（アヤメデータ）の識別 : `main.py`](#ID_3-1)
+1. [背景理論](#ID_1)
+    1. [ニューラルネットワークの概要](#ID_4-1)
+    1. [活性化関数](#ID_4-2)
+    1. [単純パーセプトロン](#ID_4-3)
+    1. [パーセプトロンによる論理演算](#ID_4-4)
+    1. [最急降下法による学習](#ID_4-5)
 
-<a name="#使用するライブラリ"></a>
+
+<a id="ID_1"></a>
 
 ### 使用するライブラリ
 
@@ -38,17 +40,17 @@ http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron
 
 
 
-<a name="#使用するデータセット"></a>
+<a id="ID_2"></a>
 
 ### 使用するデータセット
 
 > Iris データセット : `datasets.load_iris()`
 
-<a name="#コードの実行結果"></a>
+<a id="ID_3"></a>
 
 ## コードの実行結果
 
-<a name="#パーセプトロンによる３クラス（アヤメデータ）の識別"></a>
+<a id="ID_3-1"></a>
 
 ## パーセプトロンによる３クラス（アヤメデータ）の識別 : `main.py`
 
@@ -80,36 +82,48 @@ http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron
 
 ---
 
-<a name="#背景理論"></a>
+<a id="ID_4"></a>
 
 ## 背景理論
 
-<a name="#ニューラルネットワークの概要"></a>
+<a id="ID_4-1"></a>
 
 ## ニューラルネットワークの概要
 ![twitter_nn1_1_160825](https://user-images.githubusercontent.com/25688193/29994077-594d50c4-9002-11e7-829d-5a695503b486.png)
 ![twitter_nn1_2_160825](https://user-images.githubusercontent.com/25688193/29994078-594deebc-9002-11e7-801f-d0d6617cbde6.png)
 ![twitter_nn3 -1_160827](https://user-images.githubusercontent.com/25688193/29994081-5976f6cc-9002-11e7-9587-dc3cb098b325.png)
 
-<a name="#活性化関数"></a>
+<a id="ID_4-2"></a>
 
 ## 活性化関数
 ![twitter_nn2-1_160826](https://user-images.githubusercontent.com/25688193/29994079-59705a74-9002-11e7-88ba-214af1ceec62.png)
 ![twitter_nn2-2_160826](https://user-images.githubusercontent.com/25688193/29994080-5970ebe2-9002-11e7-86fb-769349356224.png)
 
-<a name="#単純パーセプトロン"></a>
+<a id="ID_4-3"></a>
 
 # 単純パーセプトロン
 ![twitter_nn4 -1_160829](https://user-images.githubusercontent.com/25688193/29994084-598c65c0-9002-11e7-9f9b-a529d44f1f8a.png)
 
-<a name="#パーセプトロンによる論理演算"></a>
+<a id="ID_4-4"></a>
 
 # パーセプトロンによる論理演算
 ![twitter_nn6-1_160829](https://user-images.githubusercontent.com/25688193/29994082-597791ea-9002-11e7-9bb5-2ae6bc436f56.png)
 ![twitter_nn6-2_160829](https://user-images.githubusercontent.com/25688193/29994083-598aa280-9002-11e7-9ec0-16316a04686a.png)
 
-<a name="#最急降下法による学習"></a>
+<a id="ID_4-5"></a>
 
 # 最急降下法による学習
-![twitter_nn8-2 _160902](https://user-images.githubusercontent.com/25688193/29994085-59937f04-9002-11e7-974e-a9cd6fa61f13.png)
-![twitter_nn8-3 _160902](https://user-images.githubusercontent.com/25688193/29994086-5997cc9e-9002-11e7-87e8-1ab817704a8a.png)
+![image](https://user-images.githubusercontent.com/25688193/30624595-3a3797da-9df9-11e7-95eb-5edb913e080f.png)
+
+<a id="ID_4-5-1"></a>
+
+##### 最急降下法の単層パーセプトロンでの適用
+![image](https://user-images.githubusercontent.com/25688193/30637199-9c51d226-9e32-11e7-9301-e9a66ca6e34c.png)
+![image](https://user-images.githubusercontent.com/25688193/30637749-38a66b18-9e34-11e7-827a-c282cb8986c2.png)
+
+<a id="ID_4-5-2"></a>
+
+##### 最急降下法の多層パーセプトロンでの適用
+![image](https://user-images.githubusercontent.com/25688193/30634693-e32e0104-9e2a-11e7-87d9-8b570b8af3b0.png)
+![image](https://user-images.githubusercontent.com/25688193/30634719-f9f57a84-9e2a-11e7-9de0-3d8da1268785.png)
+![image](https://user-images.githubusercontent.com/25688193/30636431-65a9b5ec-9e30-11e7-9b83-d3a87daa7513.png)
