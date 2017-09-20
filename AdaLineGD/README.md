@@ -1,5 +1,7 @@
 ## AdaLineGD（Adaptive Liner ニューロン勾配降下法） [Adaptive Liner Gradient descent]
 
+分かりやすいように main.py ファイル毎に１つの完結したコードにしています。
+
 ### 項目 [Contents]
 
 1. [使用するライブラリ](#ID_1)
