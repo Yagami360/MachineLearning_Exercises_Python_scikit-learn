@@ -1,5 +1,7 @@
 ## AdaLineSGD（Adaptive Liner ニューロン確率的勾配降下法）</br> [Adaptive Liner stomatic Gradient descent]
 
+分かりやすいように main.py ファイル毎に１つの完結したコードにしています。
+
 ### 項目 [Contents]
 
 1. [使用するライブラリ](#ID_1)
