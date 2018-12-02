@@ -8,6 +8,7 @@
     1. [線形SVMによる３クラス（アヤメデータ）の識別問題](#線形SVMによる３クラス（アヤメデータ）の識別問題の実行結果)
     1. [RBFカーネル関数を使用した２クラス（XORデータ分布）の識別問題](#RBFカーネル関数を使用した２クラス（XORデータ分布）の識別問題)
     1. [RBFカーネル関数を使用した３クラス（アヤメデータ）の識別問題](#RBFカーネル関数を使用した３クラス（アヤメデータ）の識別問題)
+    1. [RBFカーネル関数を使用した２クラス（XORデータ分布）の識別問題（その２）`main4.py`](#RBFカーネル関数を使用した２クラス（XORデータ分布）の識別問題（その２）)
 1. [背景理論](#背景理論)
     1. [サポートベクターマシンの概要](#サポートベクターマシンの概要)
     1. [マージンとマージン最大化](#マージンとマージン最大化)
@@ -131,63 +132,37 @@ http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
 ![twitter_svm_6-3_170729](https://user-images.githubusercontent.com/25688193/28736123-694aa3d2-7423-11e7-8bba-92fadfdc645c.png)
 ![twitter_svm_6-4_170729](https://user-images.githubusercontent.com/25688193/28737648-6f478f8c-742a-11e7-9de9-f3f6d619d623.png)
 
+
+<a id="RBFカーネル関数を使用した２クラス（XORデータ分布）の識別問題（その２）"></a>
+
+## RBFカーネル関数を使用した２クラス（XORデータ分布）の識別問題（その２）`main4.py`
+先の SVM によるXOR データの分類問題 `main2.py` において、グリッドサーチによるハイパーパラメータのチューニング、クロスバリデーションによる汎化性能の確認など、SVM を利用しての解析で、本来すべきことを追加したバージョン。<br>
+
+![image](https://user-images.githubusercontent.com/25688193/49336445-a79c1300-f645-11e8-84a4-0b1b9a210b44.png)<br>
+上図のように、`numpy.logical_xor()` で生成した、２つのクラス（-1 or 1）をとりうる２次元のXORで分布したデータ（特徴数 2 個 × サンプル数 200 個）に対して、C-SVMを用いて識別するタスクを考える。<br>
+<br>
+尚、この検証は、以下のような条件で行なっている。<br>
+＜条件＞<br>
+- XORデータ（サンプル数：２００個）<br>
+- トレーニングデータ 80% 、テストデータ 20%の割合で分割<br>
+- XORデータに対して、正規化処理実施<br>
+- カーネル関数は、RBFカーネル<br>
+- クロス・バディゲーション（k=10）で汎化性能を評価<br>
+
+① グリッドサーチによるパラメーターのチューニング<br>
+まずは、グリッドサーチを用いて、この分類タスクにおけるC-SVM の最適なパラメーター（＝C値、gamma値）をチューニングする。<br>
+![image](https://user-images.githubusercontent.com/25688193/49336474-3872ee80-f646-11e8-8354-911587b76d31.png)<br>
+上図は、scikit-learn の `sklearn.model_selection.GridSearchCV` モジュールを用いて、C-SVM のパラメーターをグリッドサーチし、対象のXOR データの正解率をヒートマップで図示したものである。（横軸と縦軸が、C-SVM のハイパーパラメータである RBFカーネルの gamma 値と、C-SVM の C 値）<br>
+このヒートマップ図より、推定器として、カーネル関数を RBFカーネルとする C-SVM を使用した場合、最も正解率が高くなるパラメータ（ハイパーパラメータ）は、C = 1000, gamma = 0.1 (Accuracy = 0.971) となることが分かる。<br>
+<br>
+![image](https://user-images.githubusercontent.com/25688193/49336778-e0d78180-f64b-11e8-896d-b7520d8ca250.png)<br>
+
+② 識別結果＆汎化性能の確認<br>
+![image](https://user-images.githubusercontent.com/25688193/49336924-3dd43700-f64e-11e8-8fb2-c43cd8386057.png)<br>
+上図は、グリッドサーチで最もよいスコアとなってC-SVM のハイパーパラメータ（C=1000,gamma=0.01）での、XOR データの識別境界の図である。<br>
+ここで、○で囲んだ箇所は、テスト用データのサンプルであることを示している。<br>
+<br>
+![image](https://user-images.githubusercontent.com/25688193/49336922-2dbc5780-f64e-11e8-9082-fde0d1f19475.png)<br>
+
+
 ---
-
-<a name="#背景理論"></a>
-
-## 背景理論
-
-<a name="#サポートベクターマシンの概要"></a>
-
-### サポートベクターマシンの概要
-
-![twitter_svm_1-1_170211](https://user-images.githubusercontent.com/25688193/28708179-313cdc98-73b6-11e7-985f-8ced8d316ecc.png)
-
-<a name="#マージンとマージン最大化"></a>
-
-### マージンとマージン最大化
-![twitter_svm_1-2_170211](https://user-images.githubusercontent.com/25688193/28708178-313a6daa-73b6-11e7-9817-8621f3cd9985.png)
-![twitter_svm_2-1_170212](https://user-images.githubusercontent.com/25688193/28708177-31342c92-73b6-11e7-9b19-0a41a4b7b705.png)
-![twitter_svm_2-2_170212](https://user-images.githubusercontent.com/25688193/28708175-312ab5c2-73b6-11e7-8617-37b57c475b35.png)
-
-<a name="#マージン最大化と凸最適化問題"></a>
-
-### マージン最大化と凸最適化問題
-![twitter_svm_3-1_170214](https://user-images.githubusercontent.com/25688193/28708174-311e33d8-73b6-11e7-82e5-3da320e93b89.png)
-![twitter_svm_3-2_170214](https://user-images.githubusercontent.com/25688193/28708173-311dbda4-73b6-11e7-832e-bf7162703056.png)
-![twitter_svm_3-3_170214](https://user-images.githubusercontent.com/25688193/28708172-3118eeaa-73b6-11e7-960a-71824390bee5.png)
-![twitter_svm_3-4_170214](https://user-images.githubusercontent.com/25688193/28708171-3113dc62-73b6-11e7-9140-f4974f44b495.png)
-
-<a name="#KKT条件"></a>
-
-### KKT [Karush-Kuhn-Tucker] 条件
-![twitter_svm_3-5_170216](https://user-images.githubusercontent.com/25688193/28708170-31097290-73b6-11e7-8d0c-8087e1751fb1.png)
-
-<a name="#線形分離不可能な系への拡張とソフトマージン識別器、スラック変数の導入"></a>
-
-### 線形分離不可能な系への拡張とソフトマージン識別器、スラック変数の導入
-![twitter_svm_4-1_170216](https://user-images.githubusercontent.com/25688193/28708169-310200aa-73b6-11e7-8492-41e07ad0a3f9.png)
-![twitter_svm_4-2_170217](https://user-images.githubusercontent.com/25688193/28708168-30faf92c-73b6-11e7-987b-996e874fb16f.png)
-![twitter_svm_4-3_170217](https://user-images.githubusercontent.com/25688193/28708165-30eb1a5c-73b6-11e7-8530-e19ac4cef9e1.png)
-![twitter_svm_4-4_170218](https://user-images.githubusercontent.com/25688193/28708167-30f916ac-73b6-11e7-976d-d4c1e3a52524.png)
-![twitter_svm_4-5_170218](https://user-images.githubusercontent.com/25688193/28708166-30f5c588-73b6-11e7-9d9b-54d46b8a69f5.png)
-
-<a name="#サポートベクターマシンにおける非線形特徴写像（カーネル関数、カーネル法、カーネルトリック）"></a>
-
-### サポートベクターマシンにおける非線形特徴写像（カーネル関数、カーネル法、カーネルトリック）
-![twitter_svm_5-1_170219](https://user-images.githubusercontent.com/25688193/28708164-30e4d688-73b6-11e7-89a0-d78b5065b467.png)
-![twitter_svm_5-2_170220](https://user-images.githubusercontent.com/25688193/28708163-30def074-73b6-11e7-8d17-57fdbf9bab59.png)
-![twitter_svm_5-2_170225](https://user-images.githubusercontent.com/25688193/28708162-30c28aba-73b6-11e7-8e63-aa1d77db8c00.png)
-![twitter_svm_5-3_170222](https://user-images.githubusercontent.com/25688193/28708159-30bd4c44-73b6-11e7-91bb-c212ab04a7db.png)
-
-<a name="#多項式カーネル関数"></a>
-
-### 多項式カーネル関数
-![twitter_svm_5-4_170225](https://user-images.githubusercontent.com/25688193/28708161-30c06262-73b6-11e7-88bd-9ea72837d9c8.png)
-
-<a name="#動径基底カーネル関数"></a>
-
-### 動径基底カーネル [RBF-kernel] 関数
-![twitter_svm_5-5_170303](https://user-images.githubusercontent.com/25688193/28708158-30bc0e1a-73b6-11e7-9fc1-c015e9403def.png)
-![twitter_svm_5-6_170303](https://user-images.githubusercontent.com/25688193/28708157-30bbfba0-73b6-11e7-9aba-894974b30167.png)
-
